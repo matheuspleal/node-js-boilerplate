@@ -1,11 +1,13 @@
 {
   "env": {
     "es2022": true,
-    "node": true
+    "node": true,
+    "vitest-globals/env": true
   },
   "extends": [
     "standard",
     "plugin:prettier/recommended",
+    "plugin:vitest-globals/recommended",
     "plugin:import/typescript"
   ],
   "parser": "@typescript-eslint/parser",
