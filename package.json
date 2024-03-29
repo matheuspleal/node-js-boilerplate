@@ -2,7 +2,7 @@
   "name": "js-skeleton",
   "version": "0.0.0",
   "description": "Node.js Skeleton developed with TypeScript, using Clean Architecture, Domain-Driven Design (DDD) and Test Driven Development (TDD)",
-  "main": "index.js",
+  "main": "dist/server.js",
   "type": "module",
   "scripts": {
     "build": "tsup",
