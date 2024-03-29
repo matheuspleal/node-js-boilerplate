@@ -7,7 +7,13 @@ export default defineConfig({
     globals: true,
     coverage: {
       provider: 'v8',
-      exclude: [...configDefaults.exclude, '*.ts', 'scripts/**/*'],
+      exclude: [
+        ...configDefaults.exclude,
+        '*.ts',
+        'scripts/**/*',
+        'src/core/infra/prisma/**/*',
+        'src/core/presentation/contracts/**/*',
+      ],
       reporter: ['lcov', 'text'],
     },
   },
