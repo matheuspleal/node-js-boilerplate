@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "tsup",
     "lint": "eslint src --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "node:js": "node --env-file=.env",
@@ -33,6 +34,7 @@
     "husky": "9.0.11",
     "lint-staged": "15.2.2",
     "tsx": "4.7.1",
+    "tsup": "8.0.2",
     "typescript": "5.4.3",
     "vite-tsconfig-paths": "4.3.2",
     "vitest": "1.4.0",
