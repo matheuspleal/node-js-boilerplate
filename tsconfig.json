@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    /* Projects */
+    "incremental": true,                              
+    /* Language and Environment */
+    "target": "ES2022",                                  
+    /* Modules */
+    "module": "ESNext",                                
+    "moduleResolution": "Node10",
+    "baseUrl": "./src",
+    "paths": {
+      "#/*": [
+        "../tests/*"
+      ],
+      "@/*": [
+        "*"
+      ]
+    },
+    "rootDirs": [
+      "./src",
+      "./tests"
+    ],
+    // "types": []
+    /* JavaScript Support */
+    "allowJs": true, 
+    /* Emit */
+    "outDir": "./dist",
+    /* Interop Constraints */
+    "esModuleInterop": true,                             
+    "forceConsistentCasingInFileNames": true,            
+    /* Type Checking */
+    "strict": true,                                      
+    /* Completeness */
+    "skipLibCheck": true                                 
+  }
+}
