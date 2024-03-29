@@ -1,0 +1,22 @@
+{
+  "name": "js-skeleton",
+  "version": "0.0.0",
+  "description": "Node.js Skeleton developed with TypeScript, using Clean Architecture, Domain-Driven Design (DDD) and Test Driven Development (TDD)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "clean-architecture",
+    "domain-driven-design",
+    "test-driven-development"
+  ],
+  "author": "Matheus Pereira Leal",
+  "license": "ISC",
+  "engines": {
+    "node": ">= 20.12.0"
+  }
+}
