@@ -1,0 +1,14 @@
+# Environment Variables
+.env
+
+# Distribution files
+dist
+
+# MacOS
+.DS_Store
+
+# NPM
+node_modules
+
+# Vitest
+coverage
