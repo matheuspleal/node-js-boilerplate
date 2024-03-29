@@ -1,0 +1,8 @@
+# Version Control System
+.git
+
+# NPM
+node_modules
+
+# Vitest
+coverage
