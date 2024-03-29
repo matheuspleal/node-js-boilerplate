@@ -1,0 +1,47 @@
+version: '3.9'
+services:
+  node_api:
+    build: .
+    container_name: node_api
+    ports:
+      - ${API_PORT:-3000}:3000
+    depends_on:
+      - postgres
+    environment:
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - api_data:/usr/src/app/data
+    networks:
+      - default_bridge
+    restart: always
+
+  pg_database:
+    image: bitnami/postgresql
+    container_name: pg_database
+    ports:
+      - ${DB_PORT:-5432}:5432
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - pg_data:/postgresql
+    networks:
+      - default_bridge
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'pg_isready']
+      interval: 5s
+      timeout: 2s
+      retries: 20
+
+networks:
+  default_bridge:
+    driver: bridge
+
+volumes:
+  api_data:
+  pg_data:
