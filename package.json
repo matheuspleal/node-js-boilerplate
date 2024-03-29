@@ -5,10 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": ""
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "20.11.30",
+    "husky": "9.0.11",
     "typescript": "5.4.3"
   },
   "keywords": [
