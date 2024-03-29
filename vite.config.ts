@@ -7,7 +7,7 @@ export default defineConfig({
     globals: true,
     coverage: {
       provider: 'v8',
-      exclude: [...configDefaults.exclude],
+      exclude: [...configDefaults.exclude, '*.ts', 'scripts/**/*'],
       reporter: ['lcov', 'text'],
     },
   },
