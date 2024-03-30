@@ -12,7 +12,7 @@ export default defineConfig({
         '*.ts',
         'scripts/**/*',
         'src/core/infra/prisma/**/*',
-        'src/core/presentation/contracts/**/*',
+        'src/core/contracts/**/*',
         'src/main/**/*',
         'src/modules/*/infra/repositories/**/*',
         'tests/**/*',
