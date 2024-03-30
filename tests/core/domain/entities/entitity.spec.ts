@@ -59,7 +59,7 @@ class FakeEntity extends Entity<FakeProps> {
   }
 }
 
-describe.skip('Entity', () => {
+describe('Entity', () => {
   let sut: FakeEntity
   let fakeRequiredPropsStub: Optional<FakeProps, 'createdAt' | 'updatedAt'>
   let fakeAllPropsStub: FakeProps
