@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker'
+
 import { BaseController } from '@/core/presentation/controllers/base-controller'
 
 import {
@@ -35,7 +37,13 @@ describe('BaseController', () => {
 
     it('should be able to throw ValidationError if any validation is failed', async () => {
       await expect(
-        sut.handle({ firstName: 'John', lastName: undefined as any as string }),
+        sut.handle({
+          firstName: 'John',
+          lastName: faker.helpers.arrayElement([
+            null,
+            undefined,
+          ]) as any as string,
+        }),
       ).rejects.toThrowError(Error)
     })
 
