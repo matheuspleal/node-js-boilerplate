@@ -40,14 +40,10 @@ export function env<T extends TypeOfValue>({
   }
   const valueInStr = String(value)
   try {
-    switch (typeOfValue) {
-      case EnvVariableEnum.BOOLEAN:
-        return JSON.parse(valueInStr) as T
-      case EnvVariableEnum.NUMBER:
-        return Number(valueInStr) as T
-      default:
-        return valueInStr as T
+    if (typeOfValue === EnvVariableEnum.STRING) {
+      return valueInStr as T
     }
+    return JSON.parse(valueInStr) as T
   } catch (err) {
     throw new FailedToConvertEnvVariableError(key, typeOfValue)
   }
