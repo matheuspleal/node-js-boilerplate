@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
 
-import { ISODateRegExp } from '#/modules/users/domain/value-objects/@helpers/iso-date-regexp'
+import { ISODateRegExp } from '#/modules/users/domain/@helpers/iso-date-regexp'
 
 describe('Birthdate', () => {
   let sut: Birthdate
