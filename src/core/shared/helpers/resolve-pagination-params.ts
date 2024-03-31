@@ -1,12 +1,12 @@
 import {
-  DEFAULT_PAGE,
+  DEFAULT_OFFSET,
   MAX_LIMIT,
 } from '@/core/shared/constants/pagination-params'
 import { PaginationParams } from '@/core/shared/types/pagination-params'
 
 function resolvePage(page?: number): number {
   if (!page || page < 0) {
-    return DEFAULT_PAGE
+    return DEFAULT_OFFSET
   }
   return page
 }
