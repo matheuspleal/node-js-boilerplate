@@ -8,7 +8,7 @@ import { FetchUsersUseCase } from '@/modules/users/application/use-cases/fetch-u
 import { UserMap } from '@/modules/users/contracts/mappers/user-map'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
+import { makeFakeUserCollectionEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
 
 describe('FetchUsersUseCase', () => {
   let sut: FetchUsersUseCase
@@ -25,9 +25,7 @@ describe('FetchUsersUseCase', () => {
 
   beforeAll(() => {
     length = 100
-    usersEntitiesStub = Array.from({ length }).map(() =>
-      makeFakeUserEntityStub(),
-    )
+    usersEntitiesStub = makeFakeUserCollectionEntityStub({ length })
     countUsersRepositoryMock = mock<CountUsersRepository>()
     countUsersRepositoryMock.count.mockResolvedValue(length)
     findManyUsersRepositoryMock = mock<FindManyUsersRepository>()
