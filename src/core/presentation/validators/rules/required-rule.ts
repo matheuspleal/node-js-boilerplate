@@ -1,11 +1,11 @@
-import { RequiredFieldError } from '@/core/presentation/validators/errors/required-field-error'
+import { RequiredError } from '@/core/presentation/validators/errors/required-error'
 import { ValidationError } from '@/core/presentation/validators/errors/validation-error'
 import {
   Validator,
   ValidatorFieldProps,
 } from '@/core/presentation/validators/validator'
 
-export class RequiredFieldRule implements Validator {
+export class RequiredRule implements Validator {
   constructor(private readonly fields: ValidatorFieldProps[]) {}
 
   validate(): ValidationError | undefined {
@@ -16,7 +16,7 @@ export class RequiredFieldRule implements Validator {
       }
     }
     if (fieldsNotFilled.length > 0) {
-      return new RequiredFieldError(fieldsNotFilled)
+      return new RequiredError(fieldsNotFilled)
     }
   }
 }

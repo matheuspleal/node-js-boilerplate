@@ -1,4 +1,5 @@
-import { RequiredFieldRule } from '@/core/presentation/validators/rules/required-field-rule'
+import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid-rule'
+import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
 import {
   Validator,
   ValidatorFieldProps,
@@ -14,8 +15,13 @@ export class BuilderValidator {
     return new BuilderValidator(fields)
   }
 
+  isValidUUID(): BuilderValidator {
+    this.validators.push(new IsValidUUIDRule(this.fields))
+    return this
+  }
+
   required(): BuilderValidator {
-    this.validators.push(new RequiredFieldRule(this.fields))
+    this.validators.push(new RequiredRule(this.fields))
     return this
   }
 
