@@ -1,5 +1,6 @@
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
-import { RequiredFieldRule } from '@/core/presentation/validators/rules/required-field-rule'
+import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid-rule'
+import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
 
 import { makeFakeCollectionFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
 
@@ -14,13 +15,16 @@ describe('BuilderValidator', () => {
         length: 5,
         withValue: true,
       }),
-    ]).required()
+    ])
+      .required()
+      .isValidUUID()
 
     const validators = builderValidator.build()
-    const [requiredFieldRule] = validators
+    const [requiredRule, isValidUUID] = validators
 
     expect(builderValidator).toBeInstanceOf(BuilderValidator)
-    expect(validators).toHaveLength(1)
-    expect(requiredFieldRule).toBeInstanceOf(RequiredFieldRule)
+    expect(validators).toHaveLength(2)
+    expect(requiredRule).toBeInstanceOf(RequiredRule)
+    expect(isValidUUID).toBeInstanceOf(IsValidUUIDRule)
   })
 })

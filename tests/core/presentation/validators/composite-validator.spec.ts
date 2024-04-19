@@ -1,6 +1,8 @@
 import { CompositeValidator } from '@/core/presentation/validators/composite-validator'
+import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
 
-import { makeFakeCollectionValidatorStub } from '../@mocks/fake-validators-stub'
+import { makeFakeCollectionFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
+import { makeFakeCollectionValidatorStub } from '#/core/presentation/@mocks/fake-validators-stub'
 
 describe('CompositeValidator', () => {
   let sut: CompositeValidator
@@ -16,9 +18,11 @@ describe('CompositeValidator', () => {
   })
 
   it('should be able to execute a list of validators and return undefined if all validations return undefined', () => {
-    sut = new CompositeValidator(
-      makeFakeCollectionValidatorStub({ length: 1, withValue: true }),
-    )
+    sut = new CompositeValidator([
+      new RequiredRule(
+        makeFakeCollectionFieldStub({ length: 2, withValue: true }),
+      ),
+    ])
 
     const validations = sut.validate()
 

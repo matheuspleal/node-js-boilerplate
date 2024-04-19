@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { HttpController } from '@/core/presentation/controllers/http-controller'
 import { ServerError } from '@/core/presentation/errors/server-error'
-import { RequiredFieldError } from '@/core/presentation/validators/errors/required-field-error'
+import { RequiredError } from '@/core/presentation/validators/errors/required-error'
 
 import {
   FakeHttpController,
@@ -76,7 +76,7 @@ describe('HttpController', () => {
       })
 
       expect(response.statusCode).toEqual(400)
-      expect(response.body).toBeInstanceOf(RequiredFieldError)
+      expect(response.body).toBeInstanceOf(RequiredError)
     })
 
     it('should be able to return the response if all validations pass', async () => {

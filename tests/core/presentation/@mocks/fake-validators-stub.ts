@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
-import { RequiredFieldRule } from '@/core/presentation/validators/rules/required-field-rule'
+import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid-rule'
+import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
 
 import { CollectionStubProps } from '#/@types/collection-stub-props-contract'
 import { makeFakeCollectionFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
@@ -10,7 +11,10 @@ export function makeFakeValidatorStub({
   length,
   withValue,
 }: CollectionStubProps & FieldStubProps) {
-  const RandomValidator = faker.helpers.arrayElement([RequiredFieldRule])
+  const RandomValidator = faker.helpers.arrayElement([
+    RequiredRule,
+    IsValidUUIDRule,
+  ])
   return new RandomValidator(makeFakeCollectionFieldStub({ length, withValue }))
 }
 
