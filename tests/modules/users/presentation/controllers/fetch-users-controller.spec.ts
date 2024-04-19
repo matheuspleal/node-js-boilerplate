@@ -111,7 +111,7 @@ describe('FetchUsersController', () => {
       })
     })
 
-    it('shouldable to return a count equal to the total users and return as many users as the limit parameter allows', async () => {
+    it('should be able to return a count equal to the total users and return as many users as the limit parameter allows', async () => {
       const customEntitiesStub = defaultUsersDTOStub.splice(0, 10)
       fetchUsersUseCaseMock.execute.mockResolvedValueOnce(
         right({
