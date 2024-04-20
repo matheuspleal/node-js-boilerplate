@@ -1,9 +1,9 @@
-import { MockInstance } from 'vitest'
-import { MockProxy, mock } from 'vitest-mock-extended'
+import { type MockInstance } from 'vitest'
+import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { right } from '@/core/application/either'
-import { FetchUsersUseCase } from '@/modules/users/application/use-cases/fetch-users-use-case'
-import { UserDTO } from '@/modules/users/contracts/dtos/user-dto'
+import { type FetchUsersUseCase } from '@/modules/users/application/use-cases/fetch-users-use-case'
+import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import { FetchUsersController } from '@/modules/users/presentation/controllers/fetch-users-controller'
 
 import { makeFakeUserCollectionDTOStub } from '#/modules/users/contracts/@mocks/user-dto-stub'
