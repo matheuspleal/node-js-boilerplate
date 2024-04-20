@@ -11,6 +11,8 @@
     "lint:fix": "npm run lint -- --fix",
     "node:js": "node --env-file=.env",
     "node:ts": "node --env-file=.env --import=tsx",
+    "migrate:dev": "npx prisma migrate dev",
+    "migrate:prod": "npx prisma migrate deploy",
     "prepare": "husky",
     "test": "vitest run --passWithNoTests",
     "test:ci": "vitest run --config ./vitest.config.ci.ts --coverage",
