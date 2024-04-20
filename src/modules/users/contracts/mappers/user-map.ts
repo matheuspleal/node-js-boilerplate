@@ -1,7 +1,7 @@
 import { Mapper } from '@/core/contracts/mapper'
 import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
-import { UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
-import { UserDTO } from '@/modules/users/contracts/dtos/user-dto'
+import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
+import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 export class UserMap extends Mapper<UserDTO, UserEntity, UserPersistence> {

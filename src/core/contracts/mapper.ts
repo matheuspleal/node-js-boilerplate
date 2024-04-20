@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export abstract class Mapper<DTO, Entity, Persistence> {
   protected constructor() {}
   // abstract toDTO(entity: Entity): DTO

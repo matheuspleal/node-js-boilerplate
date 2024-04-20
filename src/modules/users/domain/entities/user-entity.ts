@@ -1,10 +1,10 @@
 import { Entity } from '@/core/domain/entities/entity'
-import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
-import { Optional } from '@/core/shared/types/optional'
+import { type UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { type Optional } from '@/core/shared/types/optional'
 import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
 import { Email } from '@/modules/users/domain/value-objects/email'
 
-export type UserProps = {
+export interface UserProps {
   name: string
   email: Email
   birthdate: Birthdate

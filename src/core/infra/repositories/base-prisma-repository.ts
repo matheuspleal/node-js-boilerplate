@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { type PrismaClient } from '@prisma/client'
 
 import { PrismaConnectionManager } from '@/core/infra/prisma/prisma-connection-manager'
 

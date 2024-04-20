@@ -3,7 +3,7 @@ import {
   badRequest,
   serverError,
 } from '@/core/presentation/helpers/http-helpers'
-import { HttpResponse } from '@/core/presentation/protocols/http'
+import { type HttpResponse } from '@/core/presentation/protocols/http'
 
 export abstract class HttpController<HttpRequest, Data> extends BaseController<
   HttpRequest,

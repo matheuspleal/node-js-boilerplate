@@ -1,8 +1,8 @@
-import { Either, left, right } from '@/core/application/either'
-import { UseCase } from '@/core/application/use-cases/use-case'
+import { type Either, left, right } from '@/core/application/either'
+import { type UseCase } from '@/core/application/use-cases/use-case'
 import { UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
-import { FindUserByIdRepository } from '@/modules/users/application/repositories/find-user-by-id-repository'
-import { UserDTO } from '@/modules/users/contracts/dtos/user-dto'
+import { type FindUserByIdRepository } from '@/modules/users/application/repositories/find-user-by-id-repository'
+import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import { UserMap } from '@/modules/users/contracts/mappers/user-map'
 
 export namespace GetUserById {

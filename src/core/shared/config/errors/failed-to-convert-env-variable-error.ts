@@ -1,4 +1,4 @@
-import { ConfigError } from '@/core/shared/config/errors/config-error'
+import { type ConfigError } from '@/core/shared/config/errors/config-error'
 
 export class FailedToConvertEnvVariableError
   extends Error

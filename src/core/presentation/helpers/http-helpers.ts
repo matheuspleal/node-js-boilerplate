@@ -1,5 +1,5 @@
 import { ServerError } from '@/core/presentation/errors/server-error'
-import { HttpResponse } from '@/core/presentation/protocols/http'
+import { type HttpResponse } from '@/core/presentation/protocols/http'
 
 export function ok<T = any>(body: T): HttpResponse<T> {
   return {
@@ -18,6 +18,13 @@ export function created<T = any>(body: T): HttpResponse<T> {
 export function badRequest(error: Error): HttpResponse<Error> {
   return {
     statusCode: 400,
+    body: error,
+  }
+}
+
+export function notFoundError(error: Error): HttpResponse<Error> {
+  return {
+    statusCode: 404,
     body: error,
   }
 }

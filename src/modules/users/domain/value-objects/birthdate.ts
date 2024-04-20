@@ -1,6 +1,6 @@
 export class Birthdate {
   private readonly birthdate: Date
-  private UTC_FIRST_YEAR = 1970
+  private readonly UTC_FIRST_YEAR = 1970
 
   constructor(birthdate: string | Date) {
     this.birthdate = new Date(birthdate)

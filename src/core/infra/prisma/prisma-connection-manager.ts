@@ -1,16 +1,16 @@
 import { PrismaClient } from '@prisma/client'
 
 export class PrismaConnectionManager {
-  private static prismaConnectionManager: PrismaClient
+  private static client: PrismaClient
 
   private constructor() {}
 
   static getInstance(): PrismaClient {
-    if (!this.prismaConnectionManager) {
-      this.prismaConnectionManager = new PrismaClient({
+    if (!PrismaConnectionManager.client) {
+      PrismaConnectionManager.client = new PrismaClient({
         log: ['query'],
       })
     }
-    return this.prismaConnectionManager
+    return PrismaConnectionManager.client
   }
 }

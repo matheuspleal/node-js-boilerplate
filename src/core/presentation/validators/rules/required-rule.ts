@@ -1,8 +1,8 @@
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'
-import { ValidationError } from '@/core/presentation/validators/errors/validation-error'
+import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
 import {
-  Validator,
-  ValidatorFieldProps,
+  type Validator,
+  type ValidatorFieldProps,
 } from '@/core/presentation/validators/validator'
 
 export class RequiredRule implements Validator {

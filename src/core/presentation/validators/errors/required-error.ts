@@ -1,4 +1,4 @@
-import { ValidationError } from '@/core/presentation/validators/errors/validation-error'
+import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
 import { buildErrorMessage } from '@/core/presentation/validators/helpers/build-error-message'
 import { copyAndReturnPropsOfListOfFields } from '@/core/presentation/validators/helpers/copy-and-return-props-of-list-of-fields'
 

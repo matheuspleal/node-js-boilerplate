@@ -1,7 +1,7 @@
 import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
 
 export abstract class Entity<T> {
-  private _id: UniqueEntityId
+  private readonly _id: UniqueEntityId
   protected props: T
 
   get id() {

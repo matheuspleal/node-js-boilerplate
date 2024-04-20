@@ -1,4 +1,4 @@
-import { PropsOfListOfFields } from '@/core/presentation/validators/helpers/props-of-list-of-fields'
+import { type PropsOfListOfFields } from '@/core/presentation/validators/helpers/props-of-list-of-fields'
 
 export interface Message {
   reason: string

@@ -1,6 +1,6 @@
 import { CompositeValidator } from '@/core/presentation/validators/composite-validator'
-import { ValidationError } from '@/core/presentation/validators/errors/validation-error'
-import { Validator } from '@/core/presentation/validators/validator'
+import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
+import { type Validator } from '@/core/presentation/validators/validator'
 
 export abstract class BaseController<GenericRequest, GenericResponse> {
   abstract handle(request: GenericRequest): Promise<GenericResponse>

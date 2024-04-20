@@ -1,8 +1,8 @@
 import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-uuid-error'
-import { ValidationError } from '@/core/presentation/validators/errors/validation-error'
+import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
 import {
-  Validator,
-  ValidatorFieldProps,
+  type Validator,
+  type ValidatorFieldProps,
 } from '@/core/presentation/validators/validator'
 
 export class IsValidUUIDRule implements Validator {

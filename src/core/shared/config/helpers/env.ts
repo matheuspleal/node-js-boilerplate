@@ -33,7 +33,7 @@ export function env<T extends TypeOfValue>({
   type,
   defaultValue,
 }: EnvProps<T>): T {
-  const value = process.env[key] || defaultValue
+  const value = process.env[key] ?? defaultValue
   const typeOfValue = type ?? String(typeof defaultValue)
   if (!hasDefaultValue(value)) {
     throw new EnvVariableNotProvidedError(key, typeOfValue)
