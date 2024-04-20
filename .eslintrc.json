@@ -23,6 +23,7 @@
     "@typescript-eslint/method-signature-style": "off",
     "@typescript-eslint/no-extraneous-class": "off",
     "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
     "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",

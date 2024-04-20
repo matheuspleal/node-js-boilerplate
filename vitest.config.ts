@@ -19,5 +19,6 @@ export default defineConfig({
       ],
       reporter: ['lcov', 'text'],
     },
+    include: ['**/*.spec.ts'],
   },
 })
