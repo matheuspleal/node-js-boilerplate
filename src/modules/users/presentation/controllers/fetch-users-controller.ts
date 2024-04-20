@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { HttpController } from '@/core/presentation/controllers/http-controller'
 import { ok } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
