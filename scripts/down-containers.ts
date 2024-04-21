@@ -3,7 +3,7 @@
 import { bold } from 'kleur/colors'
 import { $, echo, spinner } from 'zx'
 
-import { BaseProps } from './utils/base-props'
+import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
 import { getArgsFromCLI } from './utils/get-args-from-cli'
 import { header } from './utils/header'

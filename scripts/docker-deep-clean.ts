@@ -3,7 +3,7 @@
 import { bold, green, red } from 'kleur/colors'
 import { $, question } from 'zx'
 
-import { BaseProps } from './utils/base-props'
+import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
 import { header } from './utils/header'
 
