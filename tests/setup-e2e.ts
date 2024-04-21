@@ -1,9 +1,9 @@
 import { execSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaConnectionManager } from '@/core/infra/prisma/prisma-connection-manager'
 
-const prisma = new PrismaClient()
+const prisma = PrismaConnectionManager.getInstance()
 
 function generateUniqueDatabaseURL(schemaId: string) {
   if (!process.env.DATABASE_URL) {
