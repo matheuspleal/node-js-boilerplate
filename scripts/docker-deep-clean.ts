@@ -25,7 +25,7 @@ export async function dockerDeepClean(props?: DockerDeepCleanProps) {
       )} to confirm | type ${bold(green('no'))} to cancel): `,
     )
     if (option.toLowerCase() === 'yes') {
-      await $``
+      await $`docker rmi -f $(docker images -aq) && docker system prune --all --volumes --force && docker rm -vf $(docker ps -aq)`
     }
   } catch (error: any) {
     errorMessage({
