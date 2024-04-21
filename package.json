@@ -34,6 +34,7 @@
     "@semantic-release/github": "10.0.3",
     "@semantic-release/release-notes-generator": "13.0.0",
     "@types/node": "20.12.7",
+    "@types/pg": "8.11.5",
     "@vitest/coverage-v8": "1.5.0",
     "@vitest/ui": "1.5.0",
     "eslint": "8.57.0",
@@ -60,6 +61,7 @@
     "@fastify/cors": "9.0.1",
     "@prisma/client": "5.12.1",
     "fastify": "4.26.2",
+    "pg": "8.11.5",
     "zx": "8.0.2"
   },
   "keywords": [
