@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-import { CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
+import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
 
 export function makeFakeUserEntityStub(): UserEntity {
   return UserEntity.create({

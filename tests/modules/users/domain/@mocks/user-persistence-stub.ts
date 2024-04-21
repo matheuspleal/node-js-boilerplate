@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-import { UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
+import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
 
-import { CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
+import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
 
 export function makeFakeUserPersistenceStub(): UserPersistence {
   return {
