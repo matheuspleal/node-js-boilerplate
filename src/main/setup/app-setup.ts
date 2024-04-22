@@ -9,5 +9,5 @@ export async function appSetup(): Promise<FastifyInstance> {
   })
   await middlewaresSetup(app)
   await routesSetup(app)
-  return await app
+  return app
 }
