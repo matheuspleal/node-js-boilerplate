@@ -32,7 +32,7 @@ services:
       - db_data:/postgresql
     networks:
       - default_bridge
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ['CMD', 'pg_isready']
       interval: 5s
