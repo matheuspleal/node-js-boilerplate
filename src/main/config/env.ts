@@ -1,8 +1,7 @@
 import { env } from '@/core/shared/config/helpers/env'
 
 export const server = {
-  host: env<string>({ key: 'HOST', defaultValue: 'localhost' }),
-  port: env<number>({ key: 'PORT', defaultValue: 3333 }),
+  port: env<number>({ key: 'API_PORT', defaultValue: 3333 }),
 }
 
 export const api = {
