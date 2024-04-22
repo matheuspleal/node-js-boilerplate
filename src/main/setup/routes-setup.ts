@@ -12,7 +12,7 @@ export async function routesSetup(app: FastifyInstance): Promise<void> {
   for (const file of files) {
     if (!file.endsWith('.map')) {
       const route = (await import(resolve(routesPath, file))).default
-      app.register(route, { prefix: api.currentVersion })
+      app.register(route, { prefix: `api/${api.currentVersion}` })
     }
   }
 }
