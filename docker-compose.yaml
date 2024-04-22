@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   app:
     build: .
@@ -16,7 +15,7 @@ services:
     volumes:
       - app_data:/usr/src/app/data
     networks:
-      - default_bridge
+      - net
     restart: always
 
   database:
@@ -31,16 +30,16 @@ services:
     volumes:
       - db_data:/postgresql
     networks:
-      - default_bridge
+      - net
     restart: always
     healthcheck:
-      test: ['CMD', 'pg_isready']
+      test: ['CMD', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
       interval: 5s
       timeout: 2s
       retries: 20
 
 networks:
-  default_bridge:
+  net:
     driver: bridge
 
 volumes:
