@@ -9,6 +9,10 @@ import { header } from './utils/header'
 
 type UpContainersProps = BaseProps
 
+async function execute() {
+  await $`docker-compose up -d`
+}
+
 export async function upContainers(props?: UpContainersProps) {
   const args = getArgsFromCLI()
   if (props?.showHeaders) {
@@ -19,12 +23,12 @@ export async function upContainers(props?: UpContainersProps) {
   }
   try {
     if (args.includes('--logs')) {
-      await $`docker-compose up -d`
-    } else {
-      await spinner('🧱 Starting containers...', async () => {
-        await $`docker-compose up -d`
-      })
+      await execute()
+      return
     }
+    await spinner('🧱 Starting containers...', async () => {
+      await execute()
+    })
   } catch (error: any) {
     errorMessage({
       message: 'Error when trying to up containers',

@@ -9,6 +9,10 @@ import { header } from './utils/header'
 
 type BuildProps = BaseProps
 
+async function execute() {
+  await $`docker-compose build`
+}
+
 export async function build(props?: BuildProps) {
   const args = getArgsFromCLI()
   if (props?.showHeaders) {
@@ -19,11 +23,11 @@ export async function build(props?: BuildProps) {
   }
   try {
     if (args.includes('--logs')) {
-      await $`docker-compose build`
+      await execute()
       return
     }
     await spinner('🧱 Building images...', async () => {
-      await $`docker-compose build`
+      await execute()
     })
     echo('🧱 Build executed successfully!')
   } catch (error: any) {

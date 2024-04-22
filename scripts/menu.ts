@@ -8,6 +8,7 @@ import { dockerDeepClean } from './docker-deep-clean'
 import { downContainers } from './down-containers'
 import { runMigrations } from './run-migrations'
 import { startContainers } from './start-containers'
+import { startDev } from './start-dev'
 import { stopContainers } from './stop-containers'
 import { upContainers } from './up-containers'
 import { pause } from './utils/pause'
@@ -24,15 +25,16 @@ export async function menu() {
         ),
       ),
     )
-    echo('1. 🧱 Build images')
-    echo('2. 🐳 Up containers')
-    echo('3. 🚀 Start containers')
-    echo('4. 🛑 Stop containers')
-    echo('5. 🏁 Run migrations\n')
+    echo('1. 🧱 build images')
+    echo('2. 🐳 up containers')
+    echo('3. 🚀 start containers')
+    echo('4. 🛑 stop containers')
+    echo('5. 🐙 start dev')
+    echo('6. 🏁 run migrations\n')
     echo(bold(red('******* DANGER ZONE *******')))
-    echo(red('** 7. 🧨 Down containers **'))
-    echo(red('** 8. 💣 Docker prune *****'))
-    echo(red('** 9. 👋 Exit *************'))
+    echo(red('** 7. 🧨 down containers **'))
+    echo(red('** 8. 💣 docker prune *****'))
+    echo(red('** 9. 👋 exit *************'))
     echo(bold(red('***************************')))
     option = Number(await question('\nOption: '))
     switch (option) {
@@ -49,6 +51,9 @@ export async function menu() {
         await stopContainers({ showHeaders: true })
         break
       case 5:
+        await startDev({ showHeaders: true })
+        break
+      case 6:
         await runMigrations({ showHeaders: true })
         break
       case 7:

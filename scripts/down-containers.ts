@@ -9,6 +9,10 @@ import { header } from './utils/header'
 
 type DownContainersProps = BaseProps
 
+async function execute() {
+  await $`docker-compose down`
+}
+
 export async function downContainers(props?: DownContainersProps) {
   const args = getArgsFromCLI()
   if (props?.showHeaders) {
@@ -19,12 +23,12 @@ export async function downContainers(props?: DownContainersProps) {
   }
   try {
     if (args.includes('--logs')) {
-      await $`docker-compose down`
-    } else {
-      await spinner('🧨 Downing containers...', async () => {
-        await $`docker-compose down`
-      })
+      await execute()
+      return
     }
+    await spinner('🧨 Downing containers...', async () => {
+      await execute()
+    })
   } catch (error: any) {
     errorMessage({
       message: 'Error when trying to down containers',
