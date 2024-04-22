@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [tsConfigPaths()],
   test: {
     globals: true,
+    dir: 'tests',
     coverage: {
       provider: 'v8',
       exclude: [

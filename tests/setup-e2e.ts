@@ -1,9 +1,9 @@
-import { execSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 
-import { PrismaConnectionManager } from '@/core/infra/prisma/prisma-connection-manager'
+import { PrismaClient } from '@prisma/client'
+import { $ } from 'zx/core'
 
-const prisma = PrismaConnectionManager.getInstance()
+const prisma = new PrismaClient()
 
 function generateUniqueDatabaseURL(schemaId: string) {
   if (!process.env.DATABASE_URL) {
@@ -19,7 +19,7 @@ const schemaId = randomUUID()
 beforeAll(async () => {
   const databaseURL = generateUniqueDatabaseURL(schemaId)
   process.env.DATABASE_URL = databaseURL
-  execSync('npx prisma migrate deploy')
+  await $`npx prisma migrate deploy`
 })
 
 afterAll(async () => {
