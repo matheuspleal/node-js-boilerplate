@@ -14,6 +14,7 @@
     "migrate:dev": "npx prisma migrate dev",
     "migrate:prod": "npx prisma migrate deploy",
     "prepare": "husky",
+    "prisma:studio": "npx prisma studio",
     "start:dev": "npm run migrate:dev && npm run node:ts -- --inspect --watch src/main/server.ts",
     "start:prod": "npm run migrate:prod && npm run node:js -- dist/server.js",
     "test": "vitest run --passWithNoTests",
