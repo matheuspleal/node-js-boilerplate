@@ -1,7 +1,6 @@
 #!/usr/bin/env zx
 
-import { bold } from 'kleur/colors'
-import { $, echo, spinner } from 'zx'
+import { $, spinner } from 'zx'
 
 import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
@@ -26,8 +25,6 @@ export async function stopContainers(props?: StopContainersProps) {
         await $`docker-compose stop`
       })
     }
-    echo(bold('\nContainers status:'))
-    await $`docker ps`
   } catch (error: any) {
     errorMessage({
       message: 'Error when trying to stop containers',
