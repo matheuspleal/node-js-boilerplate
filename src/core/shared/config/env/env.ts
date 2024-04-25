@@ -1,4 +1,5 @@
 import { env } from '@/core/shared/config/helpers/env'
+import { EnvVariableEnum } from '@/core/shared/config/types/env-variable-enum'
 
 export const server = {
   host: env<string>({ key: 'API_HOST', defaultValue: '0.0.0.0' }),
@@ -16,4 +17,15 @@ export const database = {
   user: env<string>({ key: 'DB_USER', defaultValue: 'john_doe' }),
   schema: env<string>({ key: 'DB_SCHEMA', defaultValue: 'public' }),
   password: env<string>({ key: 'DB_PASSWORD', defaultValue: 'doe_john' }),
+}
+
+export const token = {
+  privateKey: env<string>({
+    key: 'JWT_PRIVATE_KEY',
+    type: EnvVariableEnum.STRING,
+  }),
+  publicKey: env<string>({
+    key: 'JWT_PUBLIC_KEY',
+    type: EnvVariableEnum.STRING,
+  }),
 }
