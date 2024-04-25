@@ -30,8 +30,8 @@ export class FetchUsersController extends HttpController<
   ): Promise<HttpResponse<FetchUsers.Response>> {
     const result = await this.fetchUsersUseCase.execute({
       paginationParams: resolvePaginationParams({
-        page: request?.['page[offset]'],
-        limit: request?.['page[limit]'],
+        page: Number(request?.['page[offset]']),
+        limit: Number(request?.['page[limit]']),
       }),
     })
     return ok<FetchUsers.Response>({
