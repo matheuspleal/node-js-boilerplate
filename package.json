@@ -34,6 +34,8 @@
     "@semantic-release/git": "10.0.1",
     "@semantic-release/github": "10.0.3",
     "@semantic-release/release-notes-generator": "13.0.0",
+    "@types/bcryptjs": "2.4.6",
+    "@types/jsonwebtoken": "9.0.6",
     "@types/node": "20.12.7",
     "@types/pg": "8.11.5",
     "@types/supertest": "6.0.2",
@@ -63,7 +65,9 @@
   "dependencies": {
     "@fastify/cors": "9.0.1",
     "@prisma/client": "5.12.1",
+    "bcryptjs": "2.4.3",
     "fastify": "4.26.2",
+    "jsonwebtoken": "9.0.2",
     "pg": "8.11.5",
     "zx": "8.0.2"
   },
