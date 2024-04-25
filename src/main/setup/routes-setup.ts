@@ -4,7 +4,7 @@ import { resolve } from 'node:path'
 import { type FastifyInstance } from 'fastify'
 
 import { api } from '@/core/shared/config/env/env'
-import { getCurrentDirname } from '@/core/shared/config/env/get-current-dirname'
+import { getCurrentDirname } from '@/main/helpers/get-current-dirname'
 
 export async function routesSetup(app: FastifyInstance): Promise<void> {
   const routesPath = resolve(getCurrentDirname(), '../routes')
