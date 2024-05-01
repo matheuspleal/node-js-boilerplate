@@ -1,0 +1,23 @@
+import { faker } from '@faker-js/faker'
+
+import { UserEntity } from '@/modules/users/domain/entities/user-entity'
+
+import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
+import { plaintextPassword } from '#/modules/users/domain/@mocks/password-stub'
+
+export function makeFakeUserEntityStub(): UserEntity {
+  return UserEntity.create({
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    password: plaintextPassword,
+    birthdate: faker.date.birthdate(),
+    createdAt: faker.date.recent(),
+    updatedAt: faker.date.recent(),
+  })
+}
+
+export function makeFakeUserCollectionEntityStub({
+  length,
+}: CollectionStubProps): UserEntity[] {
+  return Array.from({ length }).map(makeFakeUserEntityStub)
+}
