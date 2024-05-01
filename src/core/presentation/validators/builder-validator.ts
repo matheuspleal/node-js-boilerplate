@@ -1,3 +1,4 @@
+import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password-rule'
 import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid-rule'
 import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
 import {
@@ -17,6 +18,11 @@ export class BuilderValidator {
 
   isValidUUID(): this {
     this.validators.push(new IsValidUUIDRule(this.fields))
+    return this
+  }
+
+  isValidPassword(): this {
+    this.validators.push(new IsValidPasswordRule(this.fields))
     return this
   }
 
