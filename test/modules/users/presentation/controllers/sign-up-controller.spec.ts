@@ -15,7 +15,7 @@ import {
 
 import { makeFakeUserDTOStub } from '#/modules/users/contracts/@mocks/user-dto-stub'
 import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
-import { plaintextPassword } from '#/modules/users/domain/@mocks/password-stub'
+import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
 
 const listOfFields = ['name', 'email', 'password', 'birthdate']
 
@@ -81,7 +81,7 @@ describe('SignUpController', () => {
     const fakeUserInput: SignUp.Request = {
       name: userDTOStub.name,
       email: userDTOStub.email,
-      password: plaintextPassword,
+      password: plaintextPasswordStub,
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
@@ -100,7 +100,7 @@ describe('SignUpController', () => {
     const fakeUserInput: SignUp.Request = {
       name: userDTOStub.name,
       email: userDTOStub.email,
-      password: plaintextPassword,
+      password: plaintextPasswordStub,
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
@@ -123,7 +123,7 @@ describe('SignUpController', () => {
     const fakeUserInput: SignUp.Request = {
       name: userDTOStub.name,
       email: userDTOStub.email,
-      password: plaintextPassword,
+      password: plaintextPasswordStub,
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
@@ -139,7 +139,7 @@ describe('SignUpController', () => {
     const fakeUserInput: SignUp.Request = {
       name: userDTOStub.name,
       email: userDTOStub.email,
-      password: plaintextPassword,
+      password: plaintextPasswordStub,
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
@@ -148,7 +148,7 @@ describe('SignUpController', () => {
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(1)
     expect(signUpUseCaseSpy).toHaveBeenCalledWith({
       name: userDTOStub.name,
-      password: plaintextPassword,
+      password: plaintextPasswordStub,
       email: userDTOStub.email,
       birthdate: userDTOStub.birthdate,
     })

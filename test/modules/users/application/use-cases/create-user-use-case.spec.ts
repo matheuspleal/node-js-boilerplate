@@ -21,8 +21,8 @@ import { Email } from '@/modules/users/domain/value-objects/email'
 
 import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
 import {
-  hashedPassword,
-  plaintextPassword,
+  hashedPasswordStub,
+  plaintextPasswordStub,
 } from '#/modules/users/domain/@mocks/password-stub'
 import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
 
@@ -53,7 +53,7 @@ describe('SignUpUseCase', () => {
     createUserRepositoryMock = mock<CreateUserRepository>()
     createUserRepositoryMock.create.mockResolvedValue(userEntityStub)
     hashGeneratorGatewayMock = mock<HashGeneratorGateway>()
-    hashGeneratorGatewayMock.hash.mockResolvedValue(hashedPassword)
+    hashGeneratorGatewayMock.hash.mockResolvedValue(hashedPasswordStub)
   })
 
   beforeEach(() => {
@@ -145,7 +145,7 @@ describe('SignUpUseCase', () => {
     )
     expect(hashGeneratorGatewaySpy).toHaveBeenCalledTimes(1)
     expect(hashGeneratorGatewaySpy).toHaveBeenCalledWith({
-      plaintext: plaintextPassword,
+      plaintext: plaintextPasswordStub,
     })
 
     expect(result.isRight()).toBe(true)

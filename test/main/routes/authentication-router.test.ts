@@ -254,13 +254,13 @@ describe('AuthenticationRouter', () => {
 
     test('sign in successfully', async () => {
       const userData = makeFakeAllInputSignUpStub()
-      const hashedPassword = await new BcryptAdapter(8).hash({
+      const hashedPasswordStub = await new BcryptAdapter(8).hash({
         plaintext: userData.password,
       })
       await prisma.user.create({
         data: {
           ...userData,
-          password: hashedPassword,
+          password: hashedPasswordStub,
         },
       })
 

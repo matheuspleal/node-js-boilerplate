@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { plaintextPassword } from '#/modules/users/domain/@mocks/password-stub'
+import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
 
 const VALID_PROVIDERS = ['fake-domain.com', 'fake-domain.org']
 
@@ -10,7 +10,7 @@ export function makeFakeRequiredInputSignUpStub() {
     email: faker.internet.email({
       provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
     }),
-    password: plaintextPassword,
+    password: plaintextPasswordStub,
     birthdate: faker.date.birthdate(),
   }
 }

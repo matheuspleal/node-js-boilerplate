@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { plaintextPassword } from '#/modules/users/domain/@mocks/password-stub'
+import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
 
 export interface FakeDTO {
   name: string
@@ -27,7 +27,7 @@ export interface FakePersistence {
 
 const id = faker.string.uuid()
 const email = faker.internet.email()
-const password = plaintextPassword
+const password = plaintextPasswordStub
 const name = faker.person.fullName()
 const birthdate = faker.date.birthdate({ min: 1950, max: 2005 })
 const age = new Date().getFullYear() - birthdate.getFullYear()
