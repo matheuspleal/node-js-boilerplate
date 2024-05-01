@@ -8,7 +8,7 @@ export default mergeConfig(
     test: {
       exclude: ['**/*.spec.ts'],
       include: ['**/*.test.ts'],
-      setupFiles: ['./tests/setup-e2e.ts'],
+      setupFiles: ['./test/setup-e2e.ts'],
     },
   }),
 )

@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [tsConfigPaths()],
   test: {
     globals: true,
-    dir: 'tests',
+    dir: 'test',
     coverage: {
       provider: 'v8',
       exclude: [
@@ -16,7 +16,7 @@ export default defineConfig({
         'src/core/contracts/**/*',
         'src/main/**/*',
         'src/modules/*/infra/repositories/**/*',
-        'tests/**/*',
+        'test/**/*',
       ],
       reporter: ['lcov', 'text'],
     },
