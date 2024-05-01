@@ -3,6 +3,9 @@ import { randomUUID } from 'node:crypto'
 import { PrismaClient } from '@prisma/client'
 import { $ } from 'zx/core'
 
+import { authenticationStub } from '#/modules/users/domain/@mocks/authentication-stub'
+import { makeFakeUserPersistenceStub } from '#/modules/users/domain/@mocks/user-persistence-stub'
+
 const prisma = new PrismaClient()
 
 function generateUniqueDatabaseURL(schemaId: string) {
@@ -16,10 +19,20 @@ function generateUniqueDatabaseURL(schemaId: string) {
 
 const schemaId = randomUUID()
 
+async function createUserToMakeSignIn() {
+  await prisma.user.create({
+    data: {
+      ...makeFakeUserPersistenceStub(),
+      ...authenticationStub,
+    },
+  })
+}
+
 beforeAll(async () => {
   const databaseURL = generateUniqueDatabaseURL(schemaId)
   process.env.DATABASE_URL = databaseURL
   await $`npx prisma migrate deploy`
+  await createUserToMakeSignIn()
 })
 
 afterAll(async () => {
