@@ -29,3 +29,10 @@ export const token = {
     type: EnvVariableEnum.STRING,
   }),
 }
+
+export const cryptograph = {
+  salt: env<number>({
+    key: 'HASH_SALT',
+    defaultValue: 8,
+  }),
+}

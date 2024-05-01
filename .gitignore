@@ -12,3 +12,6 @@ node_modules
 
 # Vitest
 coverage
+
+# Private and Public key
+*.pem
