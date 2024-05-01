@@ -25,6 +25,7 @@ export class UserMap extends Mapper<UserDTO, UserEntity, UserPersistence> {
       {
         name: userPersistence.name,
         email: userPersistence.email,
+        password: userPersistence.password,
         birthdate: userPersistence.birthdate,
         createdAt: userPersistence.createdAt,
         updatedAt: userPersistence.updatedAt,
@@ -42,6 +43,7 @@ export class UserMap extends Mapper<UserDTO, UserEntity, UserPersistence> {
       id: userEntity.id.toString(),
       name: userEntity.name,
       email: userEntity.email.toString(),
+      password: userEntity.password.toString(),
       birthdate: userEntity.birthdate.toValue(),
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt,

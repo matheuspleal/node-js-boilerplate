@@ -1,4 +1,5 @@
 import { type Either, left, right } from '@/core/application/either'
+import { type HashGeneratorGateway } from '@/core/application/gateways/cryptography/hash-generator'
 import { type UseCase } from '@/core/application/use-cases/use-case'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { InvalidBirthdateError } from '@/modules/users/application/errors/invalid-birthdate-error'
@@ -9,10 +10,11 @@ import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import { UserMap } from '@/modules/users/contracts/mappers/user-map'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-export namespace CreateUser {
+export namespace SignUp {
   export interface Input {
     name: string
     email: string
+    password: string
     birthdate: Date
   }
 
@@ -24,27 +26,27 @@ export namespace CreateUser {
   >
 }
 
-export class CreateUserUseCase
-  implements UseCase<CreateUser.Input, CreateUser.Output>
-{
+export class SignUpUseCase implements UseCase<SignUp.Input, SignUp.Output> {
   constructor(
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     private readonly createUserRepository: CreateUserRepository,
+    private readonly hashGeneratorGateway: HashGeneratorGateway,
   ) {}
 
   async execute({
     name,
+    password,
     email,
     birthdate,
-  }: CreateUser.Input): Promise<CreateUser.Output> {
-    const findUserByEmail =
-      await this.findUserByEmailRepository.findByEmail(email)
-    if (findUserByEmail) {
+  }: SignUp.Input): Promise<SignUp.Output> {
+    const foundUser = await this.findUserByEmailRepository.findByEmail(email)
+    if (foundUser) {
       return left(new EmailAlreadyExistsError(email))
     }
     const user = UserEntity.create({
       name,
       email,
+      password,
       birthdate,
     })
     if (!user.email.isValid()) {
@@ -53,6 +55,10 @@ export class CreateUserUseCase
     if (!user.birthdate.isValid()) {
       return left(new InvalidBirthdateError(birthdate))
     }
+    const hashedPassword = await this.hashGeneratorGateway.hash({
+      plaintext: user.password,
+    })
+    user.password = hashedPassword
     const createdUser = await this.createUserRepository.create(user)
     return right({
       user: UserMap.toDTO(createdUser),

@@ -7,6 +7,7 @@ import { Email } from '@/modules/users/domain/value-objects/email'
 export interface UserProps {
   name: string
   email: Email
+  password: string
   birthdate: Birthdate
   createdAt: Date
   updatedAt: Date
@@ -24,6 +25,14 @@ export class UserEntity extends Entity<UserProps> {
 
   get email() {
     return this.props.email
+  }
+
+  get password() {
+    return this.props.password
+  }
+
+  set password(password: string) {
+    this.props.password = password
   }
 
   get birthdate() {
@@ -48,10 +57,11 @@ export class UserEntity extends Entity<UserProps> {
 
   static create(
     props: Optional<
-      Omit<UserProps, 'email' | 'birthdate'>,
+      Omit<UserProps, 'email' | 'password' | 'birthdate'>,
       'createdAt' | 'updatedAt'
     > & {
       email: string
+      password: string
       birthdate: Date
     },
     id?: UniqueEntityId,
@@ -59,8 +69,8 @@ export class UserEntity extends Entity<UserProps> {
     const user = new UserEntity(
       {
         ...props,
-        birthdate: new Birthdate(new Date(props.birthdate)),
         email: new Email(props.email),
+        birthdate: new Birthdate(new Date(props.birthdate)),
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },
