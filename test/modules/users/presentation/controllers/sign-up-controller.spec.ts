@@ -48,7 +48,7 @@ describe('SignUpController', () => {
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
     expect(response).toMatchObject({
       statusCode: 400,
-      body: new RequiredError(listOfFields),
+      data: new RequiredError(listOfFields),
     })
   })
 
@@ -65,7 +65,7 @@ describe('SignUpController', () => {
       expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
       expect(response).toMatchObject({
         statusCode: 400,
-        body: new RequiredError([field]),
+        data: new RequiredError([field]),
       })
     },
   )
@@ -89,7 +89,7 @@ describe('SignUpController', () => {
 
     expect(response).toMatchObject({
       statusCode: 400,
-      body: fakeEmailAlreadyExistsError,
+      data: fakeEmailAlreadyExistsError,
     })
   })
 
@@ -108,7 +108,7 @@ describe('SignUpController', () => {
 
     expect(response).toMatchObject({
       statusCode: 400,
-      body: fakeInvalidEmailError,
+      data: fakeInvalidEmailError,
     })
   })
 
@@ -131,7 +131,7 @@ describe('SignUpController', () => {
 
     expect(response).toMatchObject({
       statusCode: 400,
-      body: fakeInvalidBirthdateError,
+      data: fakeInvalidBirthdateError,
     })
   })
 
@@ -154,7 +154,7 @@ describe('SignUpController', () => {
     })
     expect(response).toMatchObject({
       statusCode: 201,
-      body: {
+      data: {
         user: userDTOStub,
       },
     })

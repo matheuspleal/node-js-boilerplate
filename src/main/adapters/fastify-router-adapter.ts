@@ -15,9 +15,9 @@ export function fastifyRouterAdapter<Request, Response>(
       ...(request.params as any),
       ...(request.query as any),
     }
-    const { statusCode, body } = await controller.handle(payload)
+    const { statusCode, data } = await controller.handle(payload)
     const isSuccess = statusCode > 199 && statusCode < 400
-    const json = isSuccess ? body : { error: body.message }
+    const json = isSuccess ? data : { error: data.message }
     reply.status(statusCode).send(json)
   }
 }

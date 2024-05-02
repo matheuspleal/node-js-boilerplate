@@ -28,7 +28,7 @@ describe('HttpController', () => {
       })
 
       expect(response.statusCode).toEqual(500)
-      expect(response.body).toBeInstanceOf(ServerError)
+      expect(response.data).toBeInstanceOf(ServerError)
     })
 
     it('should be able to perform with request and response handling the execution of standard validations', async () => {
@@ -39,7 +39,7 @@ describe('HttpController', () => {
 
       expect(response).toMatchObject({
         statusCode: 200,
-        body: {
+        data: {
           fullName: 'John Doe',
         },
       })
@@ -63,7 +63,7 @@ describe('HttpController', () => {
       })
 
       expect(response.statusCode).toEqual(500)
-      expect(response.body).toBeInstanceOf(ServerError)
+      expect(response.data).toBeInstanceOf(ServerError)
     })
 
     it('should be able to return ValidationError if any validation is failed', async () => {
@@ -76,7 +76,7 @@ describe('HttpController', () => {
       })
 
       expect(response.statusCode).toEqual(400)
-      expect(response.body).toBeInstanceOf(RequiredError)
+      expect(response.data).toBeInstanceOf(RequiredError)
     })
 
     it('should be able to return the response if all validations pass', async () => {
@@ -87,7 +87,7 @@ describe('HttpController', () => {
 
       expect(response).toMatchObject({
         statusCode: 200,
-        body: {
+        data: {
           fullName: 'John Doe',
         },
       })

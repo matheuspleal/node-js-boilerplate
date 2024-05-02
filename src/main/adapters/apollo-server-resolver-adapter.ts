@@ -10,8 +10,8 @@ function isServerError(statusCode: number) {
   return statusCode > 499
 }
 
-function buildGraphQLError(body: any, code: string, statusCode: number) {
-  return new GraphQLError(body, {
+function buildGraphQLError(data: any, code: string, statusCode: number) {
+  return new GraphQLError(data, {
     extensions: {
       code,
       http: {
@@ -25,12 +25,12 @@ export async function apolloServerResolverAdapter<HttpRequest, Data>(
   controller: HttpController<HttpRequest, Data>,
   args?: any,
 ): Promise<Data> {
-  const { statusCode, body } = await controller.handle(args)
+  const { statusCode, data } = await controller.handle(args)
   if (isClientError(statusCode)) {
-    throw buildGraphQLError(body, 'CLIENT_ERROR', statusCode)
+    throw buildGraphQLError(data, 'CLIENT_ERROR', statusCode)
   }
   if (isServerError(statusCode)) {
-    throw buildGraphQLError(body, 'SERVER_ERROR', statusCode)
+    throw buildGraphQLError(data, 'SERVER_ERROR', statusCode)
   }
-  return body
+  return data
 }

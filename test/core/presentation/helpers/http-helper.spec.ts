@@ -11,21 +11,21 @@ import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-st
 
 describe('HttpHelpers', () => {
   describe('ok [status code = 200]', () => {
-    it('should be able to return HttpResponse with status code equals 200 and body equals any', () => {
+    it('should be able to return HttpResponse with status code equals 200 and data equals any', () => {
       const expectedResponse: HttpResponse<any> = {
         statusCode: 200,
-        body: 'fake_body',
+        data: 'fake_data',
       }
 
-      const sut = ok<any>('fake_body')
+      const sut = ok<any>('fake_data')
 
       expect(sut).toMatchObject(expectedResponse)
     })
 
-    it('should be able to return HttpResponse with status code equals 200 and body equal to the type passed in generic', () => {
+    it('should be able to return HttpResponse with status code equals 200 and data equal to the type passed in generic', () => {
       const expectedResponse: HttpResponse<FakeNamespace.Response> = {
         statusCode: 200,
-        body: {
+        data: {
           fullName: 'John Doe',
         },
       }
@@ -39,21 +39,21 @@ describe('HttpHelpers', () => {
   })
 
   describe('created  [status code = 201]', () => {
-    it('should be able to return HttpResponse with status code equals 201 and body equals any', () => {
+    it('should be able to return HttpResponse with status code equals 201 and data equals any', () => {
       const expectedResponse: HttpResponse<any> = {
         statusCode: 201,
-        body: 'fake_body',
+        data: 'fake_data',
       }
 
-      const sut = created<any>('fake_body')
+      const sut = created<any>('fake_data')
 
       expect(sut).toMatchObject(expectedResponse)
     })
 
-    it('should be able to return HttpResponse with status code equals 201 and body equal to the type passed in generic', () => {
+    it('should be able to return HttpResponse with status code equals 201 and data equal to the type passed in generic', () => {
       const expectedResponse: HttpResponse<FakeNamespace.Response> = {
         statusCode: 201,
-        body: {
+        data: {
           fullName: 'John Doe',
         },
       }
@@ -67,12 +67,12 @@ describe('HttpHelpers', () => {
   })
 
   describe('badRequest [status code = 400]', () => {
-    it('should be able to return HttpResponse with status code equals 400 and body equals any error', () => {
+    it('should be able to return HttpResponse with status code equals 400 and data equals any error', () => {
       const fakeError = new Error('fake_error')
 
       const expectedResponse: HttpResponse = {
         statusCode: 400,
-        body: fakeError,
+        data: fakeError,
       }
 
       const sut = badRequest(fakeError)
@@ -82,13 +82,13 @@ describe('HttpHelpers', () => {
   })
 
   describe('serverError [status code = 500]', () => {
-    it('should be able to return HttpResponse with status code equals 500 and body equals ServerError', () => {
+    it('should be able to return HttpResponse with status code equals 500 and data equals ServerError', () => {
       const fakeError = new Error('fake_error')
       const fakeServerError = new ServerError(fakeError)
 
       const expectedResponse: HttpResponse = {
         statusCode: 500,
-        body: fakeServerError,
+        data: fakeServerError,
       }
 
       const sut = serverError(fakeError)

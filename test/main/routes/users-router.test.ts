@@ -35,18 +35,18 @@ describe('UsersRouter', () => {
     })
 
     test('fetch all users with invalid page[offset] and page[limit]', async () => {
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .get('/api/v1/users')
         .query({
           'page[offset]': '-2',
           'page[limit]': '50',
         })
 
-      const [anyUser] = body.users
+      const [anyUser] = data.users
 
       expect(statusCode).toEqual(200)
-      expect(body.count).toEqual(100)
-      expect(body.users).toHaveLength(20)
+      expect(data.count).toEqual(100)
+      expect(data.users).toHaveLength(20)
       expect(anyUser).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
@@ -58,18 +58,18 @@ describe('UsersRouter', () => {
     })
 
     test('fetch all users with custom page[offset] and page[limit]', async () => {
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .get('/api/v1/users')
         .query({
           'page[offset]': '2',
           'page[limit]': '10',
         })
 
-      const [anyUser] = body.users
+      const [anyUser] = data.users
 
       expect(statusCode).toEqual(200)
-      expect(body.count).toEqual(100)
-      expect(body.users).toHaveLength(10)
+      expect(data.count).toEqual(100)
+      expect(data.users).toHaveLength(10)
       expect(anyUser).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
@@ -81,14 +81,14 @@ describe('UsersRouter', () => {
     })
 
     test('fetch all users without page[offset] and page[limit]', async () => {
-      const { statusCode, body } = await request(app.server).get(
+      const { statusCode, data } = await request(app.server).get(
         '/api/v1/users',
       )
-      const [anyUser] = body.users
+      const [anyUser] = data.users
 
       expect(statusCode).toEqual(200)
-      expect(body.count).toEqual(100)
-      expect(body.users).toHaveLength(20)
+      expect(data.count).toEqual(100)
+      expect(data.users).toHaveLength(20)
       expect(anyUser).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
@@ -113,12 +113,12 @@ describe('UsersRouter', () => {
     test('get user by invalid id', async () => {
       const invalidId = 'invalid-id'
 
-      const { statusCode, body } = await request(app.server).get(
+      const { statusCode, data } = await request(app.server).get(
         `/api/v1/users/${invalidId}`,
       )
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new InvalidUUIDError(['id']).message,
       })
     })
@@ -126,12 +126,12 @@ describe('UsersRouter', () => {
     test('get user by non existent id', async () => {
       const nonExistentId = randomUUID()
 
-      const { statusCode, body } = await request(app.server).get(
+      const { statusCode, data } = await request(app.server).get(
         `/api/v1/users/${nonExistentId}`,
       )
 
       expect(statusCode).toEqual(404)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new UserNotFoundError(nonExistentId).message,
       })
     })
@@ -148,12 +148,12 @@ describe('UsersRouter', () => {
         },
       })
 
-      const { statusCode, body } = await request(app.server).get(
+      const { statusCode, data } = await request(app.server).get(
         `/api/v1/users/${id}`,
       )
 
       expect(statusCode).toEqual(200)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         user: {
           id,
           name,

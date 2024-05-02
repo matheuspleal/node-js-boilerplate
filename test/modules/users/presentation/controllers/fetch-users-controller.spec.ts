@@ -54,7 +54,7 @@ describe('FetchUsersController', () => {
       })
       expect(response).toMatchObject({
         statusCode: 200,
-        body: {
+        data: {
           count: 0,
           users: [],
         },
@@ -73,7 +73,7 @@ describe('FetchUsersController', () => {
       })
       expect(response).toMatchObject({
         statusCode: 200,
-        body: {
+        data: {
           count,
           users: defaultUsersDTOStub,
         },
@@ -104,7 +104,7 @@ describe('FetchUsersController', () => {
       })
       expect(response).toMatchObject({
         statusCode: 200,
-        body: {
+        data: {
           count: 0,
           users: [],
         },
@@ -134,7 +134,7 @@ describe('FetchUsersController', () => {
       })
       expect(response).toMatchObject({
         statusCode: 200,
-        body: {
+        data: {
           count,
           users: customEntitiesStub,
         },

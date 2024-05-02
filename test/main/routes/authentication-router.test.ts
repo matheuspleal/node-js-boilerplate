@@ -38,12 +38,12 @@ describe('AuthenticationRouter', () => {
     test('sign up with missing all required fields', async () => {
       const fakeUser = {}
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signup')
         .send(fakeUser)
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new RequiredError(listOfSignUpFields).message,
       })
     })
@@ -54,12 +54,12 @@ describe('AuthenticationRouter', () => {
         const fakeUser: any = makeFakeRequiredInputSignUpStub()
         fakeUser[field] = undefined
 
-        const { statusCode, body } = await request(app.server)
+        const { statusCode, data } = await request(app.server)
           .post('/api/v1/signup')
           .send(fakeUser)
 
         expect(statusCode).toEqual(400)
-        expect(body).toMatchObject({
+        expect(data).toMatchObject({
           error: new RequiredError([field]).message,
         })
       },
@@ -69,7 +69,7 @@ describe('AuthenticationRouter', () => {
       const { name, password, birthdate } = makeFakeRequiredInputSignUpStub()
       const invalidEmail = 'invalid-email@fake-domain.net'
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -79,7 +79,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new InvalidEmailError(invalidEmail).message,
       })
     })
@@ -88,7 +88,7 @@ describe('AuthenticationRouter', () => {
       const { name, email, birthdate } = makeFakeRequiredInputSignUpStub()
       const invalidPassword = 'invalid-password'
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -98,7 +98,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new InvalidPasswordError(['password']).message,
       })
     })
@@ -107,7 +107,7 @@ describe('AuthenticationRouter', () => {
       const { name, email, password } = makeFakeRequiredInputSignUpStub()
       const invalidBirthdate = faker.date.future({ years: 1 })
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -117,7 +117,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new InvalidBirthdateError(invalidBirthdate).message,
       })
     })
@@ -134,7 +134,7 @@ describe('AuthenticationRouter', () => {
         },
       })
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -144,7 +144,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new EmailAlreadyExistsError(email).message,
       })
     })
@@ -154,7 +154,7 @@ describe('AuthenticationRouter', () => {
         makeFakeRequiredInputSignUpStub()
       const age = new Birthdate(birthdate).getCurrentAgeInYears()
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -164,7 +164,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(201)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         user: {
           id: expect.stringMatching(UUIDRegExp),
           name,
@@ -181,12 +181,12 @@ describe('AuthenticationRouter', () => {
     test('sign in with missing all required fields', async () => {
       const fakeCredentials = {}
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signin')
         .send(fakeCredentials)
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new RequiredError(listOfSignInFields).message,
       })
     })
@@ -197,12 +197,12 @@ describe('AuthenticationRouter', () => {
         const fakeCredentials: any = makeFakeInputSignInStub()
         fakeCredentials[field] = undefined
 
-        const { statusCode, body } = await request(app.server)
+        const { statusCode, data } = await request(app.server)
           .post('/api/v1/signin')
           .send(fakeCredentials)
 
         expect(statusCode).toEqual(400)
-        expect(body).toMatchObject({
+        expect(data).toMatchObject({
           error: new RequiredError([field]).message,
         })
       },
@@ -217,7 +217,7 @@ describe('AuthenticationRouter', () => {
 
       const incorrectEmail = 'incorrect-email'
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signin')
         .send({
           email: incorrectEmail,
@@ -225,7 +225,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new UnauthorizedError().message,
       })
     })
@@ -239,7 +239,7 @@ describe('AuthenticationRouter', () => {
 
       const incorrectPassword = 'incorrect-password'
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signin')
         .send({
           email,
@@ -247,7 +247,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         error: new UnauthorizedError().message,
       })
     })
@@ -264,7 +264,7 @@ describe('AuthenticationRouter', () => {
         },
       })
 
-      const { statusCode, body } = await request(app.server)
+      const { statusCode, data } = await request(app.server)
         .post('/api/v1/signin')
         .send({
           email: userData.email,
@@ -272,7 +272,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(201)
-      expect(body).toMatchObject({
+      expect(data).toMatchObject({
         token: expect.any(String),
       })
     })

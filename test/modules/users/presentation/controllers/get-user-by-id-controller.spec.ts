@@ -42,7 +42,7 @@ describe('GetUserById', () => {
     expect(getUserByIdUseCaseSpy).not.toHaveBeenCalled()
     expect(response).toMatchObject({
       statusCode: 400,
-      body: new InvalidUUIDError(['id']),
+      data: new InvalidUUIDError(['id']),
     })
   })
 
@@ -61,7 +61,7 @@ describe('GetUserById', () => {
     })
     expect(response).toMatchObject({
       statusCode: 404,
-      body: fakeError,
+      data: fakeError,
     })
   })
 
@@ -78,7 +78,7 @@ describe('GetUserById', () => {
     })
     expect(response).toMatchObject({
       statusCode: 200,
-      body: {
+      data: {
         user: userDTOStub,
       },
     })

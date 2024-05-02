@@ -18,7 +18,7 @@ export class FakeHttpController extends HttpController<
   ): Promise<HttpResponse<FakeNamespace.Response>> {
     return Promise.resolve({
       statusCode: 200,
-      body: {
+      data: {
         fullName: `${request.firstName} ${request.lastName}`,
       },
     })
@@ -56,7 +56,7 @@ export class FakeHttpWithCustomValidatorController extends HttpController<
   ): Promise<HttpResponse<FakeNamespace.Response>> {
     return Promise.resolve({
       statusCode: 200,
-      body: {
+      data: {
         fullName: `${request.firstName} ${request.lastName}`,
       },
     })
