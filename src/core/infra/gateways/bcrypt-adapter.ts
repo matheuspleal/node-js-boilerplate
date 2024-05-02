@@ -1,4 +1,4 @@
-import { compare, hash } from 'bcryptjs'
+import bcrypt from 'bcryptjs'
 
 import {
   type HashCompare,
@@ -15,13 +15,13 @@ export class BcryptAdapter implements HashGeneratorGateway, HashCompareGateway {
   async hash({
     plaintext,
   }: HashGenerator.Input): Promise<HashGenerator.Output> {
-    return hash(plaintext, this.salt)
+    return bcrypt.hash(plaintext, this.salt)
   }
 
   async compare({
     plaintext,
     digest,
   }: HashCompare.Input): Promise<HashCompare.Output> {
-    return compare(plaintext, digest)
+    return bcrypt.compare(plaintext, digest)
   }
 }
