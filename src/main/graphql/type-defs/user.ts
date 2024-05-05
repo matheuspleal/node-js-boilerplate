@@ -1,6 +1,4 @@
-import gql from 'graphql-tag'
-
-export default gql`
+export default `#graphql
   input PaginationParams {
     offset: Int
     limit: Int

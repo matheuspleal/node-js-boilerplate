@@ -1,6 +1,4 @@
-import gql from 'graphql-tag'
-
-export default gql`
+export default `#graphql
   scalar Date
 
   type User {

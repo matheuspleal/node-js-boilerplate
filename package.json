@@ -70,7 +70,6 @@
     "bcryptjs": "2.4.3",
     "fastify": "4.26.2",
     "graphql": "16.8.1",
-    "graphql-tag": "2.12.6",
     "jsonwebtoken": "9.0.2",
     "pg": "8.11.5",
     "zx": "8.0.2"
