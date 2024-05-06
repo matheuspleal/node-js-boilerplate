@@ -1,33 +1,34 @@
 #!/usr/bin/env zx
 
-import { bold } from 'kleur/colors'
-import { $, echo, spinner } from 'zx'
+import { $, spinner } from 'zx'
 
-import { BaseProps } from './utils/base-props'
+import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
 import { getArgsFromCLI } from './utils/get-args-from-cli'
 import { header } from './utils/header'
 
 type StartContainersProps = BaseProps
 
+async function execute() {
+  await $`docker-compose start`
+}
+
 export async function startContainers(props?: StartContainersProps) {
   const args = getArgsFromCLI()
   if (props?.showHeaders) {
     await header({
       title:
-        '======================== 🟢 START CONTAINERS 🟢 =========================',
+        '======================== 🚀 START CONTAINERS 🚀 =========================',
     })
   }
   try {
     if (args.includes('--logs')) {
-      await $`docker-compose start`
-    } else {
-      await spinner('🟢 Starting containers...', async () => {
-        await $`docker-compose start`
-      })
+      await execute()
+      return
     }
-    echo(bold('\nContainers status:'))
-    await $`docker ps`
+    await spinner('🚀 Starting containers...', async () => {
+      await execute()
+    })
   } catch (error: any) {
     errorMessage({
       message: 'Error when trying to start containers',

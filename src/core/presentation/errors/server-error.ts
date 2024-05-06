@@ -1,4 +1,4 @@
-import { PresentationError } from '@/core/presentation/errors/presentation-error'
+import { type PresentationError } from '@/core/presentation/errors/presentation-error'
 
 export class ServerError extends Error implements PresentationError {
   constructor(readonly error: Error) {

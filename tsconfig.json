@@ -10,7 +10,7 @@
     "baseUrl": "./src",
     "paths": {
       "#/*": [
-        "../tests/*"
+        "../test/*"
       ],
       "@/*": [
         "*"
@@ -18,7 +18,7 @@
     },
     "rootDirs": [
       "./src",
-      "./tests"
+      "test"
     ],
     "types": [
       "vitest/globals"

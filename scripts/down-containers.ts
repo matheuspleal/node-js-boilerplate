@@ -1,14 +1,17 @@
 #!/usr/bin/env zx
 
-import { bold } from 'kleur/colors'
-import { $, echo, spinner } from 'zx'
+import { $, spinner } from 'zx'
 
-import { BaseProps } from './utils/base-props'
+import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
 import { getArgsFromCLI } from './utils/get-args-from-cli'
 import { header } from './utils/header'
 
 type DownContainersProps = BaseProps
+
+async function execute() {
+  await $`docker-compose down`
+}
 
 export async function downContainers(props?: DownContainersProps) {
   const args = getArgsFromCLI()
@@ -20,14 +23,12 @@ export async function downContainers(props?: DownContainersProps) {
   }
   try {
     if (args.includes('--logs')) {
-      await $`docker-compose down`
-    } else {
-      await spinner('🧨 Downing containers...', async () => {
-        await $`docker-compose down`
-      })
+      await execute()
+      return
     }
-    echo(bold('\nContainers status:'))
-    await $`docker ps -a`
+    await spinner('🧨 Downing containers...', async () => {
+      await execute()
+    })
   } catch (error: any) {
     errorMessage({
       message: 'Error when trying to down containers',

@@ -5,7 +5,7 @@
     "vitest-globals/env": true
   },
   "extends": [
-    "standard",
+    "love",
     "plugin:prettier/recommended",
     "plugin:vitest-globals/recommended",
     "plugin:import/typescript"
@@ -19,17 +19,18 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "printWidth": 80,
-        "tabWidth": 2,
-        "singleQuote": true,
-        "trailingComma": "all",
-        "arrowParens": "always",
-        "semi": false
-      }
-    ],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/method-signature-style": "off",
+    "@typescript-eslint/no-extraneous-class": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-useless-constructor": "off",
+    "@typescript-eslint/return-await": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/unbound-method": "off",
     "import/order": [
       1,
       {
@@ -63,7 +64,18 @@
       }
     ],
     "no-useless-constructor": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 80,
+        "tabWidth": 2,
+        "singleQuote": true,
+        "trailingComma": "all",
+        "arrowParens": "always",
+        "semi": false
+      }
+    ]
   },
   "settings": {
     "import/parsers": {

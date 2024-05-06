@@ -3,7 +3,7 @@
 import { bold, red } from 'kleur/colors'
 import { echo } from 'zx'
 
-export type ErrorMessageProps = {
+export interface ErrorMessageProps {
   message: string
   error: any
 }

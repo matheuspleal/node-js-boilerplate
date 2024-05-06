@@ -3,11 +3,15 @@
 import { bold, green, red } from 'kleur/colors'
 import { $, question } from 'zx'
 
-import { BaseProps } from './utils/base-props'
+import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
 import { header } from './utils/header'
 
 type DockerDeepCleanProps = BaseProps
+
+async function execute() {
+  await $`docker rmi -f $(docker images -aq) && docker system prune --all --volumes --force && docker rm -vf $(docker ps -aq)`
+}
 
 export async function dockerDeepClean(props?: DockerDeepCleanProps) {
   if (props?.showHeaders) {
@@ -25,7 +29,7 @@ export async function dockerDeepClean(props?: DockerDeepCleanProps) {
       )} to confirm | type ${bold(green('no'))} to cancel): `,
     )
     if (option.toLowerCase() === 'yes') {
-      await $``
+      await execute()
     }
   } catch (error: any) {
     errorMessage({

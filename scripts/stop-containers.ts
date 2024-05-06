@@ -1,14 +1,17 @@
 #!/usr/bin/env zx
 
-import { bold } from 'kleur/colors'
-import { $, echo, spinner } from 'zx'
+import { $, spinner } from 'zx'
 
-import { BaseProps } from './utils/base-props'
+import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
 import { getArgsFromCLI } from './utils/get-args-from-cli'
 import { header } from './utils/header'
 
 type StopContainersProps = BaseProps
+
+async function execute() {
+  await $`docker-compose stop`
+}
 
 export async function stopContainers(props?: StopContainersProps) {
   const args = getArgsFromCLI()
@@ -20,14 +23,12 @@ export async function stopContainers(props?: StopContainersProps) {
   }
   try {
     if (args.includes('--logs')) {
-      await $`docker-compose stop`
-    } else {
-      await spinner('🟢 Stopping containers...', async () => {
-        await $`docker-compose stop`
-      })
+      await execute()
+      return
     }
-    echo(bold('\nContainers status:'))
-    await $`docker ps`
+    await spinner('🛑 Stopping containers...', async () => {
+      await execute()
+    })
   } catch (error: any) {
     errorMessage({
       message: 'Error when trying to stop containers',

@@ -1,3 +1,6 @@
-export interface ValidationError extends Error {
-  listOfFields: string[]
+export interface ValidationError<T = unknown> {
+  name: string
+  message: string
+  field?: string
+  value?: T
 }

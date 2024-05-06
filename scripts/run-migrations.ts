@@ -2,12 +2,16 @@
 
 import { $, spinner } from 'zx'
 
-import { BaseProps } from './utils/base-props'
+import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
 import { getArgsFromCLI } from './utils/get-args-from-cli'
 import { header } from './utils/header'
 
 type RunMigrationsProps = BaseProps
+
+async function execute() {
+  await $`npx prisma migrate dev`
+}
 
 export async function runMigrations(props?: RunMigrationsProps) {
   const args = getArgsFromCLI()
@@ -19,12 +23,12 @@ export async function runMigrations(props?: RunMigrationsProps) {
   }
   try {
     if (args.includes('--logs')) {
-      await $`npx prisma migrate dev`
-    } else {
-      await spinner('🏁 Running migrations...', async () => {
-        await $`npx prisma migrate dev`
-      })
+      await execute()
+      return
     }
+    await spinner('🏁 Running migrations...', async () => {
+      await execute()
+    })
   } catch (error: any) {
     if (!args.includes('--logs')) {
       errorMessage({

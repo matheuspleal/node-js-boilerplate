@@ -1,25 +1,37 @@
-import { RequiredFieldRule } from '@/core/presentation/validators/rules/required-field-rule'
 import {
-  Validator,
-  ValidatorFieldProps,
-} from '@/core/presentation/validators/validator'
+  type Validator,
+  type ValidatorRule,
+} from '@/core/presentation/validators/contracts/validator-rule'
+import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password-rule'
+import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid-rule'
+import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
 
 export class BuilderValidator {
   private constructor(
-    private readonly fields: ValidatorFieldProps[],
-    private readonly validators: Validator[] = [],
+    private readonly field: Validator.Field,
+    private readonly validators: ValidatorRule[] = [],
   ) {}
 
-  static of(fields: ValidatorFieldProps[]): BuilderValidator {
-    return new BuilderValidator(fields)
+  static of(field: Validator.Field): BuilderValidator {
+    return new BuilderValidator(field)
   }
 
-  required(): BuilderValidator {
-    this.validators.push(new RequiredFieldRule(this.fields))
+  isValidUUID(): this {
+    this.validators.push(new IsValidUUIDRule(this.field))
     return this
   }
 
-  build(): Validator[] {
+  isValidPassword(): this {
+    this.validators.push(new IsValidPasswordRule(this.field))
+    return this
+  }
+
+  required(): this {
+    this.validators.push(new RequiredRule(this.field))
+    return this
+  }
+
+  build(): ValidatorRule[] {
     return this.validators
   }
 }

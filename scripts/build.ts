@@ -2,12 +2,16 @@
 
 import { $, echo, spinner } from 'zx'
 
-import { BaseProps } from './utils/base-props'
+import { type BaseProps } from './utils/base-props'
 import { errorMessage } from './utils/error-message'
 import { getArgsFromCLI } from './utils/get-args-from-cli'
 import { header } from './utils/header'
 
 type BuildProps = BaseProps
+
+async function execute() {
+  await $`docker-compose build`
+}
 
 export async function build(props?: BuildProps) {
   const args = getArgsFromCLI()
@@ -19,11 +23,11 @@ export async function build(props?: BuildProps) {
   }
   try {
     if (args.includes('--logs')) {
-      await $`docker-compose build`
+      await execute()
       return
     }
     await spinner('🧱 Building images...', async () => {
-      await $`docker-compose build`
+      await execute()
     })
     echo('🧱 Build executed successfully!')
   } catch (error: any) {
