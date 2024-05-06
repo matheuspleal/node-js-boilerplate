@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "chrmarti.regex",
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.EditorConfig",
+    "GraphQL.vscode-graphql",
+    "GraphQL.vscode-graphql-syntax",
+    "mikestead.dotenv",
+    "ms-azuretools.vscode-docker",
+    "MylesMurphy.prettify-ts",
+    "Prisma.prisma",
+    "Prisma.prisma-insider",
+    "redhat.vscode-yaml",
+    "vitest.explorer",
+    "yoavbls.pretty-ts-errors"
+  ]
+}
