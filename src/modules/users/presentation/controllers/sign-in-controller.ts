@@ -5,7 +5,7 @@ import {
 } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
-import { type Validator } from '@/core/presentation/validators/validator'
+import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in-use-case'
 
@@ -26,16 +26,20 @@ export class SignInController extends HttpController<
     super()
   }
 
-  override buildValidators(request: SignIn.Request): Validator[] {
-    const allRequiredFields = ['email', 'password'] as const
-    return BuilderValidator.of(
-      allRequiredFields.map((field) => ({
-        name: field,
-        value: request[field],
-      })),
+  override buildValidators(request: SignIn.Request): ValidatorRule[] {
+    const allRequiredFields: Array<keyof SignIn.Request> = ['email', 'password']
+    const validations: ValidatorRule[] = []
+    validations.push(
+      ...allRequiredFields.flatMap((requiredField) =>
+        BuilderValidator.of({
+          name: requiredField,
+          value: request[requiredField],
+        })
+          .required()
+          .build(),
+      ),
     )
-      .required()
-      .build()
+    return validations
   }
 
   override async perform({

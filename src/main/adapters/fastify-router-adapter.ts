@@ -5,6 +5,7 @@ import {
 } from 'fastify'
 
 import { type HttpController } from '@/core/presentation/controllers/http-controller'
+import { formatError } from '@/main/helpers/format-error'
 
 export function fastifyRouterAdapter<Request, Response>(
   controller: HttpController<Request, Response>,
@@ -17,7 +18,7 @@ export function fastifyRouterAdapter<Request, Response>(
     }
     const { statusCode, data } = await controller.handle(payload)
     const isSuccess = statusCode > 199 && statusCode < 400
-    const json = isSuccess ? data : { error: data.message }
+    const json = isSuccess ? data : formatError(data.message)
     reply.status(statusCode).send(json)
   }
 }

@@ -1,8 +1,11 @@
 import { HttpController } from '@/core/presentation/controllers/http-controller'
-import { badRequest, created } from '@/core/presentation/helpers/http-helpers'
+import {
+  badDomainRequest,
+  created,
+} from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
-import { type Validator } from '@/core/presentation/validators/validator'
+import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
 import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
@@ -26,27 +29,30 @@ export class SignUpController extends HttpController<
     super()
   }
 
-  override buildValidators(request: SignUp.Request): Validator[] {
-    const allRequiredFields = [
+  override buildValidators(request: SignUp.Request): ValidatorRule[] {
+    const allRequiredFields: Array<keyof SignUp.Request> = [
       'name',
       'email',
       'password',
       'birthdate',
-    ] as const
-    const requiredFieldsValidator = BuilderValidator.of(
-      allRequiredFields.map((field) => ({
-        name: field,
-        value: request[field],
-      })),
+    ]
+    const validations: ValidatorRule[] = []
+    validations.push(
+      ...allRequiredFields.flatMap((requiredField) =>
+        BuilderValidator.of({
+          name: requiredField,
+          value: request[requiredField],
+        })
+          .required()
+          .build(),
+      ),
     )
-      .required()
-      .build()
-    const passwordFieldValidator = BuilderValidator.of([
-      { name: 'password', value: request.password },
-    ])
-      .isValidPassword()
-      .build()
-    return [...requiredFieldsValidator, ...passwordFieldValidator]
+    validations.push(
+      ...BuilderValidator.of({ name: 'password', value: request.password })
+        .isValidPassword()
+        .build(),
+    )
+    return validations
   }
 
   override async perform({
@@ -62,7 +68,7 @@ export class SignUpController extends HttpController<
       birthdate: new Date(birthdate),
     })
     if (result.isLeft()) {
-      return badRequest(result.value)
+      return badDomainRequest(result.value)
     }
     return created<SignUp.Response>(result.value)
   }

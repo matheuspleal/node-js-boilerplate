@@ -1,6 +1,7 @@
 import { BaseController } from '@/core/presentation/controllers/base-controller'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
-import { type Validator } from '@/core/presentation/validators/validator'
+import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
+import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 
 import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
 
@@ -15,9 +16,9 @@ export class FakeBaseController extends BaseController<
   override async handle(
     request: FakeNamespace.Request,
   ): Promise<FakeNamespace.Response> {
-    const error = this.validate(request)
-    if (error !== undefined) {
-      throw new Error(error.message)
+    const errors = this.validate(request)
+    if (errors !== undefined) {
+      throw new ValidationCompositeError(errors)
     }
     return Promise.resolve({
       fullName: `${request.firstName} ${request.lastName}`,
@@ -33,30 +34,28 @@ export class FakeBaseWithCustomValidatorController extends BaseController<
     super()
   }
 
-  override buildValidators({
-    firstName,
-    lastName,
-  }: FakeNamespace.Request): Validator[] {
-    return BuilderValidator.of([
-      {
-        name: 'firstName',
-        value: firstName,
-      },
-      {
-        name: 'lastName',
-        value: lastName,
-      },
-    ])
-      .required()
-      .build()
+  override buildValidators(request: FakeNamespace.Request): ValidatorRule[] {
+    const validations: ValidatorRule[] = []
+    let key: keyof FakeNamespace.Request
+    for (key in request) {
+      validations.push(
+        ...BuilderValidator.of({
+          name: key,
+          value: request[key],
+        })
+          .required()
+          .build(),
+      )
+    }
+    return validations
   }
 
   override async handle(
     request: FakeNamespace.Request,
   ): Promise<FakeNamespace.Response> {
-    const error = this.validate(request)
-    if (error !== undefined) {
-      throw new Error(error.message)
+    const errors = this.validate(request)
+    if (errors !== undefined) {
+      throw new ValidationCompositeError(errors)
     }
     return Promise.resolve({
       fullName: `${request.firstName} ${request.lastName}`,

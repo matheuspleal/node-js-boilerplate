@@ -2,7 +2,7 @@ import { HttpController } from '@/core/presentation/controllers/http-controller'
 import { notFoundError, ok } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
-import { type Validator } from '@/core/presentation/validators/validator'
+import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { type UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
 import { type GetUserByIdUseCase } from '@/modules/users/application/use-cases/get-user-by-id-use-case'
 import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
@@ -27,13 +27,11 @@ export class GetUsersByIdController extends HttpController<
     super()
   }
 
-  override buildValidators(request: GetUsersById.Request): Validator[] {
-    return BuilderValidator.of([
-      {
-        name: 'id',
-        value: request.id,
-      },
-    ])
+  override buildValidators(request: GetUsersById.Request): ValidatorRule[] {
+    return BuilderValidator.of({
+      name: 'id',
+      value: request.id,
+    })
       .required()
       .isValidUUID()
       .build()

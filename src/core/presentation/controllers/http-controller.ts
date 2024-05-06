@@ -1,7 +1,7 @@
 import { BaseController } from '@/core/presentation/controllers/base-controller'
 import {
-  badRequest,
   serverError,
+  badValidatorRequest,
 } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 
@@ -12,9 +12,9 @@ export abstract class HttpController<HttpRequest, Data> extends BaseController<
   abstract perform(request: HttpRequest): Promise<HttpResponse<Data>>
 
   override async handle(request: HttpRequest): Promise<HttpResponse> {
-    const error = this.validate(request)
-    if (error !== undefined) {
-      return badRequest(error)
+    const errors = this.validate(request)
+    if (errors !== undefined) {
+      return badValidatorRequest(errors)
     }
     try {
       return await this.perform(request)

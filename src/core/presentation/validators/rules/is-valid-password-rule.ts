@@ -1,25 +1,19 @@
+import {
+  type ValidatorRule,
+  type Validator,
+} from '@/core/presentation/validators/contracts/validator-rule'
 import { InvalidPasswordError } from '@/core/presentation/validators/errors/invalid-password-error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
-import {
-  type Validator,
-  type ValidatorFieldProps,
-} from '@/core/presentation/validators/validator'
 
-export class IsValidPasswordRule implements Validator {
+export class IsValidPasswordRule implements ValidatorRule {
   private readonly passwordRegExp =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,20}$/
 
-  constructor(private readonly fields: ValidatorFieldProps[]) {}
+  constructor(private readonly input: Validator.Field) {}
 
   validate(): ValidationError | undefined {
-    const invalidPasswordFields: string[] = []
-    for (const { name, value } of this.fields) {
-      if (!this.passwordRegExp.test(value)) {
-        invalidPasswordFields.push(name)
-      }
-    }
-    if (invalidPasswordFields.length > 0) {
-      return new InvalidPasswordError(invalidPasswordFields)
+    if (!this.passwordRegExp.test(this.input.value)) {
+      return new InvalidPasswordError(this.input.name)
     }
   }
 }

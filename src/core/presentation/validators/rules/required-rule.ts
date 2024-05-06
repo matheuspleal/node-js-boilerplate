@@ -1,22 +1,16 @@
+import {
+  type ValidatorRule,
+  type Validator,
+} from '@/core/presentation/validators/contracts/validator-rule'
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
-import {
-  type Validator,
-  type ValidatorFieldProps,
-} from '@/core/presentation/validators/validator'
 
-export class RequiredRule implements Validator {
-  constructor(private readonly fields: ValidatorFieldProps[]) {}
+export class RequiredRule implements ValidatorRule {
+  constructor(private readonly field: Validator.Field) {}
 
   validate(): ValidationError | undefined {
-    const fieldsNotFilled: string[] = []
-    for (const { name, value } of this.fields) {
-      if (value === null || value === undefined) {
-        fieldsNotFilled.push(name)
-      }
-    }
-    if (fieldsNotFilled.length > 0) {
-      return new RequiredError(fieldsNotFilled)
+    if (this.field.value === null || this.field.value === undefined) {
+      return new RequiredError(this.field.name, this.field.value)
     }
   }
 }

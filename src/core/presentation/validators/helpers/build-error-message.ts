@@ -1,18 +1,15 @@
-import { type PropsOfListOfFields } from '@/core/presentation/validators/helpers/props-of-list-of-fields'
-
-export interface Message {
+export interface BuildMessageProps<T> {
+  field: string
+  value?: T
   reason: string
 }
 
-export function buildErrorMessage({
-  length,
-  listOfFieldsCopy,
-  lastField,
+export function buildErrorMessage<T = unknown>({
+  field,
+  value,
   reason,
-}: PropsOfListOfFields & Message): string {
-  const message =
-    length > 1
-      ? `The fields: "${listOfFieldsCopy.join(', ')}" and "${lastField}" are ${reason}!`
-      : `The field: "${lastField}" is ${reason}!`
-  return message
+}: BuildMessageProps<T>): string {
+  return value
+    ? `The field "${field}" with value "${String(value)}" ${reason}`
+    : `The field "${field}" ${reason}`
 }

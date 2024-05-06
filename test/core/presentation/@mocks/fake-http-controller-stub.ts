@@ -1,7 +1,7 @@
 import { HttpController } from '@/core/presentation/controllers/http-controller'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
-import { type Validator } from '@/core/presentation/validators/validator'
+import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 
 import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
 
@@ -33,22 +33,20 @@ export class FakeHttpWithCustomValidatorController extends HttpController<
     super()
   }
 
-  override buildValidators({
-    firstName,
-    lastName,
-  }: FakeNamespace.Request): Validator[] {
-    return BuilderValidator.of([
-      {
-        name: 'firstName',
-        value: firstName,
-      },
-      {
-        name: 'lastName',
-        value: lastName,
-      },
-    ])
-      .required()
-      .build()
+  override buildValidators(request: FakeNamespace.Request): ValidatorRule[] {
+    const validations: ValidatorRule[] = []
+    let key: keyof FakeNamespace.Request
+    for (key in request) {
+      validations.push(
+        ...BuilderValidator.of({
+          name: key,
+          value: request[key],
+        })
+          .required()
+          .build(),
+      )
+    }
+    return validations
   }
 
   override async perform(
