@@ -2,7 +2,10 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { left, right } from '@/core/application/either'
+import { InvalidPasswordError } from '@/core/presentation/validators/errors/invalid-password-error'
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'
+import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
+import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { InvalidBirthdateError } from '@/modules/users/application/errors/invalid-birthdate-error'
 import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email-error'
@@ -48,7 +51,12 @@ describe('SignUpController', () => {
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
     expect(response).toMatchObject({
       statusCode: 400,
-      data: new RequiredError(listOfFields),
+      data: new ValidationCompositeError([
+        ...listOfFields.map(
+          (field) => new RequiredError(field, fakeUserInput[field]),
+        ),
+        new InvalidPasswordError('password'),
+      ]),
     })
   })
 
@@ -60,12 +68,19 @@ describe('SignUpController', () => {
       }
       fakeUserInput[field] = undefined
 
+      const errors: ValidationError[] = [
+        new RequiredError(field, fakeUserInput[field]),
+      ]
+      if (field === 'password') {
+        errors.push(new InvalidPasswordError(field))
+      }
+
       const response = await sut.handle(fakeUserInput)
 
       expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
       expect(response).toMatchObject({
         statusCode: 400,
-        data: new RequiredError([field]),
+        data: new ValidationCompositeError(errors),
       })
     },
   )

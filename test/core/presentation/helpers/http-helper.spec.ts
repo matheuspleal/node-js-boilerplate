@@ -1,11 +1,13 @@
 import { ServerError } from '@/core/presentation/errors/server-error'
 import {
-  badRequest,
+  badDomainRequest,
+  badValidatorRequest,
   created,
   ok,
   serverError,
 } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
+import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 
 import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
 
@@ -66,7 +68,7 @@ describe('HttpHelpers', () => {
     })
   })
 
-  describe('badRequest [status code = 400]', () => {
+  describe('badDomainRequest [status code = 400]', () => {
     it('should be able to return HttpResponse with status code equals 400 and data equals any error', () => {
       const fakeError = new Error('fake_error')
 
@@ -75,7 +77,35 @@ describe('HttpHelpers', () => {
         data: fakeError,
       }
 
-      const sut = badRequest(fakeError)
+      const sut = badDomainRequest(fakeError)
+
+      expect(sut).toMatchObject(expectedResponse)
+    })
+  })
+
+  describe('badValidatorRequest [status code = 400]', () => {
+    it('should be able to return HttpResponse with status code equals 400 and data equals any error', () => {
+      const fakeError = new Error('fake_error')
+
+      const expectedResponse: HttpResponse = {
+        statusCode: 400,
+        data: new ValidationCompositeError([fakeError]),
+      }
+
+      const sut = badValidatorRequest(fakeError)
+
+      expect(sut).toMatchObject(expectedResponse)
+    })
+
+    it('should be able to return HttpResponse with status code equals 400 and data equals any list of errors', () => {
+      const fakeError = new Error('fake_error')
+
+      const expectedResponse: HttpResponse = {
+        statusCode: 400,
+        data: new ValidationCompositeError([fakeError, fakeError]),
+      }
+
+      const sut = badValidatorRequest([fakeError, fakeError])
 
       expect(sut).toMatchObject(expectedResponse)
     })

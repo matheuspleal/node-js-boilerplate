@@ -4,7 +4,6 @@ import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
-import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-uuid-error'
 import { appSetup } from '@/main/setup/app-setup'
 import { UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
 import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
@@ -35,18 +34,18 @@ describe('UsersRouter', () => {
     })
 
     test('fetch all users with invalid page[offset] and page[limit]', async () => {
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .get('/api/v1/users')
         .query({
           'page[offset]': '-2',
           'page[limit]': '50',
         })
 
-      const [anyUser] = data.users
+      const [anyUser] = body.users
 
       expect(statusCode).toEqual(200)
-      expect(data.count).toEqual(100)
-      expect(data.users).toHaveLength(20)
+      expect(body.count).toEqual(100)
+      expect(body.users).toHaveLength(20)
       expect(anyUser).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
@@ -58,18 +57,18 @@ describe('UsersRouter', () => {
     })
 
     test('fetch all users with custom page[offset] and page[limit]', async () => {
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .get('/api/v1/users')
         .query({
           'page[offset]': '2',
           'page[limit]': '10',
         })
 
-      const [anyUser] = data.users
+      const [anyUser] = body.users
 
       expect(statusCode).toEqual(200)
-      expect(data.count).toEqual(100)
-      expect(data.users).toHaveLength(10)
+      expect(body.count).toEqual(100)
+      expect(body.users).toHaveLength(10)
       expect(anyUser).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
@@ -81,14 +80,14 @@ describe('UsersRouter', () => {
     })
 
     test('fetch all users without page[offset] and page[limit]', async () => {
-      const { statusCode, data } = await request(app.server).get(
+      const { statusCode, body } = await request(app.server).get(
         '/api/v1/users',
       )
-      const [anyUser] = data.users
+      const [anyUser] = body.users
 
       expect(statusCode).toEqual(200)
-      expect(data.count).toEqual(100)
-      expect(data.users).toHaveLength(20)
+      expect(body.count).toEqual(100)
+      expect(body.users).toHaveLength(20)
       expect(anyUser).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
@@ -113,25 +112,37 @@ describe('UsersRouter', () => {
     test('get user by invalid id', async () => {
       const invalidId = 'invalid-id'
 
-      const { statusCode, data } = await request(app.server).get(
+      const { statusCode, body } = await request(app.server).get(
         `/api/v1/users/${invalidId}`,
       )
 
       expect(statusCode).toEqual(400)
-      expect(data).toMatchObject({
-        error: new InvalidUUIDError(['id']).message,
+      expect(body).toMatchObject({
+        errors: [
+          {
+            field: 'id',
+            value: 'invalid-id',
+            reasons: [
+              {
+                name: 'InvalidUUIDError',
+                message:
+                  'The field "id" with value "invalid-id" is invalid id!',
+              },
+            ],
+          },
+        ],
       })
     })
 
     test('get user by non existent id', async () => {
       const nonExistentId = randomUUID()
 
-      const { statusCode, data } = await request(app.server).get(
+      const { statusCode, body } = await request(app.server).get(
         `/api/v1/users/${nonExistentId}`,
       )
 
       expect(statusCode).toEqual(404)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         error: new UserNotFoundError(nonExistentId).message,
       })
     })
@@ -148,12 +159,12 @@ describe('UsersRouter', () => {
         },
       })
 
-      const { statusCode, data } = await request(app.server).get(
+      const { statusCode, body } = await request(app.server).get(
         `/api/v1/users/${id}`,
       )
 
       expect(statusCode).toEqual(200)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         user: {
           id,
           name,

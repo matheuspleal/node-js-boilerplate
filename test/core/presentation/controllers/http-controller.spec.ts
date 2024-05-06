@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { type HttpController } from '@/core/presentation/controllers/http-controller'
 import { ServerError } from '@/core/presentation/errors/server-error'
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'
+import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 
 import {
   FakeHttpController,
@@ -66,17 +67,23 @@ describe('HttpController', () => {
       expect(response.data).toBeInstanceOf(ServerError)
     })
 
-    it('should be able to return ValidationError if any validation is failed', async () => {
+    it('should be able to return ValidationCompositeError if any validation is failed', async () => {
+      const lastName = faker.helpers.arrayElement([
+        null,
+        undefined,
+      ]) as any as string
+
       const response = await sut.handle({
         firstName: 'John',
-        lastName: faker.helpers.arrayElement([
-          null,
-          undefined,
-        ]) as any as string,
+        lastName,
       })
 
-      expect(response.statusCode).toEqual(400)
-      expect(response.data).toBeInstanceOf(RequiredError)
+      expect(response).toMatchObject({
+        statusCode: 400,
+        data: new ValidationCompositeError([
+          new RequiredError('lastName', lastName),
+        ]),
+      })
     })
 
     it('should be able to return the response if all validations pass', async () => {

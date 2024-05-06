@@ -4,6 +4,7 @@ import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { left, right } from '@/core/application/either'
 import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-uuid-error'
+import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 import { UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
 import { type GetUserByIdUseCase } from '@/modules/users/application/use-cases/get-user-by-id-use-case'
 import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
@@ -42,14 +43,18 @@ describe('GetUserById', () => {
     expect(getUserByIdUseCaseSpy).not.toHaveBeenCalled()
     expect(response).toMatchObject({
       statusCode: 400,
-      data: new InvalidUUIDError(['id']),
+      data: new ValidationCompositeError([
+        new InvalidUUIDError('id', invalidId),
+      ]),
     })
   })
 
   it('should be able to return UserNotFoundError when user is not found', async () => {
     const id = faker.string.uuid()
-    const fakeError = new UserNotFoundError(id)
-    getUserByIdUseCaseMock.execute.mockResolvedValueOnce(left(fakeError))
+    const fakeUserNotFoundError = new UserNotFoundError(id)
+    getUserByIdUseCaseMock.execute.mockResolvedValueOnce(
+      left(fakeUserNotFoundError),
+    )
 
     const response = await sut.handle({
       id,
@@ -61,7 +66,7 @@ describe('GetUserById', () => {
     })
     expect(response).toMatchObject({
       statusCode: 404,
-      data: fakeError,
+      data: fakeUserNotFoundError,
     })
   })
 

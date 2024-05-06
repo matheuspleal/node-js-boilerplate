@@ -4,8 +4,7 @@ import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
-import { InvalidPasswordError } from '@/core/presentation/validators/errors/invalid-password-error'
-import { RequiredError } from '@/core/presentation/validators/errors/required-error'
+import { type ValidationComposite } from '@/core/presentation/validators/errors/validation-composite-error'
 import { appSetup } from '@/main/setup/app-setup'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { InvalidBirthdateError } from '@/modules/users/application/errors/invalid-birthdate-error'
@@ -38,29 +37,89 @@ describe('AuthenticationRouter', () => {
     test('sign up with missing all required fields', async () => {
       const fakeUser = {}
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signup')
         .send(fakeUser)
 
       expect(statusCode).toEqual(400)
-      expect(data).toMatchObject({
-        error: new RequiredError(listOfSignUpFields).message,
+      expect(body).toMatchObject({
+        errors: [
+          {
+            field: 'name',
+            reasons: [
+              {
+                name: 'RequiredError',
+                message: 'The field "name" is required!',
+              },
+            ],
+          },
+          {
+            field: 'email',
+            reasons: [
+              {
+                name: 'RequiredError',
+                message: 'The field "email" is required!',
+              },
+            ],
+          },
+          {
+            field: 'password',
+            reasons: [
+              {
+                name: 'RequiredError',
+                message: 'The field "password" is required!',
+              },
+              {
+                name: 'InvalidPasswordError',
+                message:
+                  'The field "password" must contain between 8 and 20 characters and must contain at least one uppercase character, one lowercase character, one numeric character and one special character!',
+              },
+            ],
+          },
+          {
+            field: 'birthdate',
+            reasons: [
+              {
+                name: 'RequiredError',
+                message: 'The field "birthdate" is required!',
+              },
+            ],
+          },
+        ],
       })
     })
 
     test.each(listOfSignUpFields)(
       'sign up with missing "%s" field',
       async (field) => {
+        const reasons: ValidationComposite.Reason[] = [
+          {
+            name: 'RequiredError',
+            message: `The field "${field}" is required!`,
+          },
+        ]
+        if (field === 'password') {
+          reasons.push({
+            name: 'InvalidPasswordError',
+            message: `The field "${field}" must contain between 8 and 20 characters and must contain at least one uppercase character, one lowercase character, one numeric character and one special character!`,
+          })
+        }
+
         const fakeUser: any = makeFakeRequiredInputSignUpStub()
         fakeUser[field] = undefined
 
-        const { statusCode, data } = await request(app.server)
+        const { statusCode, body } = await request(app.server)
           .post('/api/v1/signup')
           .send(fakeUser)
 
         expect(statusCode).toEqual(400)
-        expect(data).toMatchObject({
-          error: new RequiredError([field]).message,
+        expect(body).toMatchObject({
+          errors: [
+            {
+              field,
+              reasons,
+            },
+          ],
         })
       },
     )
@@ -69,7 +128,7 @@ describe('AuthenticationRouter', () => {
       const { name, password, birthdate } = makeFakeRequiredInputSignUpStub()
       const invalidEmail = 'invalid-email@fake-domain.net'
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -79,7 +138,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         error: new InvalidEmailError(invalidEmail).message,
       })
     })
@@ -88,7 +147,7 @@ describe('AuthenticationRouter', () => {
       const { name, email, birthdate } = makeFakeRequiredInputSignUpStub()
       const invalidPassword = 'invalid-password'
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -98,8 +157,19 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(data).toMatchObject({
-        error: new InvalidPasswordError(['password']).message,
+      expect(body).toMatchObject({
+        errors: [
+          {
+            field: 'password',
+            reasons: [
+              {
+                name: 'InvalidPasswordError',
+                message:
+                  'The field "password" must contain between 8 and 20 characters and must contain at least one uppercase character, one lowercase character, one numeric character and one special character!',
+              },
+            ],
+          },
+        ],
       })
     })
 
@@ -107,7 +177,7 @@ describe('AuthenticationRouter', () => {
       const { name, email, password } = makeFakeRequiredInputSignUpStub()
       const invalidBirthdate = faker.date.future({ years: 1 })
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -117,7 +187,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         error: new InvalidBirthdateError(invalidBirthdate).message,
       })
     })
@@ -134,7 +204,7 @@ describe('AuthenticationRouter', () => {
         },
       })
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -144,7 +214,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         error: new EmailAlreadyExistsError(email).message,
       })
     })
@@ -154,7 +224,7 @@ describe('AuthenticationRouter', () => {
         makeFakeRequiredInputSignUpStub()
       const age = new Birthdate(birthdate).getCurrentAgeInYears()
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signup')
         .send({
           name,
@@ -164,7 +234,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(201)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         user: {
           id: expect.stringMatching(UUIDRegExp),
           name,
@@ -181,13 +251,32 @@ describe('AuthenticationRouter', () => {
     test('sign in with missing all required fields', async () => {
       const fakeCredentials = {}
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signin')
         .send(fakeCredentials)
 
       expect(statusCode).toEqual(400)
-      expect(data).toMatchObject({
-        error: new RequiredError(listOfSignInFields).message,
+      expect(body).toMatchObject({
+        errors: [
+          {
+            field: 'email',
+            reasons: [
+              {
+                name: 'RequiredError',
+                message: 'The field "email" is required!',
+              },
+            ],
+          },
+          {
+            field: 'password',
+            reasons: [
+              {
+                name: 'RequiredError',
+                message: 'The field "password" is required!',
+              },
+            ],
+          },
+        ],
       })
     })
 
@@ -197,13 +286,23 @@ describe('AuthenticationRouter', () => {
         const fakeCredentials: any = makeFakeInputSignInStub()
         fakeCredentials[field] = undefined
 
-        const { statusCode, data } = await request(app.server)
+        const { statusCode, body } = await request(app.server)
           .post('/api/v1/signin')
           .send(fakeCredentials)
 
         expect(statusCode).toEqual(400)
-        expect(data).toMatchObject({
-          error: new RequiredError([field]).message,
+        expect(body).toMatchObject({
+          errors: [
+            {
+              field,
+              reasons: [
+                {
+                  name: 'RequiredError',
+                  message: `The field "${field}" is required!`,
+                },
+              ],
+            },
+          ],
         })
       },
     )
@@ -217,15 +316,17 @@ describe('AuthenticationRouter', () => {
 
       const incorrectEmail = 'incorrect-email'
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signin')
         .send({
           email: incorrectEmail,
           password,
         })
 
+      console.log(JSON.stringify(body, undefined, 2))
+
       expect(statusCode).toEqual(401)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         error: new UnauthorizedError().message,
       })
     })
@@ -239,7 +340,7 @@ describe('AuthenticationRouter', () => {
 
       const incorrectPassword = 'incorrect-password'
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signin')
         .send({
           email,
@@ -247,7 +348,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         error: new UnauthorizedError().message,
       })
     })
@@ -264,7 +365,7 @@ describe('AuthenticationRouter', () => {
         },
       })
 
-      const { statusCode, data } = await request(app.server)
+      const { statusCode, body } = await request(app.server)
         .post('/api/v1/signin')
         .send({
           email: userData.email,
@@ -272,7 +373,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(201)
-      expect(data).toMatchObject({
+      expect(body).toMatchObject({
         token: expect.any(String),
       })
     })
