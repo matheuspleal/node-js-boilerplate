@@ -323,8 +323,6 @@ describe('AuthenticationRouter', () => {
           password,
         })
 
-      console.log(JSON.stringify(body, undefined, 2))
-
       expect(statusCode).toEqual(401)
       expect(body).toMatchObject({
         error: new UnauthorizedError().message,
@@ -372,9 +370,9 @@ describe('AuthenticationRouter', () => {
           password: userData.password,
         })
 
-      expect(statusCode).toEqual(201)
+      expect(statusCode).toEqual(200)
       expect(body).toMatchObject({
-        token: expect.any(String),
+        accessToken: expect.any(String),
       })
     })
   })
