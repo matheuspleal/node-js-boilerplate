@@ -2,6 +2,7 @@ import { type FastifyInstance } from 'fastify'
 
 import { fastifyHandlerAdapter } from '@/main/adapters/fastify-handler-adapter'
 import { fastifyRouterAdapter } from '@/main/adapters/fastify-router-adapter'
+import { makeAuthenticationMiddleware } from '@/main/factories/core/presentation/middlewares/authentication-middleware-factory'
 import { makeFetchUsersController } from '@/main/factories/users/presentation/controllers/fetch-users-controller-factory'
 import { makeGetUserByIdController } from '@/main/factories/users/presentation/controllers/get-user-by-id-controller-factory'
 import { type FetchUsers } from '@/modules/users/presentation/controllers/fetch-users-controller'
@@ -13,7 +14,7 @@ export default async function usersRouter(app: FastifyInstance) {
   app.get(
     usersRouterPrefix,
     {
-      preHandler: [fastifyHandlerAdapter(makeFetchUsersController())],
+      preHandler: [fastifyHandlerAdapter(makeAuthenticationMiddleware())],
     },
     fastifyRouterAdapter<FetchUsers.Request, FetchUsers.Response>(
       makeFetchUsersController(),
@@ -21,6 +22,9 @@ export default async function usersRouter(app: FastifyInstance) {
   )
   app.get(
     `${usersRouterPrefix}/:id`,
+    {
+      preHandler: [fastifyHandlerAdapter(makeAuthenticationMiddleware())],
+    },
     fastifyRouterAdapter<GetUsersById.Request, GetUsersById.Response>(
       makeGetUserByIdController(),
     ),

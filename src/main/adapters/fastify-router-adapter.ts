@@ -7,11 +7,11 @@ import {
 import { type HttpController } from '@/core/presentation/controllers/http-controller'
 import { formatError } from '@/main/helpers/format-error'
 
-export function fastifyRouterAdapter<Request, Response>(
-  controller: HttpController<Request, Response>,
+export function fastifyRouterAdapter<HttpRequest, Data>(
+  controller: HttpController<HttpRequest, Data>,
 ): RouteHandlerMethod {
   return async (request: FastifyRequest, reply: FastifyReply) => {
-    const payload: Request = {
+    const payload: HttpRequest = {
       ...(request.body as any),
       ...(request.params as any),
       ...(request.query as any),
