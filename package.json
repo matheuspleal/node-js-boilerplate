@@ -23,7 +23,9 @@
     "test:ui": "vitest --ui",
     "test:staged": "vitest related --run",
     "test:watch": "vitest --passWithNoTests",
-    "wizard": "npm run node:ts -- ./scripts/wizard.ts"
+    "wizard": "npm run node:ts -- ./scripts/wizard.ts",
+    "wizard:logs": "npm run node:ts -- ./scripts/wizard.ts --logs"
+
   },
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
