@@ -213,7 +213,7 @@ describe('AuthenticationRouter', () => {
           birthdate,
         })
 
-      expect(statusCode).toEqual(400)
+      expect(statusCode).toEqual(409)
       expect(body).toMatchObject({
         error: new EmailAlreadyExistsError(email).message,
       })

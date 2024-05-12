@@ -11,7 +11,7 @@ import { UserNotFoundError } from '@/modules/users/application/errors/user-not-f
 import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
-import { generateAccessToken } from '#/main/routes/helpers/generate-access-token'
+import { generateAccessToken } from '#/main/helpers/generate-access-token'
 import { emailRegExp } from '#/modules/users/domain/@helpers/email-regexp'
 import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
 import { makeFakeUserCollectionPersistenceStub } from '#/modules/users/domain/@mocks/user-persistence-stub'
@@ -64,6 +64,10 @@ describe('UsersRouter', () => {
       const { statusCode, body } = await request(app.server)
         .get('/api/v1/users')
         .set('Authorization', `Bearer ${accessToken}`)
+        .query({
+          'page[offset]': '-2',
+          'page[limit]': '99',
+        })
 
       const [anyUser] = body.users
 

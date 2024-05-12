@@ -100,12 +100,10 @@ describe('SignUpController', () => {
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
-    const response = await sut.handle(fakeSignUpInput)
+    const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(response).toMatchObject({
-      statusCode: 400,
-      data: fakeEmailAlreadyExistsError,
-    })
+    expect(statusCode).toEqual(409)
+    expect(data).toMatchObject(new EmailAlreadyExistsError(userDTOStub.email))
   })
 
   it('should be able to return InvalidEmailError when the informed email is invalid', async () => {
@@ -119,12 +117,10 @@ describe('SignUpController', () => {
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
-    const response = await sut.handle(fakeSignUpInput)
+    const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(response).toMatchObject({
-      statusCode: 400,
-      data: fakeInvalidEmailError,
-    })
+    expect(statusCode).toEqual(400)
+    expect(data).toMatchObject(new InvalidEmailError(userDTOStub.email))
   })
 
   it('should be able to return InvalidBirthdateError when the informed birthdate is invalid', async () => {
@@ -142,12 +138,12 @@ describe('SignUpController', () => {
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
-    const response = await sut.handle(fakeSignUpInput)
+    const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(response).toMatchObject({
-      statusCode: 400,
-      data: fakeInvalidBirthdateError,
-    })
+    expect(statusCode).toEqual(400)
+    expect(data).toMatchObject(
+      new InvalidBirthdateError(userDTOStub.birthdate!),
+    )
   })
 
   it('should be able to return the created user when the user was created successfully', async () => {
