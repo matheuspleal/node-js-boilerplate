@@ -4,6 +4,7 @@ import {
   type RouteHandlerMethod,
 } from 'fastify'
 
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { type Middleware } from '@/core/presentation/middlewares/contracts/middleware'
 
 export function fastifyHandlerAdapter<HttpRequest>(
@@ -14,7 +15,7 @@ export function fastifyHandlerAdapter<HttpRequest>(
       ...(request.headers as any),
     }
     const { statusCode, data } = await middleware.handle(payload)
-    if (statusCode !== 200) {
+    if (statusCode !== StatusCode.OK) {
       reply.status(statusCode).send({ error: data.message })
     }
     const validEntries = Object.entries(data).filter(([, value]) => value)
