@@ -31,6 +31,6 @@ export class JwtAdapter implements TokenGeneratorGateway, TokenVerifierGateway {
   verify({ token }: TokenVerifier.Input): TokenVerifier.Output {
     return jwt.verify(token, Buffer.from(this.publicKey, 'base64'), {
       algorithms: [this.algorithm],
-    }) as string
+    }) as TokenVerifier.Output
   }
 }

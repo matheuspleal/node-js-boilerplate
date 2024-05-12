@@ -1,36 +1,46 @@
-import { GraphQLError } from 'graphql'
+import { type GraphQLError } from 'graphql'
 
 import { type HttpController } from '@/core/presentation/controllers/http-controller'
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { isAuthorized } from '@/main/graphql/contexts/is-authorized'
+import { buildGraphQLError } from '@/main/graphql/helpers/build-graphql-error'
+import { formatErrorsToGraphQLErrors } from '@/main/graphql/helpers/format-errors-to-graphql-errors'
 
-function isClientError(statusCode: number) {
-  return statusCode > 399 && statusCode < 500
-}
-
-function isServerError(statusCode: number) {
-  return statusCode > 499
-}
-
-function buildGraphQLError(data: any, code: string, statusCode: number) {
-  return new GraphQLError(data, {
-    extensions: {
-      code,
-      http: {
-        status: statusCode,
-      },
-    },
-  })
+export interface ApolloServerResolverAdapterProps {
+  args: any
+  context: any
+  requiresAuth?: boolean
 }
 
 export async function apolloServerResolverAdapter<HttpRequest, Data>(
   controller: HttpController<HttpRequest, Data>,
-  args?: any,
+  props: ApolloServerResolverAdapterProps,
 ): Promise<Data> {
-  const { statusCode, data } = await controller.handle(args)
-  if (isClientError(statusCode)) {
-    throw buildGraphQLError(data, 'CLIENT_ERROR', statusCode)
+  if (props?.requiresAuth) {
+    isAuthorized(props?.context)
   }
-  if (isServerError(statusCode)) {
-    throw buildGraphQLError(data, 'SERVER_ERROR', statusCode)
+  const request: HttpRequest = {
+    ...props.args,
+    ...props.context,
   }
-  return data
+  const { statusCode, data } = await controller.handle(request)
+  let graphQLErrors: undefined | readonly GraphQLError[]
+  switch (statusCode) {
+    case StatusCode.OK:
+    case StatusCode.CREATED:
+    case StatusCode.NO_CONTENT:
+      return data
+    case StatusCode.BAD_REQUEST:
+      if ('errors' in data) {
+        graphQLErrors = formatErrorsToGraphQLErrors(data.errors, statusCode)
+        throw buildGraphQLError(JSON.stringify(graphQLErrors), statusCode)
+      }
+      throw buildGraphQLError(data.message, statusCode)
+    case StatusCode.UNAUTHORIZED:
+    case StatusCode.NOT_FOUND:
+    case StatusCode.CONFLICT:
+      throw buildGraphQLError(data.message, statusCode)
+    default:
+      throw buildGraphQLError('Server Error.', StatusCode.SERVER_ERROR)
+  }
 }

@@ -1,12 +1,9 @@
 import { HttpController } from '@/core/presentation/controllers/http-controller'
-import {
-  unauthorizedError,
-  created,
-} from '@/core/presentation/helpers/http-helpers'
+import { ok, unauthorized } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
-import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
+import { type UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
 import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in-use-case'
 
 export namespace SignIn {
@@ -15,7 +12,7 @@ export namespace SignIn {
     password: string
   }
 
-  export type Response = EmailAlreadyExistsError | { token: string }
+  export type Response = UnauthorizedError | { accessToken: string }
 }
 
 export class SignInController extends HttpController<
@@ -51,8 +48,8 @@ export class SignInController extends HttpController<
       password,
     })
     if (result.isLeft()) {
-      return unauthorizedError(result.value)
+      return unauthorized()
     }
-    return created<SignIn.Response>(result.value)
+    return ok<SignIn.Response>(result.value)
   }
 }

@@ -44,16 +44,16 @@ describe('SignUpController', () => {
   })
 
   it('should be able to return RequiredFieldError when all required fields is not provided', async () => {
-    const fakeUserInput = {} as any
+    const fakeSignUpInput = {} as any
 
-    const response = await sut.handle(fakeUserInput)
+    const response = await sut.handle(fakeSignUpInput)
 
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
     expect(response).toMatchObject({
       statusCode: 400,
       data: new ValidationCompositeError([
         ...listOfFields.map(
-          (field) => new RequiredError(field, fakeUserInput[field]),
+          (field) => new RequiredError(field, fakeSignUpInput[field]),
         ),
         new InvalidPasswordError('password'),
       ]),
@@ -63,19 +63,19 @@ describe('SignUpController', () => {
   it.each(listOfFields)(
     'should be able to return RequiredFieldError when "%s" is not provided',
     async (field) => {
-      const fakeUserInput: any = {
+      const fakeSignUpInput: any = {
         ...makeFakeRequiredInputSignUpStub(),
       }
-      fakeUserInput[field] = undefined
+      fakeSignUpInput[field] = undefined
 
       const errors: ValidationError[] = [
-        new RequiredError(field, fakeUserInput[field]),
+        new RequiredError(field, fakeSignUpInput[field]),
       ]
       if (field === 'password') {
         errors.push(new InvalidPasswordError(field))
       }
 
-      const response = await sut.handle(fakeUserInput)
+      const response = await sut.handle(fakeSignUpInput)
 
       expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
       expect(response).toMatchObject({
@@ -93,38 +93,34 @@ describe('SignUpController', () => {
       left(fakeEmailAlreadyExistsError),
     )
 
-    const fakeUserInput: SignUp.Request = {
+    const fakeSignUpInput: SignUp.Request = {
       name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
-    const response = await sut.handle(fakeUserInput)
+    const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(response).toMatchObject({
-      statusCode: 400,
-      data: fakeEmailAlreadyExistsError,
-    })
+    expect(statusCode).toEqual(409)
+    expect(data).toMatchObject(new EmailAlreadyExistsError(userDTOStub.email))
   })
 
   it('should be able to return InvalidEmailError when the informed email is invalid', async () => {
     const fakeInvalidEmailError = new InvalidEmailError(userDTOStub.email)
     signUpUseCaseMock.execute.mockResolvedValueOnce(left(fakeInvalidEmailError))
 
-    const fakeUserInput: SignUp.Request = {
+    const fakeSignUpInput: SignUp.Request = {
       name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
-    const response = await sut.handle(fakeUserInput)
+    const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(response).toMatchObject({
-      statusCode: 400,
-      data: fakeInvalidEmailError,
-    })
+    expect(statusCode).toEqual(400)
+    expect(data).toMatchObject(new InvalidEmailError(userDTOStub.email))
   })
 
   it('should be able to return InvalidBirthdateError when the informed birthdate is invalid', async () => {
@@ -135,30 +131,30 @@ describe('SignUpController', () => {
       left(fakeInvalidBirthdateError),
     )
 
-    const fakeUserInput: SignUp.Request = {
+    const fakeSignUpInput: SignUp.Request = {
       name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
-    const response = await sut.handle(fakeUserInput)
+    const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(response).toMatchObject({
-      statusCode: 400,
-      data: fakeInvalidBirthdateError,
-    })
+    expect(statusCode).toEqual(400)
+    expect(data).toMatchObject(
+      new InvalidBirthdateError(userDTOStub.birthdate!),
+    )
   })
 
   it('should be able to return the created user when the user was created successfully', async () => {
-    const fakeUserInput: SignUp.Request = {
+    const fakeSignUpInput: SignUp.Request = {
       name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
       birthdate: userDTOStub.birthdate!.toISOString(),
     }
 
-    const response = await sut.handle(fakeUserInput)
+    const response = await sut.handle(fakeSignUpInput)
 
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(1)
     expect(signUpUseCaseSpy).toHaveBeenCalledWith({

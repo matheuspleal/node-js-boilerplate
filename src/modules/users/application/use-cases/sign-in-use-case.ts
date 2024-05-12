@@ -14,7 +14,7 @@ export namespace SignIn {
   export type Output = Either<
     UnauthorizedError,
     {
-      token: string
+      accessToken: string
     }
   >
 }
@@ -42,10 +42,10 @@ export class SignInUseCase implements UseCase<SignIn.Input, SignIn.Output> {
       payload: {
         sub: foundUser.id.toString(),
       },
-      expiresInMs: 5 * 60000,
+      expiresInMs: 60 * 1000 * 5,
     })
     return right({
-      token,
+      accessToken: token,
     })
   }
 }

@@ -1,6 +1,6 @@
-export function parseJSONSafe(value: string): unknown {
+export function parseJSONSafe<T = any>(value: string): T | string {
   try {
-    return JSON.parse(value)
+    return JSON.parse(value) as T
   } catch {
     return value
   }

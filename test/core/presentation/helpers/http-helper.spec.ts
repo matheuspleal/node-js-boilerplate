@@ -1,7 +1,9 @@
 import { ServerError } from '@/core/presentation/errors/server-error'
 import {
+  StatusCode,
   badDomainRequest,
   badValidatorRequest,
+  conflict,
   created,
   ok,
   serverError,
@@ -15,7 +17,7 @@ describe('HttpHelpers', () => {
   describe('ok [status code = 200]', () => {
     it('should be able to return HttpResponse with status code equals 200 and data equals any', () => {
       const expectedResponse: HttpResponse<any> = {
-        statusCode: 200,
+        statusCode: StatusCode.OK,
         data: 'fake_data',
       }
 
@@ -26,7 +28,7 @@ describe('HttpHelpers', () => {
 
     it('should be able to return HttpResponse with status code equals 200 and data equal to the type passed in generic', () => {
       const expectedResponse: HttpResponse<FakeNamespace.Response> = {
-        statusCode: 200,
+        statusCode: StatusCode.OK,
         data: {
           fullName: 'John Doe',
         },
@@ -43,7 +45,7 @@ describe('HttpHelpers', () => {
   describe('created  [status code = 201]', () => {
     it('should be able to return HttpResponse with status code equals 201 and data equals any', () => {
       const expectedResponse: HttpResponse<any> = {
-        statusCode: 201,
+        statusCode: StatusCode.CREATED,
         data: 'fake_data',
       }
 
@@ -73,7 +75,7 @@ describe('HttpHelpers', () => {
       const fakeError = new Error('fake_error')
 
       const expectedResponse: HttpResponse = {
-        statusCode: 400,
+        statusCode: StatusCode.BAD_REQUEST,
         data: fakeError,
       }
 
@@ -88,7 +90,7 @@ describe('HttpHelpers', () => {
       const fakeError = new Error('fake_error')
 
       const expectedResponse: HttpResponse = {
-        statusCode: 400,
+        statusCode: StatusCode.BAD_REQUEST,
         data: new ValidationCompositeError([fakeError]),
       }
 
@@ -101,11 +103,26 @@ describe('HttpHelpers', () => {
       const fakeError = new Error('fake_error')
 
       const expectedResponse: HttpResponse = {
-        statusCode: 400,
+        statusCode: StatusCode.BAD_REQUEST,
         data: new ValidationCompositeError([fakeError, fakeError]),
       }
 
       const sut = badValidatorRequest([fakeError, fakeError])
+
+      expect(sut).toMatchObject(expectedResponse)
+    })
+  })
+
+  describe('conflict [status code = 409]', () => {
+    it('should be able to return HttpResponse with status code equals 409 and data with conflict error', () => {
+      const fakeError = new Error('fake_error')
+
+      const expectedResponse: HttpResponse = {
+        statusCode: StatusCode.CONFLICT,
+        data: fakeError,
+      }
+
+      const sut = conflict(fakeError)
 
       expect(sut).toMatchObject(expectedResponse)
     })
@@ -117,7 +134,7 @@ describe('HttpHelpers', () => {
       const fakeServerError = new ServerError(fakeError)
 
       const expectedResponse: HttpResponse = {
-        statusCode: 500,
+        statusCode: StatusCode.SERVER_ERROR,
         data: fakeServerError,
       }
 

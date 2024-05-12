@@ -1,5 +1,5 @@
 import { HttpController } from '@/core/presentation/controllers/http-controller'
-import { notFoundError, ok } from '@/core/presentation/helpers/http-helpers'
+import { notFound, ok } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
@@ -44,7 +44,7 @@ export class GetUsersByIdController extends HttpController<
       id,
     })
     if (result.isLeft()) {
-      return notFoundError(result.value)
+      return notFound(result.value)
     }
     return ok<GetUsersById.Response>(result.value)
   }

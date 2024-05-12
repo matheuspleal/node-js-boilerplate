@@ -1,6 +1,6 @@
 export default `#graphql
   type Token {
-    token: String!
+    accessToken: String!
   }
 
   type CreateUser {

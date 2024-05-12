@@ -5,16 +5,22 @@ import { type SignIn } from '@/modules/users/presentation/controllers/sign-in-co
 
 export default {
   Query: {
-    async signIn(parent: any, args: any) {
+    async signIn(parent: any, args: any, context: any, info: any) {
       return apolloServerResolverAdapter<SignIn.Request, SignIn.Response>(
         makeSignInController(),
-        args,
+        {
+          args,
+          context,
+        },
       )
     },
   },
   Mutation: {
-    async signUp(parent: any, args: any) {
-      return apolloServerResolverAdapter(makeSignUpController(), args)
+    async signUp(parent: any, args: any, context: any, info: any) {
+      return apolloServerResolverAdapter(makeSignUpController(), {
+        args,
+        context,
+      })
     },
   },
 }

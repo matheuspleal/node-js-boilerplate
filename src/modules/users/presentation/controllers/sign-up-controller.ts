@@ -1,12 +1,13 @@
 import { HttpController } from '@/core/presentation/controllers/http-controller'
 import {
   badDomainRequest,
+  conflict,
   created,
 } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
-import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
+import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
 import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 
@@ -68,7 +69,11 @@ export class SignUpController extends HttpController<
       birthdate: new Date(birthdate),
     })
     if (result.isLeft()) {
-      return badDomainRequest(result.value)
+      const error =
+        result.value instanceof EmailAlreadyExistsError
+          ? conflict(result.value)
+          : badDomainRequest(result.value)
+      return error
     }
     return created<SignUp.Response>(result.value)
   }

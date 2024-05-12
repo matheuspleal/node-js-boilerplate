@@ -2,7 +2,7 @@ import { type UseCaseError } from '@/core/application/use-cases/errors/use-case-
 
 export class UserNotFoundError extends Error implements UseCaseError {
   constructor(id: string) {
-    super(`User with id "${id}" not found`)
+    super(`User with id "${id}" not found!`)
     this.name = 'UserNotFoundError'
   }
 }

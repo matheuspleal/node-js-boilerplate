@@ -13,14 +13,16 @@ export namespace ValidationComposite {
 }
 
 export class ValidationCompositeError extends Error {
-  constructor(readonly errors: ValidationError[]) {
+  public readonly errors: ValidationComposite.FormattedError[]
+
+  constructor(rawErrors: ValidationError[]) {
     super()
-    this.message = JSON.stringify(this.format())
     this.name = 'ValidationCompositeError'
+    this.errors = this.format(rawErrors)
   }
 
-  private format() {
-    return this.errors.reduce(
+  private format(rawErrors: ValidationError[]) {
+    return rawErrors.reduce(
       (acc: ValidationComposite.FormattedError[], currentError) => {
         const errorExists = acc.find(
           (error) =>
@@ -29,8 +31,8 @@ export class ValidationCompositeError extends Error {
         )
         if (!errorExists) {
           acc.push({
-            field: currentError.field ?? undefined,
-            value: currentError.value ?? undefined,
+            field: currentError.field,
+            value: currentError.value,
             reasons: [
               { name: currentError.name, message: currentError.message },
             ],
