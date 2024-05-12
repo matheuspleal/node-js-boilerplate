@@ -6,21 +6,29 @@ import { type GetUsersById } from '@/modules/users/presentation/controllers/get-
 
 export default {
   Query: {
-    async fetchUsers(parent: any, args: any) {
+    async fetchUsers(parent: any, args: any, context: any, info: any) {
       return apolloServerResolverAdapter<
         FetchUsers.Request,
         FetchUsers.Response
       >(makeFetchUsersController(), {
-        'page[offset]': args?.params?.offset,
-        'page[limit]': args?.params?.limit,
+        args: {
+          'page[offset]': args?.params?.offset,
+          'page[limit]': args?.params?.limit,
+        },
+        context,
+        requiresAuth: true,
       })
     },
-    async getUserById(parent: any, args: any) {
+    async getUserById(parent: any, args: any, context: any, info: any) {
       return apolloServerResolverAdapter<
         GetUsersById.Request,
         GetUsersById.Response
       >(makeGetUserByIdController(), {
-        id: args.userId,
+        args: {
+          id: args.userId,
+        },
+        context,
+        requiresAuth: true,
       })
     },
   },
