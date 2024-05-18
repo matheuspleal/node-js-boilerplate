@@ -5,6 +5,7 @@ import request from 'supertest'
 
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
 import { appSetup } from '@/main/setup/app-setup'
+import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
 import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
@@ -308,7 +309,7 @@ describe('AuthenticationGraphQL', () => {
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toMatchObject({
-        message: 'Unauthorized!',
+        message: new UnauthorizedError().message,
         extensions: { code: 'UNAUTHORIZED' },
       })
     })
@@ -336,7 +337,7 @@ describe('AuthenticationGraphQL', () => {
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toMatchObject({
-        message: 'Unauthorized!',
+        message: new UnauthorizedError().message,
         extensions: { code: 'UNAUTHORIZED' },
       })
     })
