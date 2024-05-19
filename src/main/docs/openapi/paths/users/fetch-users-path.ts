@@ -4,7 +4,7 @@ export const fetchUsersPath: OpenAPIV3_1.PathItemObject = {
   get: {
     tags: ['User'],
     summary: 'Fetch Users',
-    description: 'This route is to fetch users',
+    description: 'This endpoint is to fetch users by any authorized user',
     security: [
       {
         bearerAuth: [],

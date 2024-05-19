@@ -4,6 +4,7 @@ import {
   filterLimitParams,
   filterOffsetParams,
 } from '@/main/docs/openapi/components/parameters'
+import { userIdParam } from '@/main/docs/openapi/components/parameters/users'
 import {
   badRequest,
   notFound,
@@ -48,6 +49,7 @@ export const securitySchemes: Record<string, OpenAPIV3_1.SecuritySchemeObject> =
 const parameters: Record<string, OpenAPIV3_1.ParameterObject> = {
   filterLimit: filterLimitParams,
   filterOffset: filterOffsetParams,
+  userId: userIdParam,
 }
 
 export default {

@@ -8,7 +8,7 @@ export default {
   info: {
     title: 'Node.js Skeleton API',
     description: 'API docs',
-    version: '0.1.0',
+    version: '1.0.0',
     contact: {
       name: 'Matheus Leal',
       email: 'hi@matheuspleal.com',

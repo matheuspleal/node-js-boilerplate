@@ -4,8 +4,7 @@ export const signUpPath: OpenAPIV3_1.PathItemObject = {
   post: {
     tags: ['Authentication'],
     summary: 'Sign Up User',
-    description:
-      'This endpoint can be used for any user to **sign up** to the API',
+    description: 'This endpoint can be used for any user to sign up to the API',
     requestBody: {
       required: true,
       content: {

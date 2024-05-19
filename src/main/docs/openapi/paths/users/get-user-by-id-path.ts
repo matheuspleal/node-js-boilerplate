@@ -4,10 +4,15 @@ export const getUserByIdPath: OpenAPIV3_1.PathItemObject = {
   get: {
     tags: ['User'],
     summary: 'Get User by Id',
-    description: 'This route is to get an user by id',
+    description: 'This endpoint is to get user by id by any authorized user',
     security: [
       {
         bearerAuth: [],
+      },
+    ],
+    parameters: [
+      {
+        $ref: '#/components/parameters/userId',
       },
     ],
     responses: {

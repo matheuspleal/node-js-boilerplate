@@ -5,7 +5,7 @@ export const signInPath: OpenAPIV3_1.PathItemObject = {
     tags: ['Authentication'],
     summary: 'Sign In User',
     description:
-      'This endpoint can be used for any registered user to **sign in** to the API',
+      'This endpoint can be used for any registered user to sign in to the API',
     requestBody: {
       required: true,
       content: {
