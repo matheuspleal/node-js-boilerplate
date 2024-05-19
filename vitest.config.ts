@@ -12,7 +12,7 @@ export default defineConfig({
         ...configDefaults.exclude,
         '*.ts',
         'scripts/**/*',
-        'src/core/infra/prisma/**/*',
+        'src/core/infra/**/*',
         'src/core/contracts/**/*',
         'src/main/**/*',
         'src/modules/*/infra/repositories/**/*',

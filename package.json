@@ -1,6 +1,6 @@
 {
   "name": "node-js-skeleton",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Node.js Skeleton developed with TypeScript, using Clean Architecture, Domain-Driven Design (DDD) and Test Driven Development (TDD)",
   "main": "dist/server.js",
   "type": "module",
@@ -42,6 +42,7 @@
     "@types/supertest": "6.0.2",
     "@vitest/coverage-v8": "1.6.0",
     "@vitest/ui": "1.6.0",
+    "coveralls": "3.1.1",
     "eslint": "8.57.0",
     "eslint-config-love": "47.0.0",
     "eslint-config-prettier": "9.1.0",
@@ -87,6 +88,9 @@
   ],
   "author": "Matheus Pereira Leal",
   "license": "ISC",
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
+  },
   "engines": {
     "node": ">= 20.13.1"
   }

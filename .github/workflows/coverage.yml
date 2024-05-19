@@ -1,0 +1,56 @@
+on: ["push", "pull_request"]
+
+name: Coverage
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - ${{ vars.DB_PORT }}:5432
+        env:
+          POSTGRES_DB: ${{ vars.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      API_HOST: ${{ vars.API_HOST }}
+      API_PORT: ${{ vars.API_PORT }}
+      DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}:${{ vars.DB_PORT }}/${{ vars.DB_NAME }}?schema=${{ vars.DB_SCHEMA }}
+      JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+      JWT_PUBLIC_KEY: ${{ vars.JWT_PUBLIC_KEY }}
+      HASH_SALT: ${{ secrets.HASH_SALT }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20.x
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Set up the database
+      run: |
+        npx prisma migrate deploy
+
+    - name: Test Coverage
+      run: |
+        npm run test:ci
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@v2
