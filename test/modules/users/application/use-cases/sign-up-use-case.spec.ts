@@ -39,7 +39,6 @@ describe('SignUpUseCase', () => {
     [user: UserEntity],
     Promise<UserEntity>
   >
-
   let hashGeneratorGatewayMock: MockProxy<HashGeneratorGateway>
   let hashGeneratorGatewaySpy: MockInstance<
     [input: HashGenerator.Input],
