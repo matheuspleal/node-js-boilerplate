@@ -10,7 +10,7 @@ import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { makeFakeInputSignInStub } from '#/modules/users/domain/@mocks/input-sign-in-stub'
+import { makeFakeRequiredInputSignInStub } from '#/modules/users/domain/@mocks/input-sign-in-stub'
 import {
   makeFakeAllInputSignUpStub,
   makeFakeRequiredInputSignUpStub,
@@ -265,7 +265,7 @@ describe('AuthenticationGraphQL', () => {
     test.each(listOfSignInFields)(
       'sign in with missing "%s" field',
       async (field) => {
-        const fakeCredentials: any = makeFakeInputSignInStub()
+        const fakeCredentials: any = makeFakeRequiredInputSignInStub()
         fakeCredentials[field] = undefined
 
         const { statusCode, body } = await request(app.server)
