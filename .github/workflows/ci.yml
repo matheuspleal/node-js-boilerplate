@@ -1,6 +1,12 @@
-on: ["push", "pull_request"]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-name: Coverage
+name: CI
 
 jobs:
 
@@ -43,6 +49,10 @@ jobs:
     - name: Install dependencies
       run: |
         npm install
+
+    - name: Run build
+      run: |
+        npm run build
 
     - name: Set up the database
       run: |
