@@ -17,11 +17,9 @@ export abstract class Entity<T> {
     if (entity === this) {
       return true
     }
-
     if (entity.id === this.id) {
       return true
     }
-
     return false
   }
 }

@@ -2,7 +2,7 @@ import { type UseCaseError } from '@/core/application/use-cases/errors/use-case-
 
 export class UnauthorizedError extends Error implements UseCaseError {
   constructor() {
-    super('Unauthorized!')
+    super('Invalid Credentials!')
     this.name = 'UnauthorizedError'
   }
 }

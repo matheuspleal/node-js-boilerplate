@@ -5,11 +5,12 @@ import request from 'supertest'
 
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
 import { appSetup } from '@/main/setup/app-setup'
+import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
 import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { makeFakeInputSignInStub } from '#/modules/users/domain/@mocks/input-sign-in-stub'
+import { makeFakeRequiredInputSignInStub } from '#/modules/users/domain/@mocks/input-sign-in-stub'
 import {
   makeFakeAllInputSignUpStub,
   makeFakeRequiredInputSignUpStub,
@@ -264,7 +265,7 @@ describe('AuthenticationGraphQL', () => {
     test.each(listOfSignInFields)(
       'sign in with missing "%s" field',
       async (field) => {
-        const fakeCredentials: any = makeFakeInputSignInStub()
+        const fakeCredentials: any = makeFakeRequiredInputSignInStub()
         fakeCredentials[field] = undefined
 
         const { statusCode, body } = await request(app.server)
@@ -308,7 +309,7 @@ describe('AuthenticationGraphQL', () => {
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toMatchObject({
-        message: 'Unauthorized!',
+        message: new UnauthorizedError().message,
         extensions: { code: 'UNAUTHORIZED' },
       })
     })
@@ -336,7 +337,7 @@ describe('AuthenticationGraphQL', () => {
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toMatchObject({
-        message: 'Unauthorized!',
+        message: new UnauthorizedError().message,
         extensions: { code: 'UNAUTHORIZED' },
       })
     })

@@ -130,6 +130,17 @@ describe('HttpHelpers', () => {
 
   describe('serverError [status code = 500]', () => {
     it('should be able to return HttpResponse with status code equals 500 and data equals ServerError', () => {
+      const expectedResponse: HttpResponse = {
+        statusCode: StatusCode.SERVER_ERROR,
+        data: new ServerError(),
+      }
+
+      const sut = serverError()
+
+      expect(sut).toMatchObject(expectedResponse)
+    })
+
+    it('should be able to return HttpResponse with status code equals 500 and data equals ServerError when unknown error is reported', () => {
       const fakeError = new Error('fake_error')
       const fakeServerError = new ServerError(fakeError)
 
