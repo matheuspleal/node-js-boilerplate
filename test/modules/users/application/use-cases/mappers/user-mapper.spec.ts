@@ -1,6 +1,6 @@
 import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
 import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
-import { UserMap } from '@/modules/users/contracts/mappers/user-map'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
 import { Email } from '@/modules/users/domain/value-objects/email'
@@ -15,7 +15,7 @@ import {
   makeFakeUserPersistenceStub,
 } from '#/modules/users/domain/@mocks/user-persistence-stub'
 
-describe('UserMap', () => {
+describe('UserMapper', () => {
   let length: number
   let userEntity: UserEntity
   let userCollectionEntity: UserEntity[]
@@ -33,7 +33,7 @@ describe('UserMap', () => {
   })
 
   it('should be able to map UserEntity instance to a UserDTO object', () => {
-    const entityToDTO = UserMap.toDTO(userEntity)
+    const entityToDTO = UserMapper.toDTO(userEntity)
 
     expect(entityToDTO).toMatchObject({
       id: userEntity.id.toString(),
@@ -47,7 +47,7 @@ describe('UserMap', () => {
 
   it('should be able to map a collection of UserEntity instances to a collection of UserDTO objects', () => {
     const entityCollectionToDTOCollection =
-      UserMap.toCollectionDTO(userCollectionEntity)
+      UserMapper.toCollectionDTO(userCollectionEntity)
 
     entityCollectionToDTOCollection.forEach((item, index) => {
       expect(item).toMatchObject({
@@ -64,7 +64,7 @@ describe('UserMap', () => {
   })
 
   it('should be able to map UserEntity instance to a UserPersistence object', () => {
-    const entityToPersistence = UserMap.toPersistence(userEntity)
+    const entityToPersistence = UserMapper.toPersistence(userEntity)
 
     expect(entityToPersistence).toMatchObject({
       id: userEntity.id.toString(),
@@ -78,7 +78,7 @@ describe('UserMap', () => {
 
   it('should be able to map a collection of UserEntity instances to a collection of UserPersistence objects', () => {
     const entityCollectionToPersistenceCollection =
-      UserMap.toCollectionPersistence(userCollectionEntity)
+      UserMapper.toCollectionPersistence(userCollectionEntity)
 
     entityCollectionToPersistenceCollection.forEach((item, index) => {
       expect(item).toMatchObject({
@@ -93,7 +93,7 @@ describe('UserMap', () => {
   })
 
   it('should be able to map UserPersistence object to UserEntity instance', () => {
-    const persistenceToEntity = UserMap.toEntity(userPersistence)
+    const persistenceToEntity = UserMapper.toDomain(userPersistence)
 
     expect(persistenceToEntity).toMatchObject({
       id: new UniqueEntityId(userPersistence.id),
@@ -106,9 +106,8 @@ describe('UserMap', () => {
   })
 
   it('should be able to map a userPersistence objects to collection of UserEntity instances', () => {
-    const persistenceCollectionToEntityCollection = UserMap.toCollectionEntity(
-      userCollectionPersistence,
-    )
+    const persistenceCollectionToEntityCollection =
+      UserMapper.toCollectionDomain(userCollectionPersistence)
 
     persistenceCollectionToEntityCollection.forEach((item, index) => {
       expect(item).toMatchObject({

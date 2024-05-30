@@ -1,4 +1,4 @@
-import { Mapper } from '@/core/contracts/mapper'
+import { Mapper } from '@/core/application/use-cases/mappers/mapper'
 
 import {
   type FakeDTO,

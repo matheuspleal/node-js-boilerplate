@@ -6,7 +6,7 @@ import { type FetchUsersUseCase } from '@/modules/users/application/use-cases/fe
 import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import { FetchUsersController } from '@/modules/users/presentation/controllers/fetch-users-controller'
 
-import { makeFakeUserCollectionDTOStub } from '#/modules/users/contracts/@mocks/user-dto-stub'
+import { makeFakeUserCollectionDTOStub } from '#/modules/users/application/use-cases/mappers/@mocks/user-dto-stub'
 
 describe('FetchUsersController', () => {
   let sut: FetchUsersController

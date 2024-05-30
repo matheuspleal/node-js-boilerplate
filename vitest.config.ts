@@ -12,6 +12,7 @@ export default defineConfig({
         ...configDefaults.exclude,
         '*.ts',
         'scripts/**/*',
+        'src/core/application/use-cases/mappers/mapper.ts',
         'src/core/contracts/**/*',
         'src/core/infra/**/*',
         'src/core/shared/config/env/env.ts',

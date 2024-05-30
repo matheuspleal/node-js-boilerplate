@@ -16,7 +16,7 @@ import {
   type SignUp,
 } from '@/modules/users/presentation/controllers/sign-up-controller'
 
-import { makeFakeUserDTOStub } from '#/modules/users/contracts/@mocks/user-dto-stub'
+import { makeFakeUserDTOStub } from '#/modules/users/application/use-cases/mappers/@mocks/user-dto-stub'
 import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
 import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
 
@@ -125,7 +125,7 @@ describe('SignUpController', () => {
 
   it('should be able to return InvalidBirthdateError when the informed birthdate is invalid', async () => {
     const fakeInvalidBirthdateError = new InvalidBirthdateError(
-      userDTOStub.birthdate!,
+      userDTOStub.birthdate,
     )
     signUpUseCaseMock.execute.mockResolvedValueOnce(
       left(fakeInvalidBirthdateError),
@@ -141,9 +141,7 @@ describe('SignUpController', () => {
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
     expect(statusCode).toEqual(400)
-    expect(data).toMatchObject(
-      new InvalidBirthdateError(userDTOStub.birthdate!),
-    )
+    expect(data).toMatchObject(new InvalidBirthdateError(userDTOStub.birthdate))
   })
 
   it('should be able to return the created user when the user was created successfully', async () => {
