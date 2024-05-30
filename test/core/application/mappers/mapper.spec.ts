@@ -7,9 +7,9 @@ import {
   makeFakeDTOStub,
   makeFakePersistenceStub,
   makeFakeEntityStub,
-} from '#/core/application/@mocks/fake-map-stub'
+} from '#/core/application/@mocks/fake-mapper-stub'
 
-class FakeMap extends Mapper<FakeDTO, FakeEntity, FakePersistence> {
+class FakeMapper extends Mapper<FakeDTO, FakeEntity, FakePersistence> {
   static toDTO(entity: FakeEntity): FakeDTO {
     return {
       name: entity.name,
@@ -68,37 +68,37 @@ describe('Mapper', () => {
   })
 
   it('should be able to convert Domain to DTO', () => {
-    const domainToDTO = FakeMap.toDTO(fakeEntity)
+    const domainToDTO = FakeMapper.toDTO(fakeEntity)
 
     expect(domainToDTO).toMatchObject(fakeDTO)
   })
 
   it('should be able to convert collection Domain to collection DTO', () => {
-    const domainToDTO = FakeMap.toCollectionDTO([fakeEntity])
+    const domainToDTO = FakeMapper.toCollectionDTO([fakeEntity])
 
     expect(domainToDTO).toMatchObject([fakeDTO])
   })
 
-  it('should be able to convert Entity to Domain', () => {
-    const entityToDomain = FakeMap.toEntity(fakePersistence)
+  it('should be able to convert Persistence to Domain', () => {
+    const entityToDomain = FakeMapper.toEntity(fakePersistence)
 
     expect(entityToDomain).toMatchObject(fakeEntity)
   })
 
-  it('should be able to convert collection Entity to collection Domain', () => {
-    const entityToDomain = FakeMap.toCollectionEntity([fakePersistence])
+  it('should be able to convert collection Persistence to collection Domain', () => {
+    const entityToDomain = FakeMapper.toCollectionEntity([fakePersistence])
 
     expect(entityToDomain).toMatchObject([fakeEntity])
   })
 
-  it('should be able to convert Domain to Entity', () => {
-    const domainToEntity = FakeMap.toPersistence(fakeEntity)
+  it('should be able to convert Domain to Persistence', () => {
+    const domainToEntity = FakeMapper.toPersistence(fakeEntity)
 
     expect(domainToEntity).toMatchObject(fakePersistence)
   })
 
-  it('should be able to convert collection Domain to collection Entity', () => {
-    const domainToEntity = FakeMap.toCollectionPersistence([fakeEntity])
+  it('should be able to convert collection Domain to collection Persistence', () => {
+    const domainToEntity = FakeMapper.toCollectionPersistence([fakeEntity])
 
     expect(domainToEntity).toMatchObject([fakePersistence])
   })
