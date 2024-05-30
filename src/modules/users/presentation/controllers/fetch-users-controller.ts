@@ -2,8 +2,8 @@ import { HttpController } from '@/core/presentation/controllers/http-controller'
 import { ok } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { resolvePaginationParams } from '@/core/shared/helpers/resolve-pagination-params'
+import { type UserCollectionDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { type FetchUsersUseCase } from '@/modules/users/application/use-cases/fetch-users-use-case'
-import { type UserCollectionDTO } from '@/modules/users/contracts/dtos/user-dto'
 
 export namespace FetchUsers {
   export interface Request {

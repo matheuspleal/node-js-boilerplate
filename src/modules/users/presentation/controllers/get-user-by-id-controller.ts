@@ -4,8 +4,8 @@ import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { type UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { type GetUserByIdUseCase } from '@/modules/users/application/use-cases/get-user-by-id-use-case'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 
 export namespace GetUsersById {
   export interface Request {

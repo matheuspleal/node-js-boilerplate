@@ -8,8 +8,8 @@ import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 
 export namespace SignUp {
   export interface Request {
