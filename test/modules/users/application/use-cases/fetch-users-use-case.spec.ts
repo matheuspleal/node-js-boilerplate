@@ -5,7 +5,7 @@ import { type PaginationParams } from '@/core/shared/types/pagination-params'
 import { type CountUsersRepository } from '@/modules/users/application/repositories/count-users-repository'
 import { type FindManyUsersRepository } from '@/modules/users/application/repositories/find-many-users-repository'
 import { FetchUsersUseCase } from '@/modules/users/application/use-cases/fetch-users-use-case'
-import { UserMap } from '@/modules/users/contracts/mappers/user-map'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 import { makeFakeUserCollectionEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
@@ -61,7 +61,7 @@ describe('FetchUsersUseCase', () => {
     expect(result.isLeft()).toBe(false)
     expect(result.value?.count).toEqual(length)
     expect(result.value?.users).toMatchObject(
-      UserMap.toCollectionDTO(defaultEntitiesStub),
+      UserMapper.toCollectionDTO(defaultEntitiesStub),
     )
   })
 
@@ -85,7 +85,7 @@ describe('FetchUsersUseCase', () => {
     expect(result.isLeft()).toBe(false)
     expect(result.value?.count).toEqual(length)
     expect(result.value?.users).toMatchObject(
-      UserMap.toCollectionDTO(customEntitiesStub),
+      UserMapper.toCollectionDTO(customEntitiesStub),
     )
   })
 })

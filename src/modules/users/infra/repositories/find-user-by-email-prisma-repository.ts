@@ -1,6 +1,6 @@
 import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma-repository'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
-import { UserMap } from '@/modules/users/contracts/mappers/user-map'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 export class FindUserByEmailPrismaRepository
@@ -20,6 +20,6 @@ export class FindUserByEmailPrismaRepository
     if (!user) {
       return null
     }
-    return UserMap.toEntity(user)
+    return UserMapper.toDomain(user)
   }
 }

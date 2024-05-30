@@ -10,7 +10,7 @@ import { type GetUserByIdUseCase } from '@/modules/users/application/use-cases/g
 import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import { GetUsersByIdController } from '@/modules/users/presentation/controllers/get-user-by-id-controller'
 
-import { makeFakeUserDTOStub } from '#/modules/users/contracts/@mocks/user-dto-stub'
+import { makeFakeUserDTOStub } from '#/modules/users/application/use-cases/mappers/@mocks/user-dto-stub'
 
 describe('GetUserById', () => {
   let sut: GetUsersByIdController

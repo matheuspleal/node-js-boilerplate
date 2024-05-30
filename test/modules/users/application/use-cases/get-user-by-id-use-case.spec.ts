@@ -4,7 +4,7 @@ import { type MockProxy, mock } from 'vitest-mock-extended'
 import { UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
 import { type FindUserByIdRepository } from '@/modules/users/application/repositories/find-user-by-id-repository'
 import { GetUserByIdUseCase } from '@/modules/users/application/use-cases/get-user-by-id-use-case'
-import { UserMap } from '@/modules/users/contracts/mappers/user-map'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
@@ -43,7 +43,7 @@ describe('GetUserByIdUseCase', () => {
 
   it('should be able to get an user by id', async () => {
     const id = userEntityStub.id.toString()
-    const expectedValue = UserMap.toDTO(userEntityStub)
+    const expectedValue = UserMapper.toDTO(userEntityStub)
 
     const result = await sut.execute({ id })
 

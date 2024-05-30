@@ -2,7 +2,7 @@ import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma-repo
 import { resolveOffsetByPageAndLimit } from '@/core/infra/repositories/helpers/resolve-offset-by-pagination-params'
 import { type PaginationParams } from '@/core/shared/types/pagination-params'
 import { type FindManyUsersRepository } from '@/modules/users/application/repositories/find-many-users-repository'
-import { UserMap } from '@/modules/users/contracts/mappers/user-map'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 export class FindManyUsersPrismaRepository
@@ -18,6 +18,6 @@ export class FindManyUsersPrismaRepository
       skip: resolveOffsetByPageAndLimit({ page, limit }),
       take: limit,
     })
-    return UserMap.toCollectionEntity(users)
+    return UserMapper.toCollectionDomain(users)
   }
 }

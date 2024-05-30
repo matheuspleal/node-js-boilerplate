@@ -1,6 +1,6 @@
 import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma-repository'
 import { type CreateUserRepository } from '@/modules/users/application/repositories/create-user-repository'
-import { UserMap } from '@/modules/users/contracts/mappers/user-map'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 export class CreateUserPrismaRepository
@@ -13,8 +13,8 @@ export class CreateUserPrismaRepository
 
   async create(user: UserEntity): Promise<UserEntity> {
     const createdUser = await this.prisma.user.create({
-      data: { ...UserMap.toPersistence(user) },
+      data: { ...UserMapper.toPersistence(user) },
     })
-    return UserMap.toEntity(createdUser)
+    return UserMapper.toDomain(createdUser)
   }
 }

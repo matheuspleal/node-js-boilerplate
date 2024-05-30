@@ -14,7 +14,7 @@ import {
 } from '@/modules/users/presentation/controllers/sign-in-controller'
 
 import { makeFakeAccessTokenStub } from '#/core/infra/gateways/@mocks/access-token-stub'
-import { makeFakeUserDTOStub } from '#/modules/users/contracts/@mocks/user-dto-stub'
+import { makeFakeUserDTOStub } from '#/modules/users/application/use-cases/mappers/@mocks/user-dto-stub'
 import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
 import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
 
