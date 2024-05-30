@@ -1,10 +1,10 @@
-import { Mapper } from '@/core/contracts/mapper'
+import { Mapper } from '@/core/application/use-cases/mappers/mapper'
 import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
 import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-export class UserMap extends Mapper<UserDTO, UserEntity, UserPersistence> {
+export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toDTO(userEntity: UserEntity): UserDTO {
     return {
       id: userEntity.id.toString(),
@@ -17,10 +17,10 @@ export class UserMap extends Mapper<UserDTO, UserEntity, UserPersistence> {
   }
 
   static toCollectionDTO(usersEntity: UserEntity[]): UserDTO[] {
-    return usersEntity.map<UserDTO>(UserMap.toDTO)
+    return usersEntity.map<UserDTO>(UserMapper.toDTO)
   }
 
-  static toEntity(userPersistence: UserPersistence): UserEntity {
+  static toDomain(userPersistence: UserPersistence): UserEntity {
     return UserEntity.create(
       {
         name: userPersistence.name,
@@ -34,8 +34,8 @@ export class UserMap extends Mapper<UserDTO, UserEntity, UserPersistence> {
     )
   }
 
-  static toCollectionEntity(usersModel: UserPersistence[]): UserEntity[] {
-    return usersModel.map<UserEntity>(UserMap.toEntity)
+  static toCollectionDomain(usersModel: UserPersistence[]): UserEntity[] {
+    return usersModel.map<UserEntity>(UserMapper.toDomain)
   }
 
   static toPersistence(userEntity: UserEntity): UserPersistence {
@@ -53,6 +53,6 @@ export class UserMap extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toCollectionPersistence(
     userEntities: UserEntity[],
   ): UserPersistence[] {
-    return userEntities.map<UserPersistence>(UserMap.toPersistence)
+    return userEntities.map<UserPersistence>(UserMapper.toPersistence)
   }
 }

@@ -6,8 +6,8 @@ import { InvalidBirthdateError } from '@/modules/users/application/errors/invali
 import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email-error'
 import { type CreateUserRepository } from '@/modules/users/application/repositories/create-user-repository'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
-import { UserMap } from '@/modules/users/contracts/mappers/user-map'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 export namespace SignUp {
@@ -61,7 +61,7 @@ export class SignUpUseCase implements UseCase<SignUp.Input, SignUp.Output> {
     user.password = hashedPassword
     const createdUser = await this.createUserRepository.create(user)
     return right({
-      user: UserMap.toDTO(createdUser),
+      user: UserMapper.toDTO(createdUser),
     })
   }
 }
