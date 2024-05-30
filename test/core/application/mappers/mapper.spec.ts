@@ -7,7 +7,7 @@ import {
   makeFakeDTOStub,
   makeFakePersistenceStub,
   makeFakeEntityStub,
-} from '#/core/contracts/@mocks/fake-map-stub'
+} from '#/core/application/@mocks/fake-map-stub'
 
 class FakeMap extends Mapper<FakeDTO, FakeEntity, FakePersistence> {
   static toDTO(entity: FakeEntity): FakeDTO {
