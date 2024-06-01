@@ -1,19 +1,19 @@
-import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
 import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
-import { Email } from '@/modules/users/domain/value-objects/email'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
+import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
+import {
+  makeFakeUserCollectionPersistenceStub,
+  makeFakeUserPersistenceStub,
+} from '#/modules/users/application/@mocks/user-persistence-stub'
 import { getCurrentAgeInYears } from '#/modules/users/domain/@helpers/get-current-age-in-years'
 import {
   makeFakeUserCollectionEntityStub,
   makeFakeUserEntityStub,
 } from '#/modules/users/domain/@mocks/user-entity-stub'
-import {
-  makeFakeUserCollectionPersistenceStub,
-  makeFakeUserPersistenceStub,
-} from '#/modules/users/domain/@mocks/user-persistence-stub'
 
 describe('UserMapper', () => {
   let length: number
@@ -96,10 +96,10 @@ describe('UserMapper', () => {
     const persistenceToEntity = UserMapper.toDomain(userPersistence)
 
     expect(persistenceToEntity).toMatchObject({
-      id: new UniqueEntityId(userPersistence.id),
+      id: new UniqueEntityIdVO(userPersistence.id),
       name: userPersistence.name,
-      email: new Email(userPersistence.email),
-      birthdate: new Birthdate(userPersistence.birthdate),
+      email: new EmailVO(userPersistence.email),
+      birthdate: new BirthdateVO(userPersistence.birthdate),
       createdAt: userPersistence.createdAt,
       updatedAt: userPersistence.updatedAt,
     })
@@ -111,10 +111,10 @@ describe('UserMapper', () => {
 
     persistenceCollectionToEntityCollection.forEach((item, index) => {
       expect(item).toMatchObject({
-        id: new UniqueEntityId(userCollectionPersistence[index].id),
+        id: new UniqueEntityIdVO(userCollectionPersistence[index].id),
         name: userCollectionPersistence[index].name,
-        email: new Email(userCollectionPersistence[index].email),
-        birthdate: new Birthdate(userCollectionPersistence[index].birthdate),
+        email: new EmailVO(userCollectionPersistence[index].email),
+        birthdate: new BirthdateVO(userCollectionPersistence[index].birthdate),
         createdAt: userCollectionPersistence[index].createdAt,
         updatedAt: userCollectionPersistence[index].updatedAt,
       })

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
 
@@ -12,7 +12,7 @@ export function makeFakeUserDTOStub(): UserDTO {
     name: faker.person.fullName(),
     email: faker.internet.email(),
     birthdate,
-    age: new Birthdate(birthdate).getCurrentAgeInYears(),
+    age: new BirthdateVO(birthdate).getCurrentAgeInYears(),
     createdAt: faker.date.recent(),
     updatedAt: faker.date.recent(),
   }

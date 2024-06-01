@@ -1,4 +1,4 @@
-export class Birthdate {
+export class BirthdateVO {
   private readonly birthdate: Date
   private readonly UTC_FIRST_YEAR = 1970
 

@@ -1,14 +1,14 @@
 import { Entity } from '@/core/domain/entities/entity'
-import { type UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { type Optional } from '@/core/shared/types/optional'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
-import { Email } from '@/modules/users/domain/value-objects/email'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
+import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
 export interface UserProps {
   name: string
-  email: Email
+  email: EmailVO
   password: string
-  birthdate: Birthdate
+  birthdate: BirthdateVO
   createdAt: Date
   updatedAt: Date
 }
@@ -64,13 +64,13 @@ export class UserEntity extends Entity<UserProps> {
       password: string
       birthdate: Date
     },
-    id?: UniqueEntityId,
+    id?: UniqueEntityIdVO,
   ): UserEntity {
     const user = new UserEntity(
       {
         ...props,
-        email: new Email(props.email),
-        birthdate: new Birthdate(new Date(props.birthdate)),
+        email: new EmailVO(props.email),
+        birthdate: new BirthdateVO(props.birthdate),
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },

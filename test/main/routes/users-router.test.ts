@@ -8,13 +8,13 @@ import request from 'supertest'
 import { appSetup } from '@/main/setup/app-setup'
 import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
 import { UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { generateAccessToken } from '#/main/helpers/generate-access-token'
+import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
+import { makeFakeUserCollectionPersistenceStub } from '#/modules/users/application/@mocks/user-persistence-stub'
 import { emailRegExp } from '#/modules/users/domain/@helpers/email-regexp'
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
-import { makeFakeUserCollectionPersistenceStub } from '#/modules/users/domain/@mocks/user-persistence-stub'
 
 describe('UsersRouter', () => {
   let app: FastifyInstance
@@ -220,7 +220,7 @@ describe('UsersRouter', () => {
           id,
           name,
           email,
-          age: new Birthdate(birthdate).getCurrentAgeInYears(),
+          age: new BirthdateVO(birthdate).getCurrentAgeInYears(),
           createdAt: createdAt.toISOString(),
           updatedAt: updatedAt.toISOString(),
         },

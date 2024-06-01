@@ -6,17 +6,17 @@ import { RequiredError } from '@/core/presentation/validators/errors/required-er
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
 import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in-use-case'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import {
   SignInController,
   type SignIn,
 } from '@/modules/users/presentation/controllers/sign-in-controller'
 
 import { makeFakeAccessTokenStub } from '#/core/infra/gateways/@mocks/access-token-stub'
-import { makeFakeUserDTOStub } from '#/modules/users/application/use-cases/mappers/@mocks/user-dto-stub'
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
-import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
+import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
+import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
+import { makeFakeUserDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
 
 const listOfFields = ['email', 'password']
 

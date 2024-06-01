@@ -1,13 +1,13 @@
-import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
-import { Email } from '@/modules/users/domain/value-objects/email'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
+import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
-import { getCurrentAgeInYears } from '#/modules/users/domain/@helpers/get-current-age-in-years'
 import {
   makeFakeAllInputSignUpStub,
   makeFakeRequiredInputSignUpStub,
-} from '#/modules/users/domain/@mocks/input-sign-up-stub'
+} from '#/modules/users/application/@mocks/input-sign-up-stub'
+import { getCurrentAgeInYears } from '#/modules/users/domain/@helpers/get-current-age-in-years'
 
 describe('UserEntity', () => {
   let sut: UserEntity
@@ -23,8 +23,8 @@ describe('UserEntity', () => {
       }),
       props: {
         name: fakeProps.name,
-        email: new Email(fakeProps.email),
-        birthdate: new Birthdate(fakeProps.birthdate),
+        email: new EmailVO(fakeProps.email),
+        birthdate: new BirthdateVO(fakeProps.birthdate),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       },
@@ -33,7 +33,7 @@ describe('UserEntity', () => {
 
   it('should be able to create a instance of UserEntity with all props', () => {
     const { id, ...fakeProps } = makeFakeAllInputSignUpStub()
-    const fakeUniqueEntityId = new UniqueEntityId(id)
+    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
 
@@ -41,8 +41,8 @@ describe('UserEntity', () => {
       _id: fakeUniqueEntityId,
       props: {
         name: fakeProps.name,
-        email: new Email(fakeProps.email),
-        birthdate: new Birthdate(fakeProps.birthdate),
+        email: new EmailVO(fakeProps.email),
+        birthdate: new BirthdateVO(fakeProps.birthdate),
         createdAt: fakeProps.createdAt,
         updatedAt: fakeProps.updatedAt,
       },
@@ -51,7 +51,7 @@ describe('UserEntity', () => {
 
   it('should be able to get all allowed properties', () => {
     const { id, ...fakeProps } = makeFakeAllInputSignUpStub()
-    const fakeUniqueEntityId = new UniqueEntityId(id)
+    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
 
@@ -66,7 +66,7 @@ describe('UserEntity', () => {
 
   it('should be able to set all allowed properties', () => {
     const { id, ...fakeProps } = makeFakeAllInputSignUpStub()
-    const fakeUniqueEntityId = new UniqueEntityId(id)
+    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
 

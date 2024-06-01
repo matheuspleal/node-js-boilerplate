@@ -9,16 +9,16 @@ import { type ValidationError } from '@/core/presentation/validators/errors/vali
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { InvalidBirthdateError } from '@/modules/users/application/errors/invalid-birthdate-error'
 import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email-error'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import {
   SignUpController,
   type SignUp,
 } from '@/modules/users/presentation/controllers/sign-up-controller'
 
-import { makeFakeUserDTOStub } from '#/modules/users/application/use-cases/mappers/@mocks/user-dto-stub'
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
-import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
+import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
+import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
+import { makeFakeUserDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
 
 const listOfFields = ['name', 'email', 'password', 'birthdate']
 
@@ -97,7 +97,7 @@ describe('SignUpController', () => {
       name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: userDTOStub.birthdate!.toISOString(),
+      birthdate: userDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
@@ -114,7 +114,7 @@ describe('SignUpController', () => {
       name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: userDTOStub.birthdate!.toISOString(),
+      birthdate: userDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
@@ -135,7 +135,7 @@ describe('SignUpController', () => {
       name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: userDTOStub.birthdate!.toISOString(),
+      birthdate: userDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
@@ -149,7 +149,7 @@ describe('SignUpController', () => {
       name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: userDTOStub.birthdate!.toISOString(),
+      birthdate: userDTOStub.birthdate.toISOString(),
     }
 
     const response = await sut.handle(fakeSignUpInput)

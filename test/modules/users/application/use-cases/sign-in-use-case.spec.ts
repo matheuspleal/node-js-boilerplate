@@ -17,8 +17,8 @@ import {
 } from '@/modules/users/application/use-cases/sign-in-use-case'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-import { makeFakeRequiredInputSignInStub } from '#/modules/users/domain/@mocks/input-sign-in-stub'
-import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
+import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/input-sign-in-stub'
+import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
 import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
 
 describe('SignInUseCase', () => {

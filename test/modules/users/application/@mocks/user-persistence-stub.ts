@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
-import { hashedPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
+import { hashedPasswordStub } from '#/modules/users/application/@mocks/password-stub'
 
 export function makeFakeUserPersistenceStub(): UserPersistence {
   return {

@@ -6,15 +6,15 @@ import request from 'supertest'
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
 import { appSetup } from '@/main/setup/app-setup'
 import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { makeFakeRequiredInputSignInStub } from '#/modules/users/domain/@mocks/input-sign-in-stub'
+import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/input-sign-in-stub'
 import {
   makeFakeAllInputSignUpStub,
   makeFakeRequiredInputSignUpStub,
-} from '#/modules/users/domain/@mocks/input-sign-up-stub'
+} from '#/modules/users/application/@mocks/input-sign-up-stub'
 
 const listOfSignUpFields = ['name', 'email', 'password', 'birthdate']
 const listOfSignInFields = ['email', 'password']
@@ -205,7 +205,7 @@ describe('AuthenticationGraphQL', () => {
     test('sign up successfully', async () => {
       const { name, email, password, birthdate } =
         makeFakeRequiredInputSignUpStub()
-      const age = new Birthdate(birthdate).getCurrentAgeInYears()
+      const age = new BirthdateVO(birthdate).getCurrentAgeInYears()
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')

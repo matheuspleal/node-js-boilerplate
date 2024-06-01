@@ -2,7 +2,7 @@ export interface UserDTO {
   id: string
   name: string
   email: string
-  birthdate?: Date
+  birthdate: Date
   age: number
   createdAt: Date
   updatedAt: Date

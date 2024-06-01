@@ -1,11 +1,11 @@
 import { randomUUID } from 'node:crypto'
 
-import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 
-describe('UniqueEntityId', () => {
-  let sut: UniqueEntityId
+describe('UniqueEntityIdVO', () => {
+  let sut: UniqueEntityIdVO
   let UUIDstub: string
 
   beforeAll(() => {
@@ -13,29 +13,29 @@ describe('UniqueEntityId', () => {
   })
 
   it('should be able to create a UniqueEntityId', () => {
-    sut = new UniqueEntityId()
+    sut = new UniqueEntityIdVO()
 
     expect(sut.toValue()).toMatch(UUIDRegExp)
     expect(sut.toString()).toMatch(UUIDRegExp)
   })
 
   it('should be able to create a UniqueEntityId with value', () => {
-    sut = new UniqueEntityId(UUIDstub)
+    sut = new UniqueEntityIdVO(UUIDstub)
 
     expect(sut.toValue()).toBe(UUIDstub)
     expect(sut.toString()).toBe(UUIDstub)
   })
 
   it('should be able to compare two instances of UniqueEntityId and return false', () => {
-    sut = new UniqueEntityId(UUIDstub)
-    const uniqueEntityIdToCompare = new UniqueEntityId()
+    sut = new UniqueEntityIdVO(UUIDstub)
+    const uniqueEntityIdToCompare = new UniqueEntityIdVO()
 
     expect(sut.equals(uniqueEntityIdToCompare)).toBe(false)
   })
 
   it('should be able to compare two instances of UniqueEntityId and return true', () => {
-    sut = new UniqueEntityId(UUIDstub)
-    const uniqueEntityIdToCompare = new UniqueEntityId(UUIDstub)
+    sut = new UniqueEntityIdVO(UUIDstub)
+    const uniqueEntityIdToCompare = new UniqueEntityIdVO(UUIDstub)
 
     expect(sut.equals(uniqueEntityIdToCompare)).toBe(true)
   })

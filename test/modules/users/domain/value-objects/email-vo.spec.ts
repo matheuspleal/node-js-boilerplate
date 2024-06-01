@@ -1,11 +1,11 @@
-import { Email } from '@/modules/users/domain/value-objects/email'
+import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
-describe('Email', () => {
-  let sut: Email
+describe('EmailVO', () => {
+  let sut: EmailVO
 
   it('should be able to returns false when email has a invalid format', () => {
     const fakeInvalidEmail = 'fake-invalid-email'
-    sut = new Email(fakeInvalidEmail)
+    sut = new EmailVO(fakeInvalidEmail)
 
     const isValid = sut.isValid()
 
@@ -20,7 +20,7 @@ describe('Email', () => {
   ])(
     'should be able to returns false when email does not have a valid top-level domain',
     (email) => {
-      sut = new Email(email)
+      sut = new EmailVO(email)
 
       const isValid = sut.isValid()
 
@@ -34,7 +34,7 @@ describe('Email', () => {
   ])(
     'should be able to returns true when email has a valid top-level domain',
     (email) => {
-      sut = new Email(email)
+      sut = new EmailVO(email)
 
       const isValid = sut.isValid()
 

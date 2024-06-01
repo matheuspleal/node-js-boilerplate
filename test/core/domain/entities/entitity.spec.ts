@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto'
 import { faker } from '@faker-js/faker'
 
 import { Entity } from '@/core/domain/entities/entity'
-import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { type Optional } from '@/core/shared/types/optional'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
@@ -45,7 +45,7 @@ class FakeEntity extends Entity<FakeProps> {
 
   static create(
     props: Optional<FakeProps, 'createdAt' | 'updatedAt'>,
-    id?: UniqueEntityId,
+    id?: UniqueEntityIdVO,
   ) {
     const fakeEntity = new FakeEntity(
       {
@@ -64,10 +64,10 @@ describe('Entity', () => {
   let fakeRequiredPropsStub: Optional<FakeProps, 'createdAt' | 'updatedAt'>
   let fakeAllPropsStub: FakeProps
   let fakeFullName: string
-  let uniqueEntityIdStub: UniqueEntityId
+  let uniqueEntityIdStub: UniqueEntityIdVO
 
   beforeAll(() => {
-    uniqueEntityIdStub = new UniqueEntityId(randomUUID())
+    uniqueEntityIdStub = new UniqueEntityIdVO(randomUUID())
     fakeRequiredPropsStub = makeFakeRequiredPropsStub()
     fakeAllPropsStub = makeFakeAllPropsStub()
     fakeFullName = faker.person.fullName()

@@ -6,11 +6,11 @@ import { left, right } from '@/core/application/either'
 import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-uuid-error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 import { UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { type GetUserByIdUseCase } from '@/modules/users/application/use-cases/get-user-by-id-use-case'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import { GetUsersByIdController } from '@/modules/users/presentation/controllers/get-user-by-id-controller'
 
-import { makeFakeUserDTOStub } from '#/modules/users/application/use-cases/mappers/@mocks/user-dto-stub'
+import { makeFakeUserDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
 
 describe('GetUserById', () => {
   let sut: GetUsersByIdController

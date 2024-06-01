@@ -1,4 +1,4 @@
-FROM node:20.13.1-alpine3.19
+FROM node:20.14.0-alpine3.19
 
 WORKDIR /usr/src/app
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3333
+EXPOSE $SERVER_PORT
 
 CMD ["npm", "run", "start:prod"]

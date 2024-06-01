@@ -2,7 +2,7 @@ import { type PrismaClient } from '@prisma/client'
 
 import { makeJwtAdapterFactory } from '@/main/factories/core/infra/gateways/jwt-adapter-factory'
 
-import { makeFakeUserPersistenceStub } from '#/modules/users/domain/@mocks/user-persistence-stub'
+import { makeFakeUserPersistenceStub } from '#/modules/users/application/@mocks/user-persistence-stub'
 
 export async function generateAccessToken(prisma: PrismaClient) {
   const { id } = await prisma.user.create({

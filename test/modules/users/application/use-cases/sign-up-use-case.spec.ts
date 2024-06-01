@@ -16,14 +16,14 @@ import {
   SignUpUseCase,
 } from '@/modules/users/application/use-cases/sign-up-use-case'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
-import { Email } from '@/modules/users/domain/value-objects/email'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
+import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
+import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
 import {
   hashedPasswordStub,
   plaintextPasswordStub,
-} from '#/modules/users/domain/@mocks/password-stub'
+} from '#/modules/users/application/@mocks/password-stub'
 import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
 
 describe('SignUpUseCase', () => {
@@ -137,8 +137,8 @@ describe('SignUpUseCase', () => {
         }),
         props: expect.objectContaining({
           name: user.name,
-          email: new Email(user.email),
-          birthdate: new Birthdate(user.birthdate),
+          email: new EmailVO(user.email),
+          birthdate: new BirthdateVO(user.birthdate),
         }),
       }),
     )

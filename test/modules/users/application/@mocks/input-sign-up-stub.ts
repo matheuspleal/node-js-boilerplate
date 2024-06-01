@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
+import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
 
 const VALID_PROVIDERS = ['fake-domain.com', 'fake-domain.org']
 

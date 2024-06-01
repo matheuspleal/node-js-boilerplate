@@ -1,15 +1,15 @@
-import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 
 export abstract class Entity<T> {
-  private readonly _id: UniqueEntityId
+  private readonly _id: UniqueEntityIdVO
   protected props: T
 
   get id() {
     return this._id
   }
 
-  protected constructor(props: T, id?: UniqueEntityId) {
-    this._id = id ?? new UniqueEntityId()
+  protected constructor(props: T, id?: UniqueEntityIdVO) {
+    this._id = id ?? new UniqueEntityIdVO()
     this.props = props
   }
 

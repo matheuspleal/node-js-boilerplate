@@ -1,4 +1,4 @@
-export class Email {
+export class EmailVO {
   constructor(private readonly email: string) {}
 
   isValid() {

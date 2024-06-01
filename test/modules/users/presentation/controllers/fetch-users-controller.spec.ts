@@ -2,17 +2,17 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { right } from '@/core/application/either'
+import { type UserCollectionDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { type FetchUsersUseCase } from '@/modules/users/application/use-cases/fetch-users-use-case'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
 import { FetchUsersController } from '@/modules/users/presentation/controllers/fetch-users-controller'
 
-import { makeFakeUserCollectionDTOStub } from '#/modules/users/application/use-cases/mappers/@mocks/user-dto-stub'
+import { makeFakeUserCollectionDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
 
 describe('FetchUsersController', () => {
   let sut: FetchUsersController
   let count: number
-  let usersDTOStub: UserDTO[]
-  let defaultUsersDTOStub: UserDTO[]
+  let usersDTOStub: UserCollectionDTO
+  let defaultUsersDTOStub: UserCollectionDTO
   let fetchUsersUseCaseMock: MockProxy<FetchUsersUseCase>
   let fetchUsersUseCaseSpy: MockInstance
 
