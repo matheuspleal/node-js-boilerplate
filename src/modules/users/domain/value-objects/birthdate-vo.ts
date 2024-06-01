@@ -1,29 +1,29 @@
 export class BirthdateVO {
-  private readonly birthdate: Date
+  private readonly value: Date
   private readonly UTC_FIRST_YEAR = 1970
 
-  constructor(birthdate: string | Date) {
-    this.birthdate = new Date(birthdate)
+  constructor(value: string | Date) {
+    this.value = new Date(value)
   }
 
   isValid() {
     const currentDate = new Date()
-    const isPastDate = this.birthdate.getTime() < currentDate.getTime()
+    const isPastDate = this.value.getTime() < currentDate.getTime()
     return isPastDate
   }
 
   toValue() {
-    return this.birthdate
+    return this.value
   }
 
   toString() {
-    return this.birthdate.toISOString()
+    return this.value.toISOString()
   }
 
   getCurrentAgeInYears(): number {
     const currentDate = new Date()
     const timeDifferenceInMilliseconds =
-      currentDate.getTime() - this.birthdate.getTime()
+      currentDate.getTime() - this.value.getTime()
     const ageInMilliseconds = new Date(timeDifferenceInMilliseconds)
     const age = Math.abs(
       ageInMilliseconds.getUTCFullYear() - this.UTC_FIRST_YEAR,

@@ -1,18 +1,18 @@
 export class EmailVO {
-  constructor(private readonly email: string) {}
+  constructor(private readonly value: string) {}
 
   isValid() {
-    const emailRegExp =
+    const valueRegExp =
       /^(?<username>[^\s@]+)@(?<domain>[^\s@]+)\.(?<tld>com|org)$/i
-    const result = this.email.match(emailRegExp)
+    const result = this.value.match(valueRegExp)
     return !!result
   }
 
   toValue() {
-    return this.email
+    return this.value
   }
 
   toString() {
-    return this.email
+    return this.value
   }
 }
