@@ -11,6 +11,7 @@ model User {
   id        String   @id @default(uuid())
   person    Person   @relation(fields: [personId], references: [id])
   personId  String   @db.VarChar(36)
+  email     String   @unique
   password  String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -21,7 +22,6 @@ model User {
 model Person {
   id        String   @id @default(uuid())
   name      String
-  email     String   @unique
   birthdate DateTime @db.Date
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
