@@ -7,6 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(uuid())
+  person    Person   @relation(fields: [personId], references: [id])
+  personId  String   @db.VarChar(36)
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
 model Person {
   id        String   @id @default(uuid())
   name      String
@@ -14,6 +25,7 @@ model Person {
   birthdate DateTime @db.Date
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  User      User[]
 
   @@map("persons")
 }
