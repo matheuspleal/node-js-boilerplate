@@ -7,14 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Person {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
-  password  String
   birthdate DateTime @db.Date
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("users")
+  @@map("persons")
 }
