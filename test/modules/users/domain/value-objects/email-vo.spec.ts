@@ -5,7 +5,7 @@ describe('EmailVO', () => {
 
   it('should be able to returns false when email has a invalid format', () => {
     const fakeInvalidEmail = 'fake-invalid-email'
-    sut = new EmailVO(fakeInvalidEmail)
+    sut = new EmailVO({ value: fakeInvalidEmail })
 
     const isValid = sut.isValid()
 
@@ -20,7 +20,7 @@ describe('EmailVO', () => {
   ])(
     'should be able to returns false when email does not have a valid top-level domain',
     (email) => {
-      sut = new EmailVO(email)
+      sut = new EmailVO({ value: email })
 
       const isValid = sut.isValid()
 
@@ -34,7 +34,7 @@ describe('EmailVO', () => {
   ])(
     'should be able to returns true when email has a valid top-level domain',
     (email) => {
-      sut = new EmailVO(email)
+      sut = new EmailVO({ value: email })
 
       const isValid = sut.isValid()
 

@@ -23,8 +23,8 @@ describe('UserEntity', () => {
       }),
       props: {
         name: fakeProps.name,
-        email: new EmailVO(fakeProps.email),
-        birthdate: new BirthdateVO(fakeProps.birthdate),
+        email: new EmailVO({ value: fakeProps.email }),
+        birthdate: new BirthdateVO({ value: fakeProps.birthdate }),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       },
@@ -41,8 +41,8 @@ describe('UserEntity', () => {
       _id: fakeUniqueEntityId,
       props: {
         name: fakeProps.name,
-        email: new EmailVO(fakeProps.email),
-        birthdate: new BirthdateVO(fakeProps.birthdate),
+        email: new EmailVO({ value: fakeProps.email }),
+        birthdate: new BirthdateVO({ value: fakeProps.birthdate }),
         createdAt: fakeProps.createdAt,
         updatedAt: fakeProps.updatedAt,
       },

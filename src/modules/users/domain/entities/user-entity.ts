@@ -69,8 +69,8 @@ export class UserEntity extends Entity<UserProps> {
     const user = new UserEntity(
       {
         ...props,
-        email: new EmailVO(props.email),
-        birthdate: new BirthdateVO(props.birthdate),
+        email: new EmailVO({ value: props.email }),
+        birthdate: new BirthdateVO({ value: props.birthdate }),
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },

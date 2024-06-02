@@ -367,7 +367,7 @@ describe('UsersGraphQL', () => {
           id,
           name,
           email,
-          age: new BirthdateVO(birthdate).getCurrentAgeInYears(),
+          age: new BirthdateVO({ value: birthdate }).getCurrentAgeInYears(),
           createdAt: createdAt.toISOString(),
           updatedAt: updatedAt.toISOString(),
         },

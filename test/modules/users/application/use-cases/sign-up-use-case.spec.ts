@@ -137,8 +137,8 @@ describe('SignUpUseCase', () => {
         }),
         props: expect.objectContaining({
           name: user.name,
-          email: new EmailVO(user.email),
-          birthdate: new BirthdateVO(user.birthdate),
+          email: new EmailVO({ value: user.email }),
+          birthdate: new BirthdateVO({ value: user.birthdate }),
         }),
       }),
     )

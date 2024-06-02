@@ -9,7 +9,7 @@ describe('BirthdateVO', () => {
 
   it('should be able to returns false when birthdate has a invalid string format', () => {
     const fakeInvalidBirthdate = '01/2000/01'
-    sut = new BirthdateVO(fakeInvalidBirthdate)
+    sut = new BirthdateVO({ value: fakeInvalidBirthdate })
 
     const isValid = sut.isValid()
 
@@ -21,7 +21,7 @@ describe('BirthdateVO', () => {
 
   it('should be able to returns false when birthdate has a invalid date format', () => {
     const fakeInvalidBirthdate = new Date('01/2000/01')
-    sut = new BirthdateVO(fakeInvalidBirthdate)
+    sut = new BirthdateVO({ value: fakeInvalidBirthdate })
 
     const isValid = sut.isValid()
 
@@ -33,7 +33,7 @@ describe('BirthdateVO', () => {
 
   it('should be able to returns false when birthdate is a future date', () => {
     const fakeFutureDate = faker.date.future()
-    sut = new BirthdateVO(fakeFutureDate)
+    sut = new BirthdateVO({ value: fakeFutureDate })
 
     const isValid = sut.isValid()
 
@@ -43,7 +43,7 @@ describe('BirthdateVO', () => {
 
   it('should be able to returns true when the birthdate is passed and have a valid string format', () => {
     const fakeValidBirthdate = faker.date.birthdate().toISOString()
-    sut = new BirthdateVO(fakeValidBirthdate)
+    sut = new BirthdateVO({ value: fakeValidBirthdate })
 
     const isValid = sut.isValid()
 
@@ -54,7 +54,7 @@ describe('BirthdateVO', () => {
 
   it('should be able to returns true when the birthdate is passed and have a valid date format', () => {
     const fakeValidBirthdate = faker.date.birthdate()
-    sut = new BirthdateVO(fakeValidBirthdate)
+    sut = new BirthdateVO({ value: fakeValidBirthdate })
 
     const isValid = sut.isValid()
 

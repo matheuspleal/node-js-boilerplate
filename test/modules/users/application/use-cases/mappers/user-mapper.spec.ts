@@ -98,8 +98,8 @@ describe('UserMapper', () => {
     expect(persistenceToEntity).toMatchObject({
       id: new UniqueEntityIdVO(userPersistence.id),
       name: userPersistence.name,
-      email: new EmailVO(userPersistence.email),
-      birthdate: new BirthdateVO(userPersistence.birthdate),
+      email: new EmailVO({ value: userPersistence.email }),
+      birthdate: new BirthdateVO({ value: userPersistence.birthdate }),
       createdAt: userPersistence.createdAt,
       updatedAt: userPersistence.updatedAt,
     })
@@ -113,8 +113,10 @@ describe('UserMapper', () => {
       expect(item).toMatchObject({
         id: new UniqueEntityIdVO(userCollectionPersistence[index].id),
         name: userCollectionPersistence[index].name,
-        email: new EmailVO(userCollectionPersistence[index].email),
-        birthdate: new BirthdateVO(userCollectionPersistence[index].birthdate),
+        email: new EmailVO({ value: userCollectionPersistence[index].email }),
+        birthdate: new BirthdateVO({
+          value: userCollectionPersistence[index].birthdate,
+        }),
         createdAt: userCollectionPersistence[index].createdAt,
         updatedAt: userCollectionPersistence[index].updatedAt,
       })

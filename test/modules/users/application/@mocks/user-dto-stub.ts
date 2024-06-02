@@ -12,7 +12,7 @@ export function makeFakeUserDTOStub(): UserDTO {
     name: faker.person.fullName(),
     email: faker.internet.email(),
     birthdate,
-    age: new BirthdateVO(birthdate).getCurrentAgeInYears(),
+    age: new BirthdateVO({ value: birthdate }).getCurrentAgeInYears(),
     createdAt: faker.date.recent(),
     updatedAt: faker.date.recent(),
   }

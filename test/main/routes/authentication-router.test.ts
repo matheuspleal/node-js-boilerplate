@@ -222,7 +222,7 @@ describe('AuthenticationRouter', () => {
     test('sign up successfully', async () => {
       const { name, email, password, birthdate } =
         makeFakeRequiredInputSignUpStub()
-      const age = new BirthdateVO(birthdate).getCurrentAgeInYears()
+      const age = new BirthdateVO({ value: birthdate }).getCurrentAgeInYears()
 
       const { statusCode, body } = await request(app.server)
         .post('/api/v1/signup')
