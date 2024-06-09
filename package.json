@@ -1,7 +1,7 @@
 {
-  "name": "node-js-skeleton",
+  "name": "node-js-boilerplate",
   "version": "1.0.0",
-  "description": "Node.js Skeleton developed with TypeScript, using Clean Architecture, Domain-Driven Design (DDD) and Test Driven Development (TDD)",
+  "description": "Node.js Boilerplate developed with TypeScript, using Clean Architecture, Domain-Driven Design (DDD) and Test Driven Development (TDD)",
   "main": "dist/server.js",
   "type": "module",
   "scripts": {
