@@ -10,7 +10,7 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   person    Person   @relation(fields: [personId], references: [id])
-  personId  String   @db.VarChar(36)
+  personId  String   @unique @db.VarChar(36)
   email     String   @unique
   password  String
   createdAt DateTime @default(now()) @map("created_at")
@@ -25,7 +25,8 @@ model Person {
   birthdate DateTime @db.Date
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  User      User[]
+  userId    String
+  User      User?
 
   @@map("persons")
 }
