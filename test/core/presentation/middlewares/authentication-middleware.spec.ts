@@ -7,8 +7,8 @@ import {
 } from '@/core/application/gateways/token/token-verifier'
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { AuthenticationMiddleware } from '@/core/presentation/middlewares/authentication-middleware'
-import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
-import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
+import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
+import { type UserEntity } from '@/modules/persons/domain/entities/user-entity'
 
 import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
 

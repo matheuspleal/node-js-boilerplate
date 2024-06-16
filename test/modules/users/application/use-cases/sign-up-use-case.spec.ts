@@ -6,18 +6,18 @@ import {
   type HashGenerator,
   type HashGeneratorGateway,
 } from '@/core/application/gateways/cryptography/hash-generator'
-import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
-import { InvalidBirthdateError } from '@/modules/users/application/errors/invalid-birthdate-error'
-import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email-error'
-import { type CreateUserRepository } from '@/modules/users/application/repositories/create-user-repository'
-import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
+import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/email-already-exists-error'
+import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate-error'
+import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email-error'
+import { type CreateUserRepository } from '@/modules/persons/application/repositories/create-user-repository'
+import { type FindUserByEmailRepository } from '@/modules/persons/application/repositories/find-user-by-email-repository'
 import {
   type SignUp,
   SignUpUseCase,
-} from '@/modules/users/application/use-cases/sign-up-use-case'
-import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
-import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
-import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
+} from '@/modules/persons/application/use-cases/sign-up-use-case'
+import { type UserEntity } from '@/modules/persons/domain/entities/user-entity'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { EmailVO } from '@/modules/persons/domain/value-objects/email-vo'
 
 import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
 import {

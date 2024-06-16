@@ -6,9 +6,9 @@ import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
 import { appSetup } from '@/main/setup/app-setup'
-import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
-import { UserNotFoundError } from '@/modules/users/application/errors/user-not-found-error'
-import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
+import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
+import { UserNotFoundError } from '@/modules/persons/application/errors/user-not-found-error'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { generateAccessToken } from '#/main/helpers/generate-access-token'

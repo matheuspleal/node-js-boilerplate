@@ -1,10 +1,11 @@
-import { ServerError } from '@/core/presentation/errors/server-error'
+import { InternalServerError } from '@/core/presentation/errors/internal-server-error'
 import {
   StatusCode,
   badDomainRequest,
   badValidatorRequest,
   conflict,
   created,
+  noContent,
   ok,
   serverError,
 } from '@/core/presentation/helpers/http-helpers'
@@ -70,6 +71,19 @@ describe('HttpHelpers', () => {
     })
   })
 
+  describe('no content [status code = 204]', () => {
+    it('should be able to return HttpResponse with status code equals 204 and data equals undefined', () => {
+      const expectedResponse: HttpResponse<undefined> = {
+        statusCode: StatusCode.NO_CONTENT,
+        data: undefined,
+      }
+
+      const sut = noContent()
+
+      expect(sut).toMatchObject(expectedResponse)
+    })
+  })
+
   describe('badDomainRequest [status code = 400]', () => {
     it('should be able to return HttpResponse with status code equals 400 and data equals any error', () => {
       const fakeError = new Error('fake_error')
@@ -129,10 +143,10 @@ describe('HttpHelpers', () => {
   })
 
   describe('serverError [status code = 500]', () => {
-    it('should be able to return HttpResponse with status code equals 500 and data equals ServerError', () => {
+    it('should be able to return HttpResponse with status code equals 500 and data equals InternalServerError', () => {
       const expectedResponse: HttpResponse = {
         statusCode: StatusCode.SERVER_ERROR,
-        data: new ServerError(),
+        data: new InternalServerError(),
       }
 
       const sut = serverError()
@@ -140,13 +154,13 @@ describe('HttpHelpers', () => {
       expect(sut).toMatchObject(expectedResponse)
     })
 
-    it('should be able to return HttpResponse with status code equals 500 and data equals ServerError when unknown error is reported', () => {
+    it('should be able to return HttpResponse with status code equals 500 and data equals InternalServerError when unknown error is reported', () => {
       const fakeError = new Error('fake_error')
-      const fakeServerError = new ServerError(fakeError)
+      const fakeInternalServerError = new InternalServerError(fakeError)
 
       const expectedResponse: HttpResponse = {
         statusCode: StatusCode.SERVER_ERROR,
-        data: fakeServerError,
+        data: fakeInternalServerError,
       }
 
       const sut = serverError(fakeError)

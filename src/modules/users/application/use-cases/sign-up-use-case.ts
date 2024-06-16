@@ -1,13 +1,12 @@
 import { type Either, left, right } from '@/core/application/either'
 import { type HashGeneratorGateway } from '@/core/application/gateways/cryptography/hash-generator'
 import { type UseCase } from '@/core/application/use-cases/use-case'
+import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate-error'
+import { PersonEntity } from '@/modules/persons/domain/entities/person-entity'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
-import { InvalidBirthdateError } from '@/modules/users/application/errors/invalid-birthdate-error'
 import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email-error'
 import { type CreateUserRepository } from '@/modules/users/application/repositories/create-user-repository'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
-import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
-import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 export namespace SignUp {
@@ -20,9 +19,7 @@ export namespace SignUp {
 
   export type Output = Either<
     EmailAlreadyExistsError | InvalidEmailError | InvalidBirthdateError,
-    {
-      user: UserDTO
-    }
+    null
   >
 }
 
@@ -43,25 +40,26 @@ export class SignUpUseCase implements UseCase<SignUp.Input, SignUp.Output> {
     if (foundUser) {
       return left(new EmailAlreadyExistsError(email))
     }
-    const user = UserEntity.create({
+    const person = PersonEntity.create({
       name,
+      birthdate,
+    })
+    const user = UserEntity.create({
+      personId: person.id,
       email,
       password,
-      birthdate,
     })
     if (!user.email.isValid()) {
       return left(new InvalidEmailError(email))
     }
-    if (!user.birthdate.isValid()) {
+    if (!person.birthdate.isValid()) {
       return left(new InvalidBirthdateError(birthdate))
     }
     const hashedPassword = await this.hashGeneratorGateway.hash({
       plaintext: user.password,
     })
     user.password = hashedPassword
-    const createdUser = await this.createUserRepository.create(user)
-    return right({
-      user: UserMapper.toDTO(createdUser),
-    })
+    await this.createUserRepository.create({ person, user })
+    return right(null)
   }
 }

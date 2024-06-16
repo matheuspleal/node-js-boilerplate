@@ -1,209 +1,41 @@
-import { randomUUID } from 'node:crypto'
-
+import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
+import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
 import { appSetup } from '@/main/setup/app-setup'
-import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
+import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
-import { generateAccessToken } from '#/main/helpers/generate-access-token'
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
-import { makeFakeUserCollectionPersistenceStub } from '#/modules/users/application/@mocks/user-persistence-stub'
-import { emailRegExp } from '#/modules/users/domain/@helpers/email-regexp'
+import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
+import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/input-sign-in-stub'
+import {
+  makeFakeAllInputSignUpStub,
+  makeFakeRequiredInputSignUpStub,
+} from '#/modules/users/application/@mocks/input-sign-up-stub'
+
+const listOfSignUpFields = ['name', 'email', 'password', 'birthdate']
+const listOfSignInFields = ['email', 'password']
 
 describe('UsersGraphQL', () => {
   let app: FastifyInstance
   let prisma: PrismaClient
-  let accessToken: string
-  let fetchUsersQuery: string
-  let getUserByIdQuery: string
-  let userId: string
+  let signUpMutation: string
+  let signInQuery: string
 
   beforeAll(async () => {
     prisma = new PrismaClient()
     app = await appSetup()
     await app.ready()
-    accessToken = await generateAccessToken(prisma)
   })
 
-  describe('FetchUsers', async () => {
-    beforeAll(async () => {
-      const listOfUsers = makeFakeUserCollectionPersistenceStub({
-        length: 99,
-      })
-      await prisma.user.createMany({
-        data: [...listOfUsers],
-      })
-      fetchUsersQuery = `
-        query FetchUsers($params: PaginationParams) {
-          fetchUsers(params: $params) {
-            count
-            users {
-              id
-              name
-              email
-              birthdate
-              age
-              createdAt
-              updatedAt
-            }
-          }
-        }
-      `
-    })
-
-    test('fetch users without token', async () => {
-      const { statusCode, body } = await request(app.server)
-        .post('/api/graphql')
-        .send({
-          query: fetchUsersQuery,
-          variables: {},
-        })
-
-      expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
-        errors: [
-          {
-            message: 'Unauthorized.',
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['fetchUsers'],
-            extensions: {
-              code: 'UNAUTHORIZED',
-            },
-          },
-        ],
-      })
-    })
-
-    test('fetch users with invalid token', async () => {
-      const { statusCode, body } = await request(app.server)
-        .post('/api/graphql')
-        .set('Authorization', 'Bearer fake-invalid-token')
-        .send({
-          query: fetchUsersQuery,
-        })
-
-      expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
-        errors: [
-          {
-            message: 'Unauthorized.',
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['fetchUsers'],
-            extensions: {
-              code: 'UNAUTHORIZED',
-            },
-          },
-        ],
-      })
-    })
-
-    test('fetch users with invalid page[offset] and page[limit]', async () => {
-      const { statusCode, body } = await request(app.server)
-        .post('/api/graphql')
-        .set('Authorization', `Bearer ${accessToken}`)
-        .send({
-          query: fetchUsersQuery,
-          variables: {
-            params: {
-              offset: -2,
-              limit: 99,
-            },
-          },
-        })
-      const { count, users } = body.data.fetchUsers
-      const [anyUser] = users
-
-      expect(statusCode).toEqual(200)
-      expect(count).toEqual(100)
-      expect(users).toHaveLength(20)
-      expect(anyUser).toMatchObject({
-        id: expect.any(String),
-        name: expect.any(String),
-        email: expect.stringMatching(emailRegExp),
-        age: expect.any(Number),
-        createdAt: expect.stringMatching(ISODateRegExp),
-        updatedAt: expect.stringMatching(ISODateRegExp),
-      })
-    })
-
-    test('fetch users with custom page[offset] and page[limit]', async () => {
-      const { statusCode, body } = await request(app.server)
-        .post('/api/graphql')
-        .set('Authorization', `Bearer ${accessToken}`)
-        .send({
-          query: fetchUsersQuery,
-          variables: {
-            params: {
-              offset: 2,
-              limit: 10,
-            },
-          },
-        })
-      const { count, users } = body.data.fetchUsers
-      const [anyUser] = users
-
-      expect(statusCode).toEqual(200)
-      expect(count).toEqual(100)
-      expect(users).toHaveLength(10)
-      expect(anyUser).toMatchObject({
-        id: expect.any(String),
-        name: expect.any(String),
-        email: expect.stringMatching(emailRegExp),
-        age: expect.any(Number),
-        createdAt: expect.stringMatching(ISODateRegExp),
-        updatedAt: expect.stringMatching(ISODateRegExp),
-      })
-    })
-
-    test('fetch users without page[offset] and page[limit]', async () => {
-      const { statusCode, body } = await request(app.server)
-        .post('/api/graphql')
-        .set('Authorization', `Bearer ${accessToken}`)
-        .send({
-          query: fetchUsersQuery,
-        })
-      const { count, users } = body.data.fetchUsers
-      const [anyUser] = users
-
-      expect(statusCode).toEqual(200)
-      expect(count).toEqual(100)
-      expect(users).toHaveLength(20)
-      expect(anyUser).toMatchObject({
-        id: expect.any(String),
-        name: expect.any(String),
-        email: expect.stringMatching(emailRegExp),
-        age: expect.any(Number),
-        createdAt: expect.stringMatching(ISODateRegExp),
-        updatedAt: expect.stringMatching(ISODateRegExp),
-      })
-    })
-  })
-
-  describe('GetUserById', async () => {
-    beforeAll(async () => {
-      const listOfUsers = makeFakeUserCollectionPersistenceStub({
-        length: 100,
-      })
-      userId = listOfUsers[9].id
-      await prisma.user.createMany({
-        data: [...listOfUsers],
-      })
-      getUserByIdQuery = `
-        query GetUserById($userId: ID!) {
-          getUserById(userId: $userId) {
+  describe('Sign Up', async () => {
+    beforeAll(() => {
+      signUpMutation = `
+        mutation SignUp($name: String!, $email: String!, $password: String!, $birthdate: Date!) {
+          signUp(name: $name, email: $email, password: $password, birthdate: $birthdate) {
             user {
               id
               name
@@ -218,130 +50,129 @@ describe('UsersGraphQL', () => {
       `
     })
 
-    test('get user without token', async () => {
+    test('sign up with missing all required fields', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .send({
-          query: getUserByIdQuery,
-          variables: {
-            userId,
-          },
+          query: signUpMutation,
+          variables: {},
         })
 
-      expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
-        errors: [
-          {
-            message: 'Unauthorized.',
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['getUserById'],
-            extensions: {
-              code: 'UNAUTHORIZED',
-            },
-          },
-        ],
+      expect(statusCode).toEqual(400)
+      expect(body.errors).toHaveLength(4)
+      body.errors.forEach((error: any) => {
+        expect(error).toMatchObject({
+          message: expect.any(String),
+          extensions: { code: 'BAD_USER_INPUT' },
+          locations: expect.any(Array),
+        })
       })
     })
 
-    test('get user with invalid token', async () => {
-      const { statusCode, body } = await request(app.server)
-        .post('/api/graphql')
-        .set('Authorization', 'Bearer fake-invalid-token')
-        .send({
-          query: getUserByIdQuery,
-          variables: {
-            userId,
-          },
+    test.each(listOfSignUpFields)(
+      'sign up with missing "%s" field',
+      async (field) => {
+        const fakeUser: any = makeFakeRequiredInputSignUpStub()
+        fakeUser[field] = undefined
+
+        const { statusCode, body } = await request(app.server)
+          .post('/api/graphql')
+          .send({
+            query: signUpMutation,
+            variables: { ...fakeUser },
+          })
+
+        expect(statusCode).toEqual(400)
+        expect(body.errors).toHaveLength(1)
+        const [error] = body.errors
+        expect(error).toMatchObject({
+          message: expect.any(String),
+          extensions: { code: 'BAD_USER_INPUT' },
+          locations: expect.any(Array),
         })
+      },
+    )
 
-      expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
-        errors: [
-          {
-            message: 'Unauthorized.',
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['getUserById'],
-            extensions: {
-              code: 'UNAUTHORIZED',
-            },
-          },
-        ],
-      })
-    })
-
-    test('get user by invalid id', async () => {
-      const invalidId = 'invalid-id'
+    test('sign up with invalid email', async () => {
+      const { name, password, birthdate } = makeFakeRequiredInputSignUpStub()
+      const invalidEmail = 'invalid-email@fake-domain.net'
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
-        .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: getUserByIdQuery,
+          query: signUpMutation,
           variables: {
-            userId: invalidId,
+            name,
+            email: invalidEmail,
+            password,
+            birthdate,
           },
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
-        errors: [
-          {
-            message: 'The field "id" with value "invalid-id" is invalid id!',
-            extensions: {
-              code: 'DOMAIN_VALIDATION_ERROR',
-            },
-          },
-        ],
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        message: `Email "${invalidEmail}" is invalid!`,
+        extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
       })
     })
 
-    test('get user by non existent id', async () => {
-      const nonExistentId = randomUUID()
+    test('sign up with invalid password', async () => {
+      const { name, email, birthdate } = makeFakeRequiredInputSignUpStub()
+      const invalidPassword = 'invalid-password'
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
-        .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: getUserByIdQuery,
+          query: signUpMutation,
           variables: {
-            userId: nonExistentId,
+            name,
+            email,
+            password: invalidPassword,
+            birthdate,
           },
         })
 
-      expect(statusCode).toEqual(404)
-      expect(body).toMatchObject({
-        errors: [
-          {
-            message: `User with id "${nonExistentId}" not found!`,
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['getUserById'],
-            extensions: {
-              code: 'NOT_FOUND',
-            },
-          },
-        ],
+      expect(statusCode).toEqual(400)
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        message:
+          'The field "password" must contain between 8 and 20 characters and must contain at least one uppercase character, one lowercase character, one numeric character and one special character!',
+        extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
       })
     })
 
-    test('get user by id', async () => {
+    test('sign up with invalid birthdate', async () => {
+      const { name, email, password } = makeFakeRequiredInputSignUpStub()
+      const invalidBirthdate = faker.date.future({ years: 1 })
+
+      const { statusCode, body } = await request(app.server)
+        .post('/api/graphql')
+        .send({
+          query: signUpMutation,
+          variables: {
+            name,
+            email,
+            password,
+            birthdate: invalidBirthdate,
+          },
+        })
+
+      expect(statusCode).toEqual(400)
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        message: `Birthdate "${invalidBirthdate.toISOString()}" is invalid!`,
+        extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
+      })
+    })
+
+    test('sign up with the existent email', async () => {
       const { name, email, password, birthdate } =
         makeFakeRequiredInputSignUpStub()
-      const { id, createdAt, updatedAt } = await prisma.user.create({
+      await prisma.user.create({
         data: {
           name,
           email,
@@ -352,26 +183,189 @@ describe('UsersGraphQL', () => {
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
-        .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: getUserByIdQuery,
+          query: signUpMutation,
           variables: {
-            userId: id,
+            name,
+            email,
+            password,
+            birthdate,
           },
         })
-      const { getUserById } = body.data
+
+      expect(statusCode).toEqual(409)
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        message: `Email "${email}" already exists!`,
+        extensions: { code: 'CONFLICT' },
+      })
+    })
+
+    test('sign up successfully', async () => {
+      const { name, email, password, birthdate } =
+        makeFakeRequiredInputSignUpStub()
+      const age = new BirthdateVO({ value: birthdate }).getCurrentAgeInYears()
+
+      const { statusCode, body } = await request(app.server)
+        .post('/api/graphql')
+        .send({
+          query: signUpMutation,
+          variables: { name, email, password, birthdate },
+        })
 
       expect(statusCode).toEqual(200)
-      expect(getUserById).toMatchObject({
-        user: {
-          id,
-          name,
-          email,
-          age: new BirthdateVO({ value: birthdate }).getCurrentAgeInYears(),
-          createdAt: createdAt.toISOString(),
-          updatedAt: updatedAt.toISOString(),
+      expect(body).toMatchObject({
+        data: {
+          signUp: {
+            user: {
+              id: expect.stringMatching(UUIDRegExp),
+              name,
+              email,
+              age,
+              createdAt: expect.stringMatching(ISODateRegExp),
+              updatedAt: expect.stringMatching(ISODateRegExp),
+            },
+          },
         },
       })
+    })
+  })
+
+  describe('Sign In', async () => {
+    beforeAll(() => {
+      signInQuery = `
+        query SignIn($password: String!, $email: String!) {
+          signIn(password: $password, email: $email) {
+            accessToken
+          }
+        }
+      `
+    })
+
+    test('sign in with missing all required fields', async () => {
+      const { statusCode, body } = await request(app.server)
+        .post('/api/graphql')
+        .send({
+          query: signInQuery,
+          variables: {},
+        })
+
+      expect(statusCode).toEqual(400)
+      expect(body.errors).toHaveLength(2)
+      body.errors.forEach((error: any) => {
+        expect(error).toMatchObject({
+          message: expect.any(String),
+          extensions: { code: 'BAD_USER_INPUT' },
+          locations: expect.any(Array),
+        })
+      })
+    })
+
+    test.each(listOfSignInFields)(
+      'sign in with missing "%s" field',
+      async (field) => {
+        const fakeCredentials: any = makeFakeRequiredInputSignInStub()
+        fakeCredentials[field] = undefined
+
+        const { statusCode, body } = await request(app.server)
+          .post('/api/graphql')
+          .send({
+            query: signInQuery,
+            variables: { ...fakeCredentials },
+          })
+
+        expect(statusCode).toEqual(400)
+        expect(body.errors).toHaveLength(1)
+        const [error] = body.errors
+        expect(error).toMatchObject({
+          message: expect.any(String),
+          extensions: { code: 'BAD_USER_INPUT' },
+          locations: expect.any(Array),
+        })
+      },
+    )
+
+    test('sign in with incorrect email', async () => {
+      const { password } = await prisma.user.create({
+        data: {
+          ...makeFakeRequiredInputSignUpStub(),
+        },
+      })
+
+      const incorrectEmail = 'incorrect-email'
+
+      const { statusCode, body } = await request(app.server)
+        .post('/api/graphql')
+        .send({
+          query: signInQuery,
+          variables: {
+            email: incorrectEmail,
+            password,
+          },
+        })
+
+      expect(statusCode).toEqual(401)
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        message: new UnauthorizedError().message,
+        extensions: { code: 'UNAUTHORIZED' },
+      })
+    })
+
+    test('sign in with incorrect password', async () => {
+      const { email } = await prisma.user.create({
+        data: {
+          ...makeFakeRequiredInputSignUpStub(),
+        },
+      })
+
+      const incorrectPassword = 'incorrect-password'
+
+      const { statusCode, body } = await request(app.server)
+        .post('/api/graphql')
+        .send({
+          query: signInQuery,
+          variables: {
+            email,
+            password: incorrectPassword,
+          },
+        })
+
+      expect(statusCode).toEqual(401)
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        message: new UnauthorizedError().message,
+        extensions: { code: 'UNAUTHORIZED' },
+      })
+    })
+
+    test('sign in successfully', async () => {
+      const fakeUserData = makeFakeAllInputSignUpStub()
+      const hashedPasswordStub = await new BcryptAdapter(8).hash({
+        plaintext: fakeUserData.password,
+      })
+      await prisma.user.create({
+        data: {
+          ...fakeUserData,
+          password: hashedPasswordStub,
+        },
+      })
+
+      const { statusCode, body } = await request(app.server)
+        .post('/api/graphql')
+        .send({
+          query: signInQuery,
+          variables: {
+            email: fakeUserData.email,
+            password: fakeUserData.password,
+          },
+        })
+
+      expect(statusCode).toEqual(200)
+      expect(body).toMatchObject({})
     })
   })
 })

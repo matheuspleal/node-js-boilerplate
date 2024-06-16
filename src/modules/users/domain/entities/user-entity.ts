@@ -1,26 +1,23 @@
 import { Entity } from '@/core/domain/entities/entity'
-import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { type Optional } from '@/core/shared/types/optional'
-import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate-vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
 export interface UserProps {
-  name: string
+  personId: UniqueEntityIdVO
   email: EmailVO
   password: string
-  birthdate: BirthdateVO
   createdAt: Date
   updatedAt: Date
 }
 
 export class UserEntity extends Entity<UserProps> {
-  get name() {
-    return this.props.name
+  get personId() {
+    return this.personId
   }
 
-  set name(name: string) {
-    this.props.name = name
-    this.touch()
+  set personId(personId: string) {
+    this.personId = new UniqueEntityIdVO(personId).toValue()
   }
 
   get email() {
@@ -33,14 +30,7 @@ export class UserEntity extends Entity<UserProps> {
 
   set password(password: string) {
     this.props.password = password
-  }
-
-  get birthdate() {
-    return this.props.birthdate
-  }
-
-  get age() {
-    return this.props.birthdate.getCurrentAgeInYears()
+    this.touch()
   }
 
   get createdAt() {
@@ -56,13 +46,8 @@ export class UserEntity extends Entity<UserProps> {
   }
 
   static create(
-    props: Optional<
-      Omit<UserProps, 'email' | 'password' | 'birthdate'>,
-      'createdAt' | 'updatedAt'
-    > & {
+    props: Optional<Omit<UserProps, 'email'>, 'createdAt' | 'updatedAt'> & {
       email: string
-      password: string
-      birthdate: Date
     },
     id?: UniqueEntityIdVO,
   ): UserEntity {
@@ -70,7 +55,6 @@ export class UserEntity extends Entity<UserProps> {
       {
         ...props,
         email: new EmailVO({ value: props.email }),
-        birthdate: new BirthdateVO({ value: props.birthdate }),
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },

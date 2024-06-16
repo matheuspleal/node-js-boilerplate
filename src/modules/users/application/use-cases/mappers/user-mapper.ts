@@ -8,9 +8,6 @@ export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toDTO(userEntity: UserEntity): UserDTO {
     return {
       id: userEntity.id.toString(),
-      name: userEntity.name,
-      birthdate: userEntity.birthdate.toValue(),
-      age: userEntity.age,
       email: userEntity.email.toString(),
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt,
@@ -24,10 +21,9 @@ export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toDomain(userPersistence: UserPersistence): UserEntity {
     return UserEntity.create(
       {
-        name: userPersistence.name,
+        personId: new UniqueEntityIdVO(userPersistence.personId),
         email: userPersistence.email,
         password: userPersistence.password,
-        birthdate: userPersistence.birthdate,
         createdAt: userPersistence.createdAt,
         updatedAt: userPersistence.updatedAt,
       },
@@ -42,10 +38,9 @@ export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toPersistence(userEntity: UserEntity): UserPersistence {
     return {
       id: userEntity.id.toString(),
-      name: userEntity.name,
+      personId: userEntity.personId,
       email: userEntity.email.toString(),
       password: userEntity.password.toString(),
-      birthdate: userEntity.birthdate.toValue(),
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt,
     }

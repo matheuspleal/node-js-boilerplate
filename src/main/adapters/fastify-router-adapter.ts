@@ -5,7 +5,7 @@ import {
 } from 'fastify'
 
 import { type HttpController } from '@/core/presentation/controllers/http-controller'
-import { ServerError } from '@/core/presentation/errors/server-error'
+import { InternalServerError } from '@/core/presentation/errors/internal-server-error'
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 
 export function fastifyRouterAdapter<HttpRequest, Data>(
@@ -35,7 +35,7 @@ export function fastifyRouterAdapter<HttpRequest, Data>(
       default:
         return reply
           .status(statusCode)
-          .send({ error: new ServerError().message })
+          .send({ error: new InternalServerError().message })
     }
   }
 }
