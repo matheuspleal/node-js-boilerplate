@@ -10,6 +10,13 @@ export interface PersonProps {
   updatedAt: Date
 }
 
+export type PersonInput = Optional<
+  Omit<PersonProps, 'birthdate'>,
+  'createdAt' | 'updatedAt'
+> & {
+  birthdate: Date
+}
+
 export class PersonEntity extends Entity<PersonProps> {
   get name() {
     return this.props.name
@@ -40,15 +47,7 @@ export class PersonEntity extends Entity<PersonProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(
-    props: Optional<
-      Omit<PersonProps, 'birthdate'>,
-      'createdAt' | 'updatedAt'
-    > & {
-      birthdate: Date
-    },
-    id?: UniqueEntityIdVO,
-  ): PersonEntity {
+  static create(props: PersonInput, id?: UniqueEntityIdVO): PersonEntity {
     const user = new PersonEntity(
       {
         ...props,

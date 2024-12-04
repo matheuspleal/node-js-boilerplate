@@ -1,3 +1,3 @@
 export interface CollectionStubProps {
-  length: number
+  length?: number
 }

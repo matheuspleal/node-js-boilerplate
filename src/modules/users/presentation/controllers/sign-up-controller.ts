@@ -2,13 +2,17 @@ import { HttpController } from '@/core/presentation/controllers/http-controller'
 import {
   badDomainRequest,
   conflict,
-  noContent,
+  created,
 } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
-import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
+import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
+import {
+  SignUpPresenter,
+  type SignUpPresenterOutput,
+} from '@/modules/users/presentation/presenters/sign-up-presenter'
 
 export interface SignUpControllerRequest {
   name: string
@@ -17,7 +21,9 @@ export interface SignUpControllerRequest {
   birthdate: string
 }
 
-export type SignUpControllerResponse = EmailAlreadyExistsError | undefined
+export type SignUpControllerResponse =
+  | EmailAlreadyExistsError
+  | SignUpPresenterOutput
 
 export class SignUpController extends HttpController<
   SignUpControllerRequest,
@@ -67,11 +73,14 @@ export class SignUpController extends HttpController<
     })
     if (result.isLeft()) {
       const error =
-        result.value instanceof EmailAlreadyExistsError
+        result.value.name === 'EmailAlreadyExistsError'
           ? conflict(result.value)
           : badDomainRequest(result.value)
       return error
     }
-    return noContent()
+    const { person, user } = result.value
+    return created<SignUpPresenterOutput>(
+      SignUpPresenter.toHttp({ person, user }),
+    )
   }
 }

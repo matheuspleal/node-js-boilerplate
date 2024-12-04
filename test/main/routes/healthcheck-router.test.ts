@@ -29,7 +29,7 @@ describe('HealthcheckRouter', () => {
       )
 
       expect(statusCode).toEqual(200)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         message: 'Ok!',
       })
     })
@@ -40,7 +40,7 @@ describe('HealthcheckRouter', () => {
       )
 
       expect(statusCode).toEqual(500)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         message: fakeError.message,
       })
     })

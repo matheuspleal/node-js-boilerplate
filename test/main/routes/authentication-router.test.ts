@@ -14,7 +14,7 @@ import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/input-sign-in-stub'
+import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/sign-in-input-stub'
 import {
   makeFakeAllInputSignUpStub,
   makeFakeRequiredInputSignUpStub,
@@ -42,7 +42,7 @@ describe('AuthenticationRouter', () => {
         .send(fakeUser)
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             field: 'name',
@@ -113,7 +113,7 @@ describe('AuthenticationRouter', () => {
           .send(fakeUser)
 
         expect(statusCode).toEqual(400)
-        expect(body).toMatchObject({
+        expect(body).toEqual({
           errors: [
             {
               field,
@@ -138,7 +138,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new InvalidEmailError(invalidEmail).message,
       })
     })
@@ -157,7 +157,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             field: 'password',
@@ -187,7 +187,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new InvalidBirthdateError(invalidBirthdate).message,
       })
     })
@@ -214,7 +214,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(409)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new EmailAlreadyExistsError(email).message,
       })
     })
@@ -234,7 +234,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(201)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         user: {
           id: expect.stringMatching(UUIDRegExp),
           name,
@@ -256,7 +256,7 @@ describe('AuthenticationRouter', () => {
         .send(fakeCredentials)
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             field: 'email',
@@ -291,7 +291,7 @@ describe('AuthenticationRouter', () => {
           .send(fakeCredentials)
 
         expect(statusCode).toEqual(400)
-        expect(body).toMatchObject({
+        expect(body).toEqual({
           errors: [
             {
               field,
@@ -324,7 +324,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new UnauthorizedError().message,
       })
     })
@@ -346,7 +346,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new UnauthorizedError().message,
       })
     })
@@ -371,7 +371,7 @@ describe('AuthenticationRouter', () => {
         })
 
       expect(statusCode).toEqual(200)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         accessToken: expect.any(String),
       })
     })

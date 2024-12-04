@@ -10,7 +10,7 @@ import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/input-sign-in-stub'
+import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/sign-in-input-stub'
 import {
   makeFakeAllInputSignUpStub,
   makeFakeRequiredInputSignUpStub,
@@ -61,7 +61,7 @@ describe('UsersGraphQL', () => {
       expect(statusCode).toEqual(400)
       expect(body.errors).toHaveLength(4)
       body.errors.forEach((error: any) => {
-        expect(error).toMatchObject({
+        expect(error).toEqual({
           message: expect.any(String),
           extensions: { code: 'BAD_USER_INPUT' },
           locations: expect.any(Array),
@@ -85,7 +85,7 @@ describe('UsersGraphQL', () => {
         expect(statusCode).toEqual(400)
         expect(body.errors).toHaveLength(1)
         const [error] = body.errors
-        expect(error).toMatchObject({
+        expect(error).toEqual({
           message: expect.any(String),
           extensions: { code: 'BAD_USER_INPUT' },
           locations: expect.any(Array),
@@ -112,7 +112,7 @@ describe('UsersGraphQL', () => {
       expect(statusCode).toEqual(400)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toMatchObject({
+      expect(error).toEqual({
         message: `Email "${invalidEmail}" is invalid!`,
         extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
       })
@@ -137,7 +137,7 @@ describe('UsersGraphQL', () => {
       expect(statusCode).toEqual(400)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toMatchObject({
+      expect(error).toEqual({
         message:
           'The field "password" must contain between 8 and 20 characters and must contain at least one uppercase character, one lowercase character, one numeric character and one special character!',
         extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
@@ -163,7 +163,7 @@ describe('UsersGraphQL', () => {
       expect(statusCode).toEqual(400)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toMatchObject({
+      expect(error).toEqual({
         message: `Birthdate "${invalidBirthdate.toISOString()}" is invalid!`,
         extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
       })
@@ -196,7 +196,7 @@ describe('UsersGraphQL', () => {
       expect(statusCode).toEqual(409)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toMatchObject({
+      expect(error).toEqual({
         message: `Email "${email}" already exists!`,
         extensions: { code: 'CONFLICT' },
       })
@@ -215,7 +215,7 @@ describe('UsersGraphQL', () => {
         })
 
       expect(statusCode).toEqual(200)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         data: {
           signUp: {
             user: {
@@ -254,7 +254,7 @@ describe('UsersGraphQL', () => {
       expect(statusCode).toEqual(400)
       expect(body.errors).toHaveLength(2)
       body.errors.forEach((error: any) => {
-        expect(error).toMatchObject({
+        expect(error).toEqual({
           message: expect.any(String),
           extensions: { code: 'BAD_USER_INPUT' },
           locations: expect.any(Array),
@@ -278,7 +278,7 @@ describe('UsersGraphQL', () => {
         expect(statusCode).toEqual(400)
         expect(body.errors).toHaveLength(1)
         const [error] = body.errors
-        expect(error).toMatchObject({
+        expect(error).toEqual({
           message: expect.any(String),
           extensions: { code: 'BAD_USER_INPUT' },
           locations: expect.any(Array),
@@ -308,7 +308,7 @@ describe('UsersGraphQL', () => {
       expect(statusCode).toEqual(401)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toMatchObject({
+      expect(error).toEqual({
         message: new UnauthorizedError().message,
         extensions: { code: 'UNAUTHORIZED' },
       })
@@ -336,7 +336,7 @@ describe('UsersGraphQL', () => {
       expect(statusCode).toEqual(401)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toMatchObject({
+      expect(error).toEqual({
         message: new UnauthorizedError().message,
         extensions: { code: 'UNAUTHORIZED' },
       })
@@ -365,7 +365,7 @@ describe('UsersGraphQL', () => {
         })
 
       expect(statusCode).toEqual(200)
-      expect(body).toMatchObject({})
+      expect(body).toEqual({})
     })
   })
 })

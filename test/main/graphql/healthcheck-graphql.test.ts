@@ -44,7 +44,7 @@ describe('HealthcheckGraphQL', () => {
       const { healthcheck } = body.data
 
       expect(statusCode).toEqual(200)
-      expect(healthcheck).toMatchObject({
+      expect(healthcheck).toEqual({
         message: 'Ok!',
       })
     })
@@ -55,7 +55,7 @@ describe('HealthcheckGraphQL', () => {
       )
 
       expect(statusCode).toEqual(500)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         message: fakeError.message,
       })
     })

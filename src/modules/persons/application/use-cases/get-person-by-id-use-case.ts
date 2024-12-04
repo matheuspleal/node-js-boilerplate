@@ -15,6 +15,7 @@ export type GetPersonByIdUseCaseOutput = Either<
     person: PersonDTO
   }
 >
+
 export class GetPersonByIdUseCase
   implements UseCase<GetPersonByIdUseCaseInput, GetPersonByIdUseCaseOutput>
 {

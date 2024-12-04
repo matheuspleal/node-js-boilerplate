@@ -27,7 +27,7 @@ export function makeFakeDTOStub(): FakeDTO {
 }
 
 export function makeFakeCollectionDTOStub({
-  length,
+  length = 20,
 }: CollectionStubProps): FakeCollectionDTO {
   return Array.from({ length }).map(makeFakeDTOStub)
 }

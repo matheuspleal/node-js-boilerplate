@@ -8,9 +8,9 @@ import {
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { AuthenticationMiddleware } from '@/core/presentation/middlewares/authentication-middleware'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
-import { type UserEntity } from '@/modules/persons/domain/entities/user-entity'
+import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
+import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
 
 describe('AuthenticationMiddleware', () => {
   let sut: AuthenticationMiddleware
@@ -22,7 +22,7 @@ describe('AuthenticationMiddleware', () => {
   >
 
   beforeAll(() => {
-    userEntityStub = makeFakeUserEntityStub()
+    userEntityStub = makeUserEntityStub()
     tokenVerifierGatewayMock = mock<TokenVerifierGateway>()
     tokenVerifierGatewayMock.verify.mockReturnValue({
       sub: userEntityStub.id.toString(),
@@ -46,7 +46,7 @@ describe('AuthenticationMiddleware', () => {
 
     expect(tokenVerifierGatewaySpy).toHaveBeenCalledTimes(1)
     expect(tokenVerifierGatewaySpy).toHaveBeenCalledWith({ token: undefined })
-    expect(response).toMatchObject({
+    expect(response).toEqual({
       statusCode: StatusCode.UNAUTHORIZED,
       data: new UnauthorizedError(),
     })
@@ -66,7 +66,7 @@ describe('AuthenticationMiddleware', () => {
     expect(tokenVerifierGatewaySpy).toHaveBeenCalledWith({
       token: 'fake-invalid-token',
     })
-    expect(response).toMatchObject({
+    expect(response).toEqual({
       statusCode: StatusCode.UNAUTHORIZED,
       data: new UnauthorizedError(),
     })
@@ -86,7 +86,7 @@ describe('AuthenticationMiddleware', () => {
     expect(tokenVerifierGatewaySpy).toHaveBeenCalledWith({
       token: 'fake-expired-token',
     })
-    expect(response).toMatchObject({
+    expect(response).toEqual({
       statusCode: StatusCode.UNAUTHORIZED,
       data: new UnauthorizedError(),
     })
@@ -103,7 +103,7 @@ describe('AuthenticationMiddleware', () => {
     expect(tokenVerifierGatewaySpy).toHaveBeenCalledWith({
       token: 'fake-valid-token',
     })
-    expect(response).toMatchObject({
+    expect(response).toEqual({
       statusCode: StatusCode.OK,
       data: {
         sub: userEntityStub.id.toString(),

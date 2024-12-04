@@ -2,28 +2,35 @@ import { type Either, left, right } from '@/core/application/either'
 import { type HashGeneratorGateway } from '@/core/application/gateways/cryptography/hash-generator'
 import { type UseCase } from '@/core/application/use-cases/use-case'
 import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate-error'
+import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
+import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
 import { PersonEntity } from '@/modules/persons/domain/entities/person-entity'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email-error'
 import { type CreateUserRepository } from '@/modules/users/application/repositories/create-user-repository'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-export namespace SignUp {
-  export interface Input {
-    name: string
-    email: string
-    password: string
-    birthdate: Date
-  }
-
-  export type Output = Either<
-    EmailAlreadyExistsError | InvalidEmailError | InvalidBirthdateError,
-    null
-  >
+export interface SignUpUseCaseInput {
+  name: string
+  email: string
+  password: string
+  birthdate: Date
 }
 
-export class SignUpUseCase implements UseCase<SignUp.Input, SignUp.Output> {
+export type SignUpUseCaseOutput = Either<
+  EmailAlreadyExistsError | InvalidEmailError | InvalidBirthdateError,
+  {
+    person: PersonDTO
+    user: UserDTO
+  }
+>
+
+export class SignUpUseCase
+  implements UseCase<SignUpUseCaseInput, SignUpUseCaseOutput>
+{
   constructor(
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     private readonly createUserRepository: CreateUserRepository,
@@ -35,7 +42,7 @@ export class SignUpUseCase implements UseCase<SignUp.Input, SignUp.Output> {
     password,
     email,
     birthdate,
-  }: SignUp.Input): Promise<SignUp.Output> {
+  }: SignUpUseCaseInput): Promise<SignUpUseCaseOutput> {
     const foundUser = await this.findUserByEmailRepository.findByEmail(email)
     if (foundUser) {
       return left(new EmailAlreadyExistsError(email))
@@ -59,7 +66,10 @@ export class SignUpUseCase implements UseCase<SignUp.Input, SignUp.Output> {
       plaintext: user.password,
     })
     user.password = hashedPassword
-    await this.createUserRepository.create({ person, user })
-    return right(null)
+    const result = await this.createUserRepository.create({ person, user })
+    return right({
+      person: PersonMapper.toDTO(result.person),
+      user: UserMapper.toDTO(result.user),
+    })
   }
 }

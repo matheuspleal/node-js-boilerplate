@@ -1,18 +1,16 @@
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person-persistence'
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person-entity'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
 
-import {
-  makeFakePersonCollectionPersistenceStub,
-  makeFakePersonPersistenceStub,
-} from '#/modules/persons/application/@mocks/person-persistence-stub'
 import { getCurrentAgeInYears } from '#/modules/persons/domain/@helpers/get-current-age-in-years'
 import {
-  makeFakePersonCollectionEntityStub,
-  makeFakePersonEntityStub,
+  makePersonEntityStub,
+  makePersonEntityCollectionStub,
 } from '#/modules/persons/domain/@mocks/person-entity-stub'
+import {
+  makePersonCollectionPersistenceStub,
+  makePersonPersistenceStub,
+} from '#/modules/persons/infra/@mocks/person-persistence-stub'
 
 describe('PersonMapper', () => {
   let length: number
@@ -23,10 +21,10 @@ describe('PersonMapper', () => {
 
   beforeAll(() => {
     length = 20
-    personEntity = makeFakePersonEntityStub()
-    personCollectionEntity = makeFakePersonCollectionEntityStub({ length })
-    personPersistence = makeFakePersonPersistenceStub()
-    personCollectionPersistence = makeFakePersonCollectionPersistenceStub({
+    personEntity = makePersonEntityStub()
+    personCollectionEntity = makePersonEntityCollectionStub({ length })
+    personPersistence = makePersonPersistenceStub()
+    personCollectionPersistence = makePersonCollectionPersistenceStub({
       length,
     })
   })
@@ -34,9 +32,10 @@ describe('PersonMapper', () => {
   it('should be able to map PersonEntity instance to a PersonDTO object', () => {
     const entityToDTO = PersonMapper.toDTO(personEntity)
 
-    expect(entityToDTO).toMatchObject({
+    expect(entityToDTO).toEqual({
       id: personEntity.id.toString(),
       name: personEntity.name,
+      birthdate: personEntity.birthdate.toValue(),
       age: getCurrentAgeInYears(personEntity.birthdate.toValue()),
       createdAt: personEntity.createdAt,
       updatedAt: personEntity.updatedAt,
@@ -49,9 +48,10 @@ describe('PersonMapper', () => {
     )
 
     entityCollectionToDTOCollection.forEach((item, index) => {
-      expect(item).toMatchObject({
+      expect(item).toEqual({
         id: personCollectionEntity[index].id.toString(),
         name: personCollectionEntity[index].name,
+        birthdate: personCollectionEntity[index].birthdate.toValue(),
         age: getCurrentAgeInYears(
           personCollectionEntity[index].birthdate.toValue(),
         ),
@@ -64,7 +64,7 @@ describe('PersonMapper', () => {
   it('should be able to map PersonEntity instance to a PersonPersistence object', () => {
     const entityToPersistence = PersonMapper.toPersistence(personEntity)
 
-    expect(entityToPersistence).toMatchObject({
+    expect(entityToPersistence).toEqual({
       id: personEntity.id.toString(),
       name: personEntity.name,
       birthdate: personEntity.birthdate.toValue(),
@@ -78,7 +78,7 @@ describe('PersonMapper', () => {
       PersonMapper.toCollectionPersistence(personCollectionEntity)
 
     entityCollectionToPersistenceCollection.forEach((item, index) => {
-      expect(item).toMatchObject({
+      expect(item).toEqual({
         id: personCollectionEntity[index].id.toString(),
         name: personCollectionEntity[index].name,
         birthdate: personCollectionEntity[index].birthdate.toValue(),
@@ -91,13 +91,13 @@ describe('PersonMapper', () => {
   it('should be able to map PersonPersistence object to PersonEntity instance', () => {
     const persistenceToEntity = PersonMapper.toDomain(personPersistence)
 
-    expect(persistenceToEntity).toMatchObject({
-      id: new UniqueEntityIdVO(personPersistence.id),
-      name: personPersistence.name,
-      birthdate: new BirthdateVO({ value: personPersistence.birthdate }),
-      createdAt: personPersistence.createdAt,
-      updatedAt: personPersistence.updatedAt,
-    })
+    expect(persistenceToEntity.id.toValue()).toEqual(personPersistence.id)
+    expect(persistenceToEntity.name).toEqual(personPersistence.name)
+    expect(persistenceToEntity.birthdate.toValue()).toEqual(
+      personPersistence.birthdate,
+    )
+    expect(persistenceToEntity.createdAt).toEqual(personPersistence.createdAt)
+    expect(persistenceToEntity.updatedAt).toEqual(personPersistence.updatedAt)
   })
 
   it('should be able to map a personPersistence objects to collection of PersonEntity instances', () => {
@@ -105,15 +105,21 @@ describe('PersonMapper', () => {
       PersonMapper.toCollectionDomain(personCollectionPersistence)
 
     persistenceCollectionToEntityCollection.forEach((item, index) => {
-      expect(item).toMatchObject({
-        id: new UniqueEntityIdVO(personCollectionPersistence[index].id),
-        name: personCollectionPersistence[index].name,
-        birthdate: new BirthdateVO({
-          value: personCollectionPersistence[index].birthdate,
-        }),
-        createdAt: personCollectionPersistence[index].createdAt,
-        updatedAt: personCollectionPersistence[index].updatedAt,
-      })
+      expect(
+        persistenceCollectionToEntityCollection[index].id.toValue(),
+      ).toEqual(personCollectionPersistence[index].id)
+      expect(persistenceCollectionToEntityCollection[index].name).toEqual(
+        personCollectionPersistence[index].name,
+      )
+      expect(
+        persistenceCollectionToEntityCollection[index].birthdate.toValue(),
+      ).toEqual(personCollectionPersistence[index].birthdate)
+      expect(persistenceCollectionToEntityCollection[index].createdAt).toEqual(
+        personCollectionPersistence[index].createdAt,
+      )
+      expect(persistenceCollectionToEntityCollection[index].updatedAt).toEqual(
+        personCollectionPersistence[index].updatedAt,
+      )
     })
   })
 })

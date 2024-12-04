@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-const VALID_PROVIDERS = ['fake-domain.com', 'fake-domain.org']
+import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'
 
-export function makeFakeRequiredInputSignInStub() {
+export function makeSignInInputStub() {
   return {
     email: faker.internet.email({
       provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),

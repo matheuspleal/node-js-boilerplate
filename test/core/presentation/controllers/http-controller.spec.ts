@@ -38,7 +38,7 @@ describe('HttpController', () => {
         lastName: 'Doe',
       })
 
-      expect(response).toMatchObject({
+      expect(response).toEqual({
         statusCode: 200,
         data: {
           fullName: 'John Doe',
@@ -78,7 +78,7 @@ describe('HttpController', () => {
         lastName,
       })
 
-      expect(response).toMatchObject({
+      expect(response).toEqual({
         statusCode: 400,
         data: new ValidationCompositeError([
           new RequiredError('lastName', lastName),
@@ -92,7 +92,7 @@ describe('HttpController', () => {
         lastName: 'Doe',
       })
 
-      expect(response).toMatchObject({
+      expect(response).toEqual({
         statusCode: 200,
         data: {
           fullName: 'John Doe',

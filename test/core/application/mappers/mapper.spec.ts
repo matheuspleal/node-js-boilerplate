@@ -70,36 +70,36 @@ describe('Mapper', () => {
   it('should be able to convert Domain to DTO', () => {
     const domainToDTO = FakeMapper.toDTO(fakeEntity)
 
-    expect(domainToDTO).toMatchObject(fakeDTO)
+    expect(domainToDTO).toEqual(fakeDTO)
   })
 
   it('should be able to convert collection Domain to collection DTO', () => {
     const domainToDTO = FakeMapper.toCollectionDTO([fakeEntity])
 
-    expect(domainToDTO).toMatchObject([fakeDTO])
+    expect(domainToDTO).toEqual([fakeDTO])
   })
 
   it('should be able to convert Persistence to Domain', () => {
     const entityToDomain = FakeMapper.toEntity(fakePersistence)
 
-    expect(entityToDomain).toMatchObject(fakeEntity)
+    expect(entityToDomain).toEqual(fakeEntity)
   })
 
   it('should be able to convert collection Persistence to collection Domain', () => {
     const entityToDomain = FakeMapper.toCollectionEntity([fakePersistence])
 
-    expect(entityToDomain).toMatchObject([fakeEntity])
+    expect(entityToDomain).toEqual([fakeEntity])
   })
 
   it('should be able to convert Domain to Persistence', () => {
     const domainToEntity = FakeMapper.toPersistence(fakeEntity)
 
-    expect(domainToEntity).toMatchObject(fakePersistence)
+    expect(domainToEntity).toEqual(fakePersistence)
   })
 
   it('should be able to convert collection Domain to collection Persistence', () => {
     const domainToEntity = FakeMapper.toCollectionPersistence([fakeEntity])
 
-    expect(domainToEntity).toMatchObject([fakePersistence])
+    expect(domainToEntity).toEqual([fakePersistence])
   })
 })

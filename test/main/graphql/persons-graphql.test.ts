@@ -63,7 +63,7 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             message: 'Unauthorized.',
@@ -91,7 +91,7 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             message: 'Unauthorized.',
@@ -129,7 +129,7 @@ describe('PersonsGraphQL', () => {
       expect(statusCode).toEqual(200)
       expect(count).toEqual(100)
       expect(users).toHaveLength(20)
-      expect(anyUser).toMatchObject({
+      expect(anyUser).toEqual({
         id: expect.any(String),
         name: expect.any(String),
         email: expect.stringMatching(emailRegExp),
@@ -158,7 +158,7 @@ describe('PersonsGraphQL', () => {
       expect(statusCode).toEqual(200)
       expect(count).toEqual(100)
       expect(users).toHaveLength(10)
-      expect(anyUser).toMatchObject({
+      expect(anyUser).toEqual({
         id: expect.any(String),
         name: expect.any(String),
         email: expect.stringMatching(emailRegExp),
@@ -181,7 +181,7 @@ describe('PersonsGraphQL', () => {
       expect(statusCode).toEqual(200)
       expect(count).toEqual(100)
       expect(users).toHaveLength(20)
-      expect(anyUser).toMatchObject({
+      expect(anyUser).toEqual({
         id: expect.any(String),
         name: expect.any(String),
         email: expect.stringMatching(emailRegExp),
@@ -229,7 +229,7 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             message: 'Unauthorized.',
@@ -260,7 +260,7 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             message: 'Unauthorized.',
@@ -293,7 +293,7 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             message: 'The field "id" with value "invalid-id" is invalid id!',
@@ -319,7 +319,7 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(404)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             message: `User with id "${nonExistentId}" not found!`,
@@ -362,7 +362,7 @@ describe('PersonsGraphQL', () => {
       const { getUserById } = body.data
 
       expect(statusCode).toEqual(200)
-      expect(getUserById).toMatchObject({
+      expect(getUserById).toEqual({
         user: {
           id,
           name,

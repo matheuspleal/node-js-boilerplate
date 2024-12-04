@@ -1,4 +1,4 @@
-import { EmailVO } from '@/modules/persons/domain/value-objects/email-vo'
+import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
 describe('EmailVO', () => {
   let sut: EmailVO

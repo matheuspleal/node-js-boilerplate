@@ -6,17 +6,17 @@ import { RequiredError } from '@/core/presentation/validators/errors/required-er
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
-import { type UserDTO } from '@/modules/persons/application/use-cases/dtos/user-dto'
-import { type SignInUseCase } from '@/modules/persons/application/use-cases/sign-in-use-case'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
+import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in-use-case'
 import {
   SignInController,
-  type SignIn,
-} from '@/modules/persons/presentation/controllers/sign-in-controller'
+  type SignInControllerRequest,
+} from '@/modules/users/presentation/controllers/sign-in-controller'
 
 import { makeFakeAccessTokenStub } from '#/core/infra/gateways/@mocks/access-token-stub'
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
-import { makeFakeUserDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
+import { makeSignInInputStub } from '#/modules/users/application/@mocks/sign-in-input-stub'
+import { makeUserDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
 
 const listOfFields = ['email', 'password']
 
@@ -28,7 +28,7 @@ describe('SignInController', () => {
   let signInUseCaseSpy: MockInstance
 
   beforeAll(() => {
-    userDTOStub = makeFakeUserDTOStub()
+    userDTOStub = makeUserDTOStub()
     accessTokenStub = makeFakeAccessTokenStub()
     signInUseCaseMock = mock<SignInUseCase>()
     signInUseCaseMock.execute.mockResolvedValue(
@@ -49,7 +49,7 @@ describe('SignInController', () => {
     const response = await sut.handle(fakeSignInInput)
 
     expect(signInUseCaseSpy).toHaveBeenCalledTimes(0)
-    expect(response).toMatchObject({
+    expect(response).toEqual({
       statusCode: 400,
       data: new ValidationCompositeError([
         ...listOfFields.map(
@@ -63,7 +63,7 @@ describe('SignInController', () => {
     'should be able to return RequiredFieldError when "%s" is not provided',
     async (field) => {
       const fakeSignInInput: any = {
-        ...makeFakeRequiredInputSignUpStub(),
+        ...makeSignInInputStub(),
       }
       fakeSignInInput[field] = undefined
 
@@ -74,7 +74,7 @@ describe('SignInController', () => {
       const response = await sut.handle(fakeSignInInput)
 
       expect(signInUseCaseSpy).toHaveBeenCalledTimes(0)
-      expect(response).toMatchObject({
+      expect(response).toEqual({
         statusCode: 400,
         data: new ValidationCompositeError(errors),
       })
@@ -89,14 +89,14 @@ describe('SignInController', () => {
         left(fakeUnauthorizedError),
       )
 
-      const fakeSignInInput: SignIn.Request = {
+      const fakeSignInInput: SignInControllerRequest = {
         email: userDTOStub.email,
         password: plaintextPasswordStub,
       }
 
       const response = await sut.handle(fakeSignInInput)
 
-      expect(response).toMatchObject({
+      expect(response).toEqual({
         statusCode: 401,
         data: fakeUnauthorizedError,
       })
@@ -104,7 +104,7 @@ describe('SignInController', () => {
   )
 
   it('should be able to return the genetared accessToken when the sign in is successful', async () => {
-    const fakeSignInInput: SignIn.Request = {
+    const fakeSignInInput: SignInControllerRequest = {
       email: userDTOStub.email,
       password: plaintextPasswordStub,
     }
@@ -116,7 +116,7 @@ describe('SignInController', () => {
       password: plaintextPasswordStub,
       email: userDTOStub.email,
     })
-    expect(response).toMatchObject({
+    expect(response).toEqual({
       statusCode: 200,
       data: {
         accessToken: accessTokenStub,

@@ -24,7 +24,7 @@ describe('HttpHelpers', () => {
 
       const sut = ok<any>('fake_data')
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
 
     it('should be able to return HttpResponse with status code equals 200 and data equal to the type passed in generic', () => {
@@ -39,7 +39,7 @@ describe('HttpHelpers', () => {
         fullName: 'John Doe',
       })
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
   })
 
@@ -52,7 +52,7 @@ describe('HttpHelpers', () => {
 
       const sut = created<any>('fake_data')
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
 
     it('should be able to return HttpResponse with status code equals 201 and data equal to the type passed in generic', () => {
@@ -67,7 +67,7 @@ describe('HttpHelpers', () => {
         fullName: 'John Doe',
       })
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
   })
 
@@ -80,7 +80,7 @@ describe('HttpHelpers', () => {
 
       const sut = noContent()
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
   })
 
@@ -95,7 +95,7 @@ describe('HttpHelpers', () => {
 
       const sut = badDomainRequest(fakeError)
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
   })
 
@@ -110,7 +110,7 @@ describe('HttpHelpers', () => {
 
       const sut = badValidatorRequest(fakeError)
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
 
     it('should be able to return HttpResponse with status code equals 400 and data equals any list of errors', () => {
@@ -123,7 +123,7 @@ describe('HttpHelpers', () => {
 
       const sut = badValidatorRequest([fakeError, fakeError])
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
   })
 
@@ -138,7 +138,7 @@ describe('HttpHelpers', () => {
 
       const sut = conflict(fakeError)
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
   })
 
@@ -151,7 +151,7 @@ describe('HttpHelpers', () => {
 
       const sut = serverError()
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
 
     it('should be able to return HttpResponse with status code equals 500 and data equals InternalServerError when unknown error is reported', () => {
@@ -165,7 +165,7 @@ describe('HttpHelpers', () => {
 
       const sut = serverError(fakeError)
 
-      expect(sut).toMatchObject(expectedResponse)
+      expect(sut).toEqual(expectedResponse)
     })
   })
 })

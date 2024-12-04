@@ -1,20 +1,42 @@
 import { faker } from '@faker-js/faker'
 
-import { PersonEntity } from '@/modules/persons/domain/entities/person-entity'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import {
+  PersonEntity,
+  type PersonInput,
+} from '@/modules/persons/domain/entities/person-entity'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
 
-export function makeFakePersonEntityStub(): PersonEntity {
-  return PersonEntity.create({
-    name: faker.person.fullName(),
-    birthdate: faker.date.birthdate(),
-    createdAt: faker.date.recent(),
-    updatedAt: faker.date.recent(),
-  })
+export type PersonInputProps = PersonInput & { id?: string }
+
+export interface PersonEntityProps {
+  personInput?: Partial<PersonInputProps>
 }
 
-export function makeFakePersonCollectionEntityStub({
-  length,
-}: CollectionStubProps): PersonEntity[] {
-  return Array.from({ length }).map(makeFakePersonEntityStub)
+export function makePersonInputStub(
+  personInput?: Partial<PersonInputProps>,
+): PersonInputProps {
+  return {
+    id: personInput?.id ?? faker.string.uuid(),
+    name: personInput?.name ?? faker.person.fullName(),
+    birthdate: personInput?.birthdate ?? faker.date.birthdate(),
+    createdAt: personInput?.createdAt ?? faker.date.recent(),
+    updatedAt: personInput?.updatedAt ?? faker.date.recent(),
+  }
+}
+
+export function makePersonEntityStub(props?: PersonEntityProps): PersonEntity {
+  const { id, ...personInput } = makePersonInputStub({ ...props?.personInput })
+  return PersonEntity.create(
+    personInput,
+    id ? new UniqueEntityIdVO(id) : undefined,
+  )
+}
+
+export function makePersonEntityCollectionStub({
+  personInput,
+  length = 20,
+}: PersonEntityProps & CollectionStubProps): PersonEntity[] {
+  return Array.from({ length }).map(() => makePersonEntityStub({ personInput }))
 }

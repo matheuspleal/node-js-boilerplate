@@ -32,7 +32,7 @@ export const token = {
 
 export const cryptograph = {
   salt: env<number>({
-    key: 'HASH_SALT',
+    key: 'HASH_SALT_LENGTH',
     defaultValue: 8,
   }),
 }

@@ -8,7 +8,7 @@ import { FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fet
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person-entity'
 
-import { makeFakePersonCollectionEntityStub } from '#/modules/persons/domain/@mocks/person-entity-stub'
+import { makePersonEntityCollectionStub } from '#/modules/persons/domain/@mocks/person-entity-stub'
 
 describe('FetchPersonsUseCase', () => {
   let sut: FetchPersonsUseCase
@@ -25,7 +25,7 @@ describe('FetchPersonsUseCase', () => {
 
   beforeAll(() => {
     length = 100
-    personsEntitiesStub = makeFakePersonCollectionEntityStub({ length })
+    personsEntitiesStub = makePersonEntityCollectionStub({ length })
     countPersonsRepositoryMock = mock<CountPersonsRepository>()
     countPersonsRepositoryMock.count.mockResolvedValue(length)
     findManyPersonsRepositoryMock = mock<FindManyPersonsRepository>()
@@ -62,7 +62,7 @@ describe('FetchPersonsUseCase', () => {
     expect(result.isRight()).toBe(true)
     expect(result.isLeft()).toBe(false)
     expect(result.value?.count).toEqual(length)
-    expect(result.value?.persons).toMatchObject(
+    expect(result.value?.persons).toEqual(
       PersonMapper.toCollectionDTO(defaultEntitiesStub),
     )
   })
@@ -86,7 +86,7 @@ describe('FetchPersonsUseCase', () => {
     expect(result.isRight()).toBe(true)
     expect(result.isLeft()).toBe(false)
     expect(result.value?.count).toEqual(length)
-    expect(result.value?.persons).toMatchObject(
+    expect(result.value?.persons).toEqual(
       PersonMapper.toCollectionDTO(customEntitiesStub),
     )
   })

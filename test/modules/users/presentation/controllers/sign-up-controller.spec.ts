@@ -9,31 +9,36 @@ import { type ValidationError } from '@/core/presentation/validators/errors/vali
 import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/email-already-exists-error'
 import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate-error'
 import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email-error'
-import { type UserDTO } from '@/modules/persons/application/use-cases/dtos/user-dto'
-import { type SignUpUseCase } from '@/modules/persons/application/use-cases/sign-up-use-case'
+import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
+import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
 import {
   SignUpController,
-  type SignUp,
-} from '@/modules/persons/presentation/controllers/sign-up-controller'
+  type SignUpControllerRequest,
+} from '@/modules/users/presentation/controllers/sign-up-controller'
 
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
+import { makePersonDTOStub } from '#/modules/persons/application/@mocks/person-dto-stub'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
-import { makeFakeUserDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
+import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input-stub'
+import { makeUserDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
 
 const listOfFields = ['name', 'email', 'password', 'birthdate']
 
 describe('SignUpController', () => {
   let sut: SignUpController
   let userDTOStub: UserDTO
+  let personDTOStub: PersonDTO
   let signUpUseCaseMock: MockProxy<SignUpUseCase>
   let signUpUseCaseSpy: MockInstance
 
   beforeAll(() => {
-    userDTOStub = makeFakeUserDTOStub()
+    userDTOStub = makeUserDTOStub()
+    personDTOStub = makePersonDTOStub()
     signUpUseCaseMock = mock<SignUpUseCase>()
     signUpUseCaseMock.execute.mockResolvedValue(
       right({
         user: userDTOStub,
+        person: personDTOStub,
       }),
     )
   })
@@ -49,7 +54,7 @@ describe('SignUpController', () => {
     const response = await sut.handle(fakeSignUpInput)
 
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
-    expect(response).toMatchObject({
+    expect(response).toEqual({
       statusCode: 400,
       data: new ValidationCompositeError([
         ...listOfFields.map(
@@ -64,7 +69,7 @@ describe('SignUpController', () => {
     'should be able to return RequiredFieldError when "%s" is not provided',
     async (field) => {
       const fakeSignUpInput: any = {
-        ...makeFakeRequiredInputSignUpStub(),
+        ...makeRequiredSignUpInputStub(),
       }
       fakeSignUpInput[field] = undefined
 
@@ -78,7 +83,7 @@ describe('SignUpController', () => {
       const response = await sut.handle(fakeSignUpInput)
 
       expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
-      expect(response).toMatchObject({
+      expect(response).toEqual({
         statusCode: 400,
         data: new ValidationCompositeError(errors),
       })
@@ -93,78 +98,83 @@ describe('SignUpController', () => {
       left(fakeEmailAlreadyExistsError),
     )
 
-    const fakeSignUpInput: SignUp.Request = {
-      name: userDTOStub.name,
+    const fakeSignUpInput: SignUpControllerRequest = {
+      name: personDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: userDTOStub.birthdate.toISOString(),
+      birthdate: personDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
     expect(statusCode).toEqual(409)
-    expect(data).toMatchObject(new EmailAlreadyExistsError(userDTOStub.email))
+    expect(data).toEqual(new EmailAlreadyExistsError(userDTOStub.email))
   })
 
   it('should be able to return InvalidEmailError when the informed email is invalid', async () => {
     const fakeInvalidEmailError = new InvalidEmailError(userDTOStub.email)
     signUpUseCaseMock.execute.mockResolvedValueOnce(left(fakeInvalidEmailError))
 
-    const fakeSignUpInput: SignUp.Request = {
-      name: userDTOStub.name,
+    const fakeSignUpInput: SignUpControllerRequest = {
+      name: personDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: userDTOStub.birthdate.toISOString(),
+      birthdate: personDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
     expect(statusCode).toEqual(400)
-    expect(data).toMatchObject(new InvalidEmailError(userDTOStub.email))
+    expect(data).toEqual(new InvalidEmailError(userDTOStub.email))
   })
 
   it('should be able to return InvalidBirthdateError when the informed birthdate is invalid', async () => {
     const fakeInvalidBirthdateError = new InvalidBirthdateError(
-      userDTOStub.birthdate,
+      personDTOStub.birthdate,
     )
     signUpUseCaseMock.execute.mockResolvedValueOnce(
       left(fakeInvalidBirthdateError),
     )
 
-    const fakeSignUpInput: SignUp.Request = {
-      name: userDTOStub.name,
+    const fakeSignUpInput: SignUpControllerRequest = {
+      name: personDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: userDTOStub.birthdate.toISOString(),
+      birthdate: personDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
     expect(statusCode).toEqual(400)
-    expect(data).toMatchObject(new InvalidBirthdateError(userDTOStub.birthdate))
+    expect(data).toEqual(new InvalidBirthdateError(personDTOStub.birthdate))
   })
 
   it('should be able to return the created user when the user was created successfully', async () => {
-    const fakeSignUpInput: SignUp.Request = {
-      name: userDTOStub.name,
+    const fakeSignUpInput: SignUpControllerRequest = {
+      name: personDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: userDTOStub.birthdate.toISOString(),
+      birthdate: personDTOStub.birthdate.toISOString(),
     }
 
     const response = await sut.handle(fakeSignUpInput)
 
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(1)
     expect(signUpUseCaseSpy).toHaveBeenCalledWith({
-      name: userDTOStub.name,
+      name: personDTOStub.name,
       password: plaintextPasswordStub,
       email: userDTOStub.email,
-      birthdate: userDTOStub.birthdate,
+      birthdate: personDTOStub.birthdate,
     })
-    expect(response).toMatchObject({
+    expect(response).toEqual({
       statusCode: 201,
       data: {
-        user: userDTOStub,
+        id: userDTOStub.id,
+        name: personDTOStub.name,
+        birthdate: personDTOStub.birthdate,
+        email: userDTOStub.email,
+        createdAt: userDTOStub.createdAt,
+        updatedAt: userDTOStub.updatedAt,
       },
     })
   })

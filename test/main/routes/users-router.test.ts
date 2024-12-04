@@ -44,7 +44,7 @@ describe('UsersRouter', () => {
       )
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new UnauthorizedError().message,
       })
     })
@@ -55,7 +55,7 @@ describe('UsersRouter', () => {
         .set('Authorization', 'Bearer fake-invalid-token')
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new UnauthorizedError().message,
       })
     })
@@ -74,7 +74,7 @@ describe('UsersRouter', () => {
       expect(statusCode).toEqual(200)
       expect(body.count).toEqual(100)
       expect(body.users).toHaveLength(20)
-      expect(anyUser).toMatchObject({
+      expect(anyUser).toEqual({
         id: expect.any(String),
         name: expect.any(String),
         email: expect.stringMatching(emailRegExp),
@@ -98,7 +98,7 @@ describe('UsersRouter', () => {
       expect(statusCode).toEqual(200)
       expect(body.count).toEqual(100)
       expect(body.users).toHaveLength(10)
-      expect(anyUser).toMatchObject({
+      expect(anyUser).toEqual({
         id: expect.any(String),
         name: expect.any(String),
         email: expect.stringMatching(emailRegExp),
@@ -117,7 +117,7 @@ describe('UsersRouter', () => {
       expect(statusCode).toEqual(200)
       expect(body.count).toEqual(100)
       expect(body.users).toHaveLength(20)
-      expect(anyUser).toMatchObject({
+      expect(anyUser).toEqual({
         id: expect.any(String),
         name: expect.any(String),
         email: expect.stringMatching(emailRegExp),
@@ -144,7 +144,7 @@ describe('UsersRouter', () => {
       )
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new UnauthorizedError().message,
       })
     })
@@ -155,7 +155,7 @@ describe('UsersRouter', () => {
         .set('Authorization', 'Bearer fake-invalid-token')
 
       expect(statusCode).toEqual(401)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new UnauthorizedError().message,
       })
     })
@@ -168,7 +168,7 @@ describe('UsersRouter', () => {
         .set('Authorization', `Bearer ${accessToken}`)
 
       expect(statusCode).toEqual(400)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         errors: [
           {
             field: 'id',
@@ -193,7 +193,7 @@ describe('UsersRouter', () => {
         .set('Authorization', `Bearer ${accessToken}`)
 
       expect(statusCode).toEqual(404)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         error: new UserNotFoundError(nonExistentId).message,
       })
     })
@@ -215,7 +215,7 @@ describe('UsersRouter', () => {
         .set('Authorization', `Bearer ${accessToken}`)
 
       expect(statusCode).toEqual(200)
-      expect(body).toMatchObject({
+      expect(body).toEqual({
         user: {
           id,
           name,

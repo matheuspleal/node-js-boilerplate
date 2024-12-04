@@ -7,7 +7,7 @@ import { GetPersonByIdUseCase } from '@/modules/persons/application/use-cases/ge
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person-entity'
 
-import { makeFakePersonEntityStub } from '#/modules/persons/domain/@mocks/person-entity-stub'
+import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person-entity-stub'
 
 describe('GetPersonByIdUseCase', () => {
   let sut: GetPersonByIdUseCase
@@ -19,7 +19,7 @@ describe('GetPersonByIdUseCase', () => {
   >
 
   beforeAll(() => {
-    personEntityStub = makeFakePersonEntityStub()
+    personEntityStub = makePersonEntityStub()
     findPersonByIdRepositoryMock = mock<FindPersonByIdRepository>()
     findPersonByIdRepositoryMock.findById.mockResolvedValue(personEntityStub)
   })
@@ -53,6 +53,6 @@ describe('GetPersonByIdUseCase', () => {
     expect(findPersonByIdRepositorySpy).toHaveBeenCalledTimes(1)
     expect(findPersonByIdRepositorySpy).toHaveBeenCalledWith(id)
     expect(result.isRight()).toBe(true)
-    expect(result.value).toMatchObject({ person: expectedValue })
+    expect(result.value).toEqual({ person: expectedValue })
   })
 })

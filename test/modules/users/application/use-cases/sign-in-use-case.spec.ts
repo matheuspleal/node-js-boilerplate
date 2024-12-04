@@ -12,14 +12,14 @@ import {
 import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
 import {
-  type SignIn,
   SignInUseCase,
+  type SignInUseCaseInput,
 } from '@/modules/users/application/use-cases/sign-in-use-case'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/input-sign-in-stub'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
-import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
+import { makeSignInInputStub } from '#/modules/users/application/@mocks/sign-in-input-stub'
+import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
 
 describe('SignInUseCase', () => {
   let sut: SignInUseCase
@@ -42,7 +42,7 @@ describe('SignInUseCase', () => {
   >
 
   beforeAll(() => {
-    userEntityStub = makeFakeUserEntityStub()
+    userEntityStub = makeUserEntityStub()
     fakeToken = 'fake-token'
     findUserByEmailRepositoryMock = mock<FindUserByEmailRepository>()
     findUserByEmailRepositoryMock.findByEmail.mockResolvedValue(userEntityStub)
@@ -69,8 +69,8 @@ describe('SignInUseCase', () => {
   it('should be able to return UnauthorizedError when the email does not exist', async () => {
     findUserByEmailRepositoryMock.findByEmail.mockResolvedValueOnce(null)
     const email = 'fake-non-existent-email'
-    const user: SignIn.Input = {
-      ...makeFakeRequiredInputSignInStub(),
+    const user: SignInUseCaseInput = {
+      ...makeSignInInputStub(),
       email,
     }
 
@@ -87,7 +87,7 @@ describe('SignInUseCase', () => {
   it('should be able to return UnauthorizedError when the password does not match', async () => {
     hashCompareGatewayMock.compare.mockResolvedValueOnce(false)
     const password = 'fake-incorrect-password'
-    const user: SignIn.Input = {
+    const user: SignInUseCaseInput = {
       email: userEntityStub.email.toString(),
       password,
     }
@@ -107,7 +107,7 @@ describe('SignInUseCase', () => {
   })
 
   it('should be able to return generated token when the credentials are correct', async () => {
-    const user: SignIn.Input = {
+    const user: SignInUseCaseInput = {
       email: userEntityStub.email.toString(),
       password: plaintextPasswordStub,
     }
@@ -129,7 +129,7 @@ describe('SignInUseCase', () => {
       expiresInMs: 60 * 1000 * 5,
     })
     expect(result.isRight()).toBe(true)
-    expect(result.value).toMatchObject({
+    expect(result.value).toEqual({
       accessToken: fakeToken,
     })
   })
