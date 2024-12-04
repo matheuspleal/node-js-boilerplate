@@ -25,7 +25,7 @@ model Person {
   birthdate DateTime @db.Date
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  userId    String
+  userId    String?
   User      User?
 
   @@map("persons")

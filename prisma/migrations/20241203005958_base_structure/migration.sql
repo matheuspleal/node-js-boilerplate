@@ -17,7 +17,7 @@ CREATE TABLE "persons" (
     "birthdate" DATE NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" TEXT,
 
     CONSTRAINT "persons_pkey" PRIMARY KEY ("id")
 );
