@@ -145,9 +145,11 @@ You can also install this toolkit for a better experience:
 - [Insomnia](https://insomnia.rest/) - 9.2.0
 
 ### Env Variables
-For security reasons, the .env file is not versioned, meaning it is not sent to the GitHub repository.
+For security reasons, the `.env` file is not versioned, meaning it is not sent to the GitHub repository.
 
-So you can copy and paste the .env.example file and rename it to .env. Then, you need to configure the environment variables.
+So you can copy and paste the `.env.example` file and rename it to `.env`. Then, you need to configure the environment variables.
+
+You must also setup a `.env.test` to run the tests.
 
 All variables can be configured according to your preferences.
 
