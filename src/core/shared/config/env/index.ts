@@ -1,6 +1,13 @@
 import { env } from '@/core/shared/config/helpers/env'
 import { EnvVariableEnum } from '@/core/shared/config/types/env-variable-enum'
 
+export const environment = env<
+  'development' | 'test' | 'staging' | 'production'
+>({
+  key: 'NODE_ENV',
+  defaultValue: 'development',
+})
+
 export const server = {
   host: env<string>({ key: 'API_HOST', defaultValue: '0.0.0.0' }),
   port: env<number>({ key: 'API_PORT', defaultValue: 3333 }),

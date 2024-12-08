@@ -23,7 +23,7 @@ export interface SignUpControllerRequest {
 
 export type SignUpControllerResponse =
   | EmailAlreadyExistsError
-  | SignUpPresenterOutput
+  | { user: SignUpPresenterOutput }
 
 export class SignUpController extends HttpController<
   SignUpControllerRequest,
@@ -79,8 +79,8 @@ export class SignUpController extends HttpController<
       return error
     }
     const { person, user } = result.value
-    return created<SignUpPresenterOutput>(
-      SignUpPresenter.toHttp({ person, user }),
-    )
+    return created<SignUpControllerResponse>({
+      user: SignUpPresenter.toHttp({ person, user }),
+    })
   }
 }

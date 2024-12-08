@@ -29,13 +29,13 @@ export class FetchPersonsUseCase
   async execute({
     paginationParams,
   }: FetchPersonsUseCaseInput): Promise<FetchPersonsUseCaseOutput> {
-    const [count, users] = await Promise.all([
+    const [count, persons] = await Promise.all([
       this.countPersonsRepository.count(),
       this.findManyPersonsRepository.findMany(paginationParams),
     ])
     return right({
       count,
-      persons: PersonMapper.toCollectionDTO(users),
+      persons: PersonMapper.toCollectionDTO(persons),
     })
   }
 }

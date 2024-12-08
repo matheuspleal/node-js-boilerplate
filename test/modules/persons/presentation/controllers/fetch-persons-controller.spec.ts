@@ -2,6 +2,7 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { right } from '@/core/application/either'
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { type PersonCollectionDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
 import { type FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fetch-persons-use-case'
 import { FetchPersonsController } from '@/modules/persons/presentation/controllers/fetch-persons-controller'
@@ -53,7 +54,7 @@ describe('FetchPersonsController', () => {
         },
       })
       expect(response).toEqual({
-        statusCode: 200,
+        statusCode: StatusCode.OK,
         data: {
           count: 0,
           persons: [],
@@ -72,7 +73,7 @@ describe('FetchPersonsController', () => {
         },
       })
       expect(response).toEqual({
-        statusCode: 200,
+        statusCode: StatusCode.OK,
         data: {
           count,
           persons: defaultPersonsDTOStub,
@@ -103,7 +104,7 @@ describe('FetchPersonsController', () => {
         },
       })
       expect(response).toEqual({
-        statusCode: 200,
+        statusCode: StatusCode.OK,
         data: {
           count: 0,
           persons: [],
@@ -133,7 +134,7 @@ describe('FetchPersonsController', () => {
         },
       })
       expect(response).toEqual({
-        statusCode: 200,
+        statusCode: StatusCode.OK,
         data: {
           count,
           persons: customEntitiesStub,

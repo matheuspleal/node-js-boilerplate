@@ -38,7 +38,7 @@ export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toPersistence(userEntity: UserEntity): UserPersistence {
     return {
       id: userEntity.id.toString(),
-      personId: userEntity.personId,
+      personId: userEntity.personId.toString(),
       email: userEntity.email.toString(),
       password: userEntity.password.toString(),
       createdAt: userEntity.createdAt,

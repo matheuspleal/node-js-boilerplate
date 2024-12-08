@@ -4,11 +4,11 @@ import {
   type FastifyInstance,
 } from 'fastify'
 
-const healthcheckRouterPrefix = '/healthcheck'
+const healthCheckRouterPrefix = '/health-check'
 
 export default async function usersRouter(app: FastifyInstance) {
   app.get(
-    healthcheckRouterPrefix,
+    healthCheckRouterPrefix,
     (request: FastifyRequest, reply: FastifyReply) => {
       reply.status(200).send({ message: 'Ok!' })
     },

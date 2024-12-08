@@ -5,11 +5,12 @@ import {
 } from 'fastify'
 import request from 'supertest'
 
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { appSetup } from '@/main/setup/app-setup'
 
-describe('HealthcheckGraphQL', () => {
+describe('HealthCheckGraphQL', () => {
   let app: FastifyInstance
-  let healthcheckQuery: string
+  let healthCheckQuery: string
   let fakeError: Error
 
   beforeAll(async () => {
@@ -23,11 +24,11 @@ describe('HealthcheckGraphQL', () => {
     await app.ready()
   })
 
-  describe('healthcheck', () => {
+  describe('healthCheck', () => {
     beforeAll(() => {
-      healthcheckQuery = `
-        query Healthcheck {
-          healthcheck {
+      healthCheckQuery = `
+        query HealthCheck {
+          healthCheck {
             message
           }
         }
@@ -38,13 +39,13 @@ describe('HealthcheckGraphQL', () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .send({
-          query: healthcheckQuery,
+          query: healthCheckQuery,
         })
 
-      const { healthcheck } = body.data
+      const { healthCheck } = body.data
 
-      expect(statusCode).toEqual(200)
-      expect(healthcheck).toEqual({
+      expect(statusCode).toEqual(StatusCode.OK)
+      expect(healthCheck).toEqual({
         message: 'Ok!',
       })
     })
@@ -54,8 +55,10 @@ describe('HealthcheckGraphQL', () => {
         '/api/v1/fake-error-endpoint',
       )
 
-      expect(statusCode).toEqual(500)
+      expect(statusCode).toEqual(StatusCode.SERVER_ERROR)
       expect(body).toEqual({
+        statusCode: StatusCode.SERVER_ERROR,
+        error: 'Internal Server Error',
         message: fakeError.message,
       })
     })

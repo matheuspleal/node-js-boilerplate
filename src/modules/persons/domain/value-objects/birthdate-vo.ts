@@ -12,7 +12,9 @@ export class BirthdateVO extends ValueObject<BirthdateProps> {
   private readonly UTC_FIRST_YEAR = 1970
 
   constructor(props: Value) {
-    super({ value: new Date(props.value) })
+    const date = new Date(props.value)
+    date.setUTCHours(0, 0, 0, 0)
+    super({ value: date })
   }
 
   isValid() {

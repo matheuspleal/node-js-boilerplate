@@ -1,25 +1,27 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
+import { type GraphQLError } from 'graphql'
 import request from 'supertest'
 
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { appSetup } from '@/main/setup/app-setup'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { makeFakeRequiredInputSignInStub } from '#/modules/users/application/@mocks/sign-in-input-stub'
 import {
-  makeFakeAllInputSignUpStub,
-  makeFakeRequiredInputSignUpStub,
-} from '#/modules/users/application/@mocks/input-sign-up-stub'
+  makeRequiredSignUpInputStub,
+  makeSignUpInputStub,
+} from '#/modules/users/application/@mocks/sign-up-input-stub'
+import { createUser } from '#/modules/users/infra/@helpers/user-persistence-prisma'
 
 const listOfSignUpFields = ['name', 'email', 'password', 'birthdate']
 const listOfSignInFields = ['email', 'password']
 
-describe('UsersGraphQL', () => {
+describe('AuthenticationGraphQL', () => {
   let app: FastifyInstance
   let prisma: PrismaClient
   let signUpMutation: string
@@ -41,7 +43,6 @@ describe('UsersGraphQL', () => {
               name
               email
               birthdate
-              age
               createdAt
               updatedAt
             }
@@ -58,13 +59,16 @@ describe('UsersGraphQL', () => {
           variables: {},
         })
 
-      expect(statusCode).toEqual(400)
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(4)
       body.errors.forEach((error: any) => {
         expect(error).toEqual({
-          message: expect.any(String),
-          extensions: { code: 'BAD_USER_INPUT' },
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            stacktrace: expect.any(Array<GraphQLError>),
+          },
           locations: expect.any(Array),
+          message: expect.any(String),
         })
       })
     })
@@ -72,7 +76,7 @@ describe('UsersGraphQL', () => {
     test.each(listOfSignUpFields)(
       'sign up with missing "%s" field',
       async (field) => {
-        const fakeUser: any = makeFakeRequiredInputSignUpStub()
+        const fakeUser: any = makeRequiredSignUpInputStub()
         fakeUser[field] = undefined
 
         const { statusCode, body } = await request(app.server)
@@ -82,19 +86,22 @@ describe('UsersGraphQL', () => {
             variables: { ...fakeUser },
           })
 
-        expect(statusCode).toEqual(400)
+        expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
         expect(body.errors).toHaveLength(1)
         const [error] = body.errors
         expect(error).toEqual({
-          message: expect.any(String),
-          extensions: { code: 'BAD_USER_INPUT' },
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            stacktrace: expect.any(Array<GraphQLError>),
+          },
           locations: expect.any(Array),
+          message: expect.any(String),
         })
       },
     )
 
     test('sign up with invalid email', async () => {
-      const { name, password, birthdate } = makeFakeRequiredInputSignUpStub()
+      const { name, password, birthdate } = makeRequiredSignUpInputStub()
       const invalidEmail = 'invalid-email@fake-domain.net'
 
       const { statusCode, body } = await request(app.server)
@@ -109,17 +116,22 @@ describe('UsersGraphQL', () => {
           },
         })
 
-      expect(statusCode).toEqual(400)
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toEqual({
+        extensions: {
+          code: 'DOMAIN_VALIDATION_ERROR',
+          stacktrace: expect.any(Array<GraphQLError>),
+        },
+        locations: expect.any(Array),
         message: `Email "${invalidEmail}" is invalid!`,
-        extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
+        path: ['signUp'],
       })
     })
 
     test('sign up with invalid password', async () => {
-      const { name, email, birthdate } = makeFakeRequiredInputSignUpStub()
+      const { name, email, birthdate } = makeRequiredSignUpInputStub()
       const invalidPassword = 'invalid-password'
 
       const { statusCode, body } = await request(app.server)
@@ -134,18 +146,20 @@ describe('UsersGraphQL', () => {
           },
         })
 
-      expect(statusCode).toEqual(400)
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toEqual({
+        extensions: {
+          code: 'DOMAIN_VALIDATION_ERROR',
+        },
         message:
           'The field "password" must contain between 8 and 20 characters and must contain at least one uppercase character, one lowercase character, one numeric character and one special character!',
-        extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
       })
     })
 
     test('sign up with invalid birthdate', async () => {
-      const { name, email, password } = makeFakeRequiredInputSignUpStub()
+      const { name, email, password } = makeRequiredSignUpInputStub()
       const invalidBirthdate = faker.date.future({ years: 1 })
 
       const { statusCode, body } = await request(app.server)
@@ -160,26 +174,23 @@ describe('UsersGraphQL', () => {
           },
         })
 
-      expect(statusCode).toEqual(400)
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toEqual({
+        extensions: {
+          code: 'DOMAIN_VALIDATION_ERROR',
+          stacktrace: expect.any(Array<GraphQLError>),
+        },
+        locations: expect.any(Array),
         message: `Birthdate "${invalidBirthdate.toISOString()}" is invalid!`,
-        extensions: { code: 'DOMAIN_VALIDATION_ERROR' },
+        path: ['signUp'],
       })
     })
 
     test('sign up with the existent email', async () => {
-      const { name, email, password, birthdate } =
-        makeFakeRequiredInputSignUpStub()
-      await prisma.user.create({
-        data: {
-          name,
-          email,
-          password,
-          birthdate,
-        },
-      })
+      const { name, password, birthdate } = makeRequiredSignUpInputStub()
+      const { email } = await createUser({ prisma })
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
@@ -193,19 +204,22 @@ describe('UsersGraphQL', () => {
           },
         })
 
-      expect(statusCode).toEqual(409)
+      expect(statusCode).toEqual(StatusCode.CONFLICT)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toEqual({
+        extensions: {
+          code: 'CONFLICT',
+          stacktrace: expect.any(Array<GraphQLError>),
+        },
+        locations: expect.any(Array),
         message: `Email "${email}" already exists!`,
-        extensions: { code: 'CONFLICT' },
+        path: ['signUp'],
       })
     })
 
     test('sign up successfully', async () => {
-      const { name, email, password, birthdate } =
-        makeFakeRequiredInputSignUpStub()
-      const age = new BirthdateVO({ value: birthdate }).getCurrentAgeInYears()
+      const { name, email, password, birthdate } = makeRequiredSignUpInputStub()
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
@@ -214,7 +228,7 @@ describe('UsersGraphQL', () => {
           variables: { name, email, password, birthdate },
         })
 
-      expect(statusCode).toEqual(200)
+      expect(statusCode).toEqual(StatusCode.OK)
       expect(body).toEqual({
         data: {
           signUp: {
@@ -222,7 +236,7 @@ describe('UsersGraphQL', () => {
               id: expect.stringMatching(UUIDRegExp),
               name,
               email,
-              age,
+              birthdate: new BirthdateVO({ value: birthdate }).toString(),
               createdAt: expect.stringMatching(ISODateRegExp),
               updatedAt: expect.stringMatching(ISODateRegExp),
             },
@@ -251,13 +265,16 @@ describe('UsersGraphQL', () => {
           variables: {},
         })
 
-      expect(statusCode).toEqual(400)
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(2)
       body.errors.forEach((error: any) => {
         expect(error).toEqual({
-          message: expect.any(String),
-          extensions: { code: 'BAD_USER_INPUT' },
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            stacktrace: expect.any(Array<GraphQLError>),
+          },
           locations: expect.any(Array),
+          message: expect.any(String),
         })
       })
     })
@@ -265,7 +282,7 @@ describe('UsersGraphQL', () => {
     test.each(listOfSignInFields)(
       'sign in with missing "%s" field',
       async (field) => {
-        const fakeCredentials: any = makeFakeRequiredInputSignInStub()
+        const fakeCredentials: any = makeRequiredSignUpInputStub()
         fakeCredentials[field] = undefined
 
         const { statusCode, body } = await request(app.server)
@@ -275,23 +292,22 @@ describe('UsersGraphQL', () => {
             variables: { ...fakeCredentials },
           })
 
-        expect(statusCode).toEqual(400)
+        expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
         expect(body.errors).toHaveLength(1)
         const [error] = body.errors
         expect(error).toEqual({
-          message: expect.any(String),
-          extensions: { code: 'BAD_USER_INPUT' },
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            stacktrace: expect.any(Array<GraphQLError>),
+          },
           locations: expect.any(Array),
+          message: expect.any(String),
         })
       },
     )
 
     test('sign in with incorrect email', async () => {
-      const { password } = await prisma.user.create({
-        data: {
-          ...makeFakeRequiredInputSignUpStub(),
-        },
-      })
+      const { password } = await createUser({ prisma })
 
       const incorrectEmail = 'incorrect-email'
 
@@ -305,22 +321,22 @@ describe('UsersGraphQL', () => {
           },
         })
 
-      expect(statusCode).toEqual(401)
+      expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toEqual({
+        extensions: {
+          code: 'UNAUTHORIZED',
+          stacktrace: expect.any(Array<GraphQLError>),
+        },
+        locations: expect.any(Array),
         message: new UnauthorizedError().message,
-        extensions: { code: 'UNAUTHORIZED' },
+        path: ['signIn'],
       })
     })
 
     test('sign in with incorrect password', async () => {
-      const { email } = await prisma.user.create({
-        data: {
-          ...makeFakeRequiredInputSignUpStub(),
-        },
-      })
-
+      const { email } = await createUser({ prisma })
       const incorrectPassword = 'incorrect-password'
 
       const { statusCode, body } = await request(app.server)
@@ -333,23 +349,30 @@ describe('UsersGraphQL', () => {
           },
         })
 
-      expect(statusCode).toEqual(401)
+      expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
       expect(error).toEqual({
+        extensions: {
+          code: 'UNAUTHORIZED',
+          stacktrace: expect.any(Array<GraphQLError>),
+        },
+        locations: expect.any(Array),
         message: new UnauthorizedError().message,
-        extensions: { code: 'UNAUTHORIZED' },
+        path: ['signIn'],
       })
     })
 
     test('sign in successfully', async () => {
-      const fakeUserData = makeFakeAllInputSignUpStub()
+      const fakeUserData = makeSignUpInputStub()
       const hashedPasswordStub = await new BcryptAdapter(8).hash({
         plaintext: fakeUserData.password,
       })
-      await prisma.user.create({
-        data: {
-          ...fakeUserData,
+
+      await createUser({
+        prisma,
+        userPersistence: {
+          email: fakeUserData.email,
           password: hashedPasswordStub,
         },
       })
@@ -364,8 +387,14 @@ describe('UsersGraphQL', () => {
           },
         })
 
-      expect(statusCode).toEqual(200)
-      expect(body).toEqual({})
+      expect(statusCode).toEqual(StatusCode.OK)
+      expect(body).toEqual({
+        data: {
+          signIn: {
+            accessToken: expect.any(String),
+          },
+        },
+      })
     })
   })
 })

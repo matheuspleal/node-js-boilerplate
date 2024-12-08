@@ -2,6 +2,7 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { left, right } from '@/core/application/either'
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
@@ -50,7 +51,7 @@ describe('SignInController', () => {
 
     expect(signInUseCaseSpy).toHaveBeenCalledTimes(0)
     expect(response).toEqual({
-      statusCode: 400,
+      statusCode: StatusCode.BAD_REQUEST,
       data: new ValidationCompositeError([
         ...listOfFields.map(
           (field) => new RequiredError(field, fakeSignInInput[field]),
@@ -75,7 +76,7 @@ describe('SignInController', () => {
 
       expect(signInUseCaseSpy).toHaveBeenCalledTimes(0)
       expect(response).toEqual({
-        statusCode: 400,
+        statusCode: StatusCode.BAD_REQUEST,
         data: new ValidationCompositeError(errors),
       })
     },
@@ -97,7 +98,7 @@ describe('SignInController', () => {
       const response = await sut.handle(fakeSignInInput)
 
       expect(response).toEqual({
-        statusCode: 401,
+        statusCode: StatusCode.UNAUTHORIZED,
         data: fakeUnauthorizedError,
       })
     },
@@ -117,7 +118,7 @@ describe('SignInController', () => {
       email: userDTOStub.email,
     })
     expect(response).toEqual({
-      statusCode: 200,
+      statusCode: StatusCode.OK,
       data: {
         accessToken: accessTokenStub,
       },

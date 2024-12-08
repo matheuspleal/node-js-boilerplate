@@ -3,6 +3,7 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { left, right } from '@/core/application/either'
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-uuid-error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found-error'
@@ -42,7 +43,7 @@ describe('GetPersonById', () => {
 
     expect(getPersonByIdUseCaseSpy).not.toHaveBeenCalled()
     expect(response).toEqual({
-      statusCode: 400,
+      statusCode: StatusCode.BAD_REQUEST,
       data: new ValidationCompositeError([
         new InvalidUUIDError('id', invalidId),
       ]),
@@ -65,7 +66,7 @@ describe('GetPersonById', () => {
       id,
     })
     expect(response).toEqual({
-      statusCode: 404,
+      statusCode: StatusCode.NOT_FOUND,
       data: fakePersonNotFoundError,
     })
   })
@@ -82,7 +83,7 @@ describe('GetPersonById', () => {
       id,
     })
     expect(response).toEqual({
-      statusCode: 200,
+      statusCode: StatusCode.OK,
       data: {
         person: personDTOStub,
       },

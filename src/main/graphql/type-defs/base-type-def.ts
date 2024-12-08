@@ -5,7 +5,15 @@ export default `#graphql
     id: ID!
     name: String!
     email: String!
-    birthdate: Date
+    birthdate: Date!
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
+  type Person {
+    id: ID!
+    name: String!
+    birthdate: Date!
     age: Int!
     createdAt: Date!
     updatedAt: Date!

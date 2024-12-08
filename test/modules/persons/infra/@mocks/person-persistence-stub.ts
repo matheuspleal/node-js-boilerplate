@@ -4,28 +4,28 @@ import { type PersonPersistence } from '@/modules/persons/application/repositori
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
 
-export interface PersonPersistanceStubProps {
-  personPersistance?: Partial<PersonPersistence>
+export interface PersonPersistenceStubProps {
+  personPersistence?: Partial<PersonPersistence>
 }
 
 export function makePersonPersistenceStub(
-  props?: PersonPersistanceStubProps,
+  props?: PersonPersistenceStubProps,
 ): PersonPersistence {
-  const { personPersistance } = props ?? {}
+  const { personPersistence } = props ?? {}
   return {
-    id: personPersistance?.id ?? faker.string.uuid(),
-    name: personPersistance?.name ?? faker.person.fullName(),
-    birthdate: personPersistance?.birthdate ?? faker.date.birthdate(),
-    createdAt: personPersistance?.createdAt ?? faker.date.recent(),
-    updatedAt: personPersistance?.updatedAt ?? faker.date.recent(),
+    id: personPersistence?.id ?? faker.string.uuid(),
+    name: personPersistence?.name ?? faker.person.fullName(),
+    birthdate: personPersistence?.birthdate ?? faker.date.birthdate(),
+    createdAt: personPersistence?.createdAt ?? faker.date.recent(),
+    updatedAt: personPersistence?.updatedAt ?? faker.date.recent(),
   }
 }
 
 export function makePersonCollectionPersistenceStub({
   length = 20,
-  personPersistance,
-}: PersonPersistanceStubProps & CollectionStubProps): PersonPersistence[] {
+  personPersistence,
+}: PersonPersistenceStubProps & CollectionStubProps): PersonPersistence[] {
   return Array.from({ length }).map(() =>
-    makePersonPersistenceStub({ personPersistance }),
+    makePersonPersistenceStub({ personPersistence }),
   )
 }

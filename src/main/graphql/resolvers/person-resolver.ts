@@ -12,7 +12,7 @@ import {
 
 export default {
   Query: {
-    async fetchUsers(parent: any, args: any, context: any, info: any) {
+    async fetchPersons(parent: any, args: any, context: any, info: any) {
       return apolloServerResolverAdapter<
         FetchPersonsControllerRequest,
         FetchPersonsControllerResponse
@@ -25,13 +25,13 @@ export default {
         requiresAuth: true,
       })
     },
-    async getUserById(parent: any, args: any, context: any, info: any) {
+    async getPersonById(parent: any, args: any, context: any, info: any) {
       return apolloServerResolverAdapter<
         GetPersonByIdControllerRequest,
         GetPersonByIdControllerResponse
       >(makeGetPersonByIdController(), {
         args: {
-          id: args.userId,
+          id: args.id,
         },
         context,
         requiresAuth: true,

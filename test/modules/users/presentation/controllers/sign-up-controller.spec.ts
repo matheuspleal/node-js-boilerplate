@@ -2,6 +2,7 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { left, right } from '@/core/application/either'
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { InvalidPasswordError } from '@/core/presentation/validators/errors/invalid-password-error'
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
@@ -55,7 +56,7 @@ describe('SignUpController', () => {
 
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
     expect(response).toEqual({
-      statusCode: 400,
+      statusCode: StatusCode.BAD_REQUEST,
       data: new ValidationCompositeError([
         ...listOfFields.map(
           (field) => new RequiredError(field, fakeSignUpInput[field]),
@@ -84,7 +85,7 @@ describe('SignUpController', () => {
 
       expect(signUpUseCaseSpy).toHaveBeenCalledTimes(0)
       expect(response).toEqual({
-        statusCode: 400,
+        statusCode: StatusCode.BAD_REQUEST,
         data: new ValidationCompositeError(errors),
       })
     },
@@ -107,7 +108,7 @@ describe('SignUpController', () => {
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(statusCode).toEqual(409)
+    expect(statusCode).toEqual(StatusCode.CONFLICT)
     expect(data).toEqual(new EmailAlreadyExistsError(userDTOStub.email))
   })
 
@@ -124,7 +125,7 @@ describe('SignUpController', () => {
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(statusCode).toEqual(400)
+    expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
     expect(data).toEqual(new InvalidEmailError(userDTOStub.email))
   })
 
@@ -145,7 +146,7 @@ describe('SignUpController', () => {
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
-    expect(statusCode).toEqual(400)
+    expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
     expect(data).toEqual(new InvalidBirthdateError(personDTOStub.birthdate))
   })
 
@@ -167,14 +168,16 @@ describe('SignUpController', () => {
       birthdate: personDTOStub.birthdate,
     })
     expect(response).toEqual({
-      statusCode: 201,
+      statusCode: StatusCode.CREATED,
       data: {
-        id: userDTOStub.id,
-        name: personDTOStub.name,
-        birthdate: personDTOStub.birthdate,
-        email: userDTOStub.email,
-        createdAt: userDTOStub.createdAt,
-        updatedAt: userDTOStub.updatedAt,
+        user: {
+          id: userDTOStub.id,
+          name: personDTOStub.name,
+          birthdate: personDTOStub.birthdate,
+          email: userDTOStub.email,
+          createdAt: userDTOStub.createdAt,
+          updatedAt: userDTOStub.updatedAt,
+        },
       },
     })
   })

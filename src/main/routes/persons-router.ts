@@ -14,11 +14,11 @@ import {
   type GetPersonByIdControllerResponse,
 } from '@/modules/persons/presentation/controllers/get-person-by-id-controller'
 
-const usersRouterPrefix = '/users'
+const personRouterPrefix = '/persons'
 
-export default async function usersRouter(app: FastifyInstance) {
+export default async function personRouter(app: FastifyInstance) {
   app.get(
-    usersRouterPrefix,
+    personRouterPrefix,
     {
       preHandler: [fastifyHandlerAdapter(makeAuthenticationMiddleware())],
     },
@@ -28,7 +28,7 @@ export default async function usersRouter(app: FastifyInstance) {
     >(makeFetchPersonsController()),
   )
   app.get(
-    `${usersRouterPrefix}/:id`,
+    `${personRouterPrefix}/:id`,
     {
       preHandler: [fastifyHandlerAdapter(makeAuthenticationMiddleware())],
     },

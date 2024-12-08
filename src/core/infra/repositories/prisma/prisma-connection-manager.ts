@@ -6,7 +6,7 @@ export class PrismaConnectionManager {
   static getInstance(): PrismaClient {
     if (!PrismaConnectionManager.client) {
       PrismaConnectionManager.client = new PrismaClient({
-        log: ['query'],
+        log: ['info', 'query', 'warn', 'error'],
       })
     }
     return PrismaConnectionManager.client

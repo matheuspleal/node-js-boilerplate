@@ -1,9 +1,9 @@
 export default `#graphql
-  type Healthcheck {
+  type HealthCheck {
     message: String!
   }
 
    extend type Query {
-    healthcheck: Healthcheck!
+    healthCheck: HealthCheck!
   }
 `

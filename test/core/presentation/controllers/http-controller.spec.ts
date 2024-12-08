@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { type HttpController } from '@/core/presentation/controllers/http-controller'
 import { InternalServerError } from '@/core/presentation/errors/internal-server-error'
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 
@@ -28,7 +29,7 @@ describe('HttpController', () => {
         lastName: 'Doe',
       })
 
-      expect(response.statusCode).toEqual(500)
+      expect(response.statusCode).toEqual(StatusCode.SERVER_ERROR)
       expect(response.data).toBeInstanceOf(InternalServerError)
     })
 
@@ -39,7 +40,7 @@ describe('HttpController', () => {
       })
 
       expect(response).toEqual({
-        statusCode: 200,
+        statusCode: StatusCode.OK,
         data: {
           fullName: 'John Doe',
         },
@@ -63,7 +64,7 @@ describe('HttpController', () => {
         lastName: 'Doe',
       })
 
-      expect(response.statusCode).toEqual(500)
+      expect(response.statusCode).toEqual(StatusCode.SERVER_ERROR)
       expect(response.data).toBeInstanceOf(InternalServerError)
     })
 
@@ -79,7 +80,7 @@ describe('HttpController', () => {
       })
 
       expect(response).toEqual({
-        statusCode: 400,
+        statusCode: StatusCode.BAD_REQUEST,
         data: new ValidationCompositeError([
           new RequiredError('lastName', lastName),
         ]),
@@ -93,7 +94,7 @@ describe('HttpController', () => {
       })
 
       expect(response).toEqual({
-        statusCode: 200,
+        statusCode: StatusCode.OK,
         data: {
           fullName: 'John Doe',
         },

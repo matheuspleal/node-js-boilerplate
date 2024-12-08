@@ -91,11 +91,12 @@ describe('PersonMapper', () => {
   it('should be able to map PersonPersistence object to PersonEntity instance', () => {
     const persistenceToEntity = PersonMapper.toDomain(personPersistence)
 
+    const birthdate = personPersistence.birthdate
+    birthdate.setUTCHours(0, 0, 0, 0)
+
     expect(persistenceToEntity.id.toValue()).toEqual(personPersistence.id)
     expect(persistenceToEntity.name).toEqual(personPersistence.name)
-    expect(persistenceToEntity.birthdate.toValue()).toEqual(
-      personPersistence.birthdate,
-    )
+    expect(persistenceToEntity.birthdate.toValue()).toEqual(birthdate)
     expect(persistenceToEntity.createdAt).toEqual(personPersistence.createdAt)
     expect(persistenceToEntity.updatedAt).toEqual(personPersistence.updatedAt)
   })
@@ -105,19 +106,16 @@ describe('PersonMapper', () => {
       PersonMapper.toCollectionDomain(personCollectionPersistence)
 
     persistenceCollectionToEntityCollection.forEach((item, index) => {
-      expect(
-        persistenceCollectionToEntityCollection[index].id.toValue(),
-      ).toEqual(personCollectionPersistence[index].id)
-      expect(persistenceCollectionToEntityCollection[index].name).toEqual(
-        personCollectionPersistence[index].name,
-      )
-      expect(
-        persistenceCollectionToEntityCollection[index].birthdate.toValue(),
-      ).toEqual(personCollectionPersistence[index].birthdate)
-      expect(persistenceCollectionToEntityCollection[index].createdAt).toEqual(
+      const birthdate = personCollectionPersistence[index].birthdate
+      birthdate.setUTCHours(0, 0, 0, 0)
+
+      expect(item.id.toValue()).toEqual(personCollectionPersistence[index].id)
+      expect(item.name).toEqual(personCollectionPersistence[index].name)
+      expect(item.birthdate.toValue()).toEqual(birthdate)
+      expect(item.createdAt).toEqual(
         personCollectionPersistence[index].createdAt,
       )
-      expect(persistenceCollectionToEntityCollection[index].updatedAt).toEqual(
+      expect(item.updatedAt).toEqual(
         personCollectionPersistence[index].updatedAt,
       )
     })

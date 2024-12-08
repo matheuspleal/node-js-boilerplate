@@ -1,5 +1,7 @@
 # Environment Variables
 .env
+.env.*
+!.env.example
 
 # Distribution files
 dist
@@ -13,5 +15,5 @@ node_modules
 # Vitest
 coverage
 
-# Private and Public key
+# Private and Public keys
 *.pem

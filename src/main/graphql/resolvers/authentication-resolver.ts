@@ -5,6 +5,10 @@ import {
   type SignInControllerRequest,
   type SignInControllerResponse,
 } from '@/modules/users/presentation/controllers/sign-in-controller'
+import {
+  type SignUpControllerResponse,
+  type SignUpControllerRequest,
+} from '@/modules/users/presentation/controllers/sign-up-controller'
 
 export default {
   Query: {
@@ -20,7 +24,10 @@ export default {
   },
   Mutation: {
     async signUp(parent: any, args: any, context: any, info: any) {
-      return apolloServerResolverAdapter(makeSignUpController(), {
+      return apolloServerResolverAdapter<
+        SignUpControllerRequest,
+        SignUpControllerResponse
+      >(makeSignUpController(), {
         args,
         context,
       })

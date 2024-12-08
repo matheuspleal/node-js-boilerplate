@@ -5,9 +5,10 @@ import {
 } from 'fastify'
 import request from 'supertest'
 
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { appSetup } from '@/main/setup/app-setup'
 
-describe('HealthcheckRouter', () => {
+describe('HealthCheckRouter', () => {
   let app: FastifyInstance
   let fakeError: Error
 
@@ -22,13 +23,13 @@ describe('HealthcheckRouter', () => {
     await app.ready()
   })
 
-  describe('[GET] /healthcheck', () => {
+  describe('[GET] /health-check', () => {
     test('returns status code 200 when server is listening', async () => {
       const { statusCode, body } = await request(app.server).get(
-        '/api/v1/healthcheck',
+        '/api/v1/health-check',
       )
 
-      expect(statusCode).toEqual(200)
+      expect(statusCode).toEqual(StatusCode.OK)
       expect(body).toEqual({
         message: 'Ok!',
       })
@@ -39,8 +40,10 @@ describe('HealthcheckRouter', () => {
         '/api/v1/fake-error-endpoint',
       )
 
-      expect(statusCode).toEqual(500)
+      expect(statusCode).toEqual(StatusCode.SERVER_ERROR)
       expect(body).toEqual({
+        statusCode: StatusCode.SERVER_ERROR,
+        error: 'Internal Server Error',
         message: fakeError.message,
       })
     })

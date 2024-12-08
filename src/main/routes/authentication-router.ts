@@ -12,8 +12,8 @@ import {
   type SignUpControllerResponse,
 } from '@/modules/users/presentation/controllers/sign-up-controller'
 
-const signInRouterPrefix = '/signin'
-const signUpRouterPrefix = '/signup'
+const signInRouterPrefix = '/sign-in'
+const signUpRouterPrefix = '/sign-up'
 
 export default async function authenticationRouter(app: FastifyInstance) {
   app.post(

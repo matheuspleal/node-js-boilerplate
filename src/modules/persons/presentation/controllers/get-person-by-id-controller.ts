@@ -13,9 +13,7 @@ export interface GetPersonByIdControllerRequest {
 
 export type GetPersonByIdControllerResponse =
   | PersonNotFoundError
-  | {
-      person: PersonDTO
-    }
+  | { person: PersonDTO }
 
 export class GetPersonByIdController extends HttpController<
   GetPersonByIdControllerRequest,

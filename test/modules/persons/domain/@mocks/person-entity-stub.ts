@@ -5,6 +5,7 @@ import {
   PersonEntity,
   type PersonInput,
 } from '@/modules/persons/domain/entities/person-entity'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
 
@@ -20,7 +21,9 @@ export function makePersonInputStub(
   return {
     id: personInput?.id ?? faker.string.uuid(),
     name: personInput?.name ?? faker.person.fullName(),
-    birthdate: personInput?.birthdate ?? faker.date.birthdate(),
+    birthdate: new BirthdateVO({
+      value: personInput?.birthdate ?? faker.date.birthdate(),
+    }).toValue(),
     createdAt: personInput?.createdAt ?? faker.date.recent(),
     updatedAt: personInput?.updatedAt ?? faker.date.recent(),
   }

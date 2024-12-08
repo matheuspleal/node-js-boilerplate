@@ -5,3 +5,5 @@ export interface PersonPersistence {
   createdAt: Date
   updatedAt: Date
 }
+
+export type PersonPersistenceCollection = PersonPersistence[]

@@ -57,7 +57,7 @@ describe('HttpHelpers', () => {
 
     it('should be able to return HttpResponse with status code equals 201 and data equal to the type passed in generic', () => {
       const expectedResponse: HttpResponse<FakeNamespace.Response> = {
-        statusCode: 201,
+        statusCode: StatusCode.CREATED,
         data: {
           fullName: 'John Doe',
         },

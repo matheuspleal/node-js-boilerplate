@@ -1,5 +1,5 @@
 import { Entity } from '@/core/domain/entities/entity'
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { type Optional } from '@/core/shared/types/optional'
 import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
@@ -19,12 +19,8 @@ export type UserInput = Optional<
 }
 
 export class UserEntity extends Entity<UserProps> {
-  get personId() {
-    return this.personId
-  }
-
-  set personId(personId: string) {
-    this.personId = new UniqueEntityIdVO(personId).toValue()
+  get personId(): UniqueEntityIdVO {
+    return this.props.personId
   }
 
   get email() {

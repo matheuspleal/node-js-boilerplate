@@ -3,7 +3,7 @@ export default `#graphql
     accessToken: String!
   }
 
-  type CreateUser {
+  type CreatedUser {
     user: User
   }
 
@@ -17,6 +17,6 @@ export default `#graphql
       email: String!
       password: String!
       birthdate: Date!
-    ): CreateUser!
+    ): CreatedUser!
   }
 `

@@ -2,48 +2,49 @@ import { randomUUID } from 'node:crypto'
 
 import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
+import { type GraphQLError } from 'graphql'
 import request from 'supertest'
 
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { appSetup } from '@/main/setup/app-setup'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { generateAccessToken } from '#/main/helpers/generate-access-token'
-import { makeFakeUserCollectionPersistenceStub } from '#/modules/persons/application/@mocks/person-persistence-stub'
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/application/@mocks/input-sign-up-stub'
-import { emailRegExp } from '#/modules/users/domain/@helpers/email-regexp'
+import { makePersonCollectionPersistenceStub } from '#/modules/persons/infra/@mocks/person-persistence-stub'
+import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input-stub'
+import { createUser } from '#/modules/users/infra/@helpers/user-persistence-prisma'
 
 describe('PersonsGraphQL', () => {
   let app: FastifyInstance
   let prisma: PrismaClient
   let accessToken: string
-  let fetchUsersQuery: string
-  let getUserByIdQuery: string
-  let userId: string
+  let fetchPersonsQuery: string
+  let getPersonByIdQuery: string
+  let personId: string
 
   beforeAll(async () => {
     prisma = new PrismaClient()
     app = await appSetup()
     await app.ready()
-    accessToken = await generateAccessToken(prisma)
+    accessToken = await generateAccessToken()
   })
 
-  describe('FetchUsers', async () => {
+  describe('FetchPersons', async () => {
     beforeAll(async () => {
-      const listOfUsers = makeFakeUserCollectionPersistenceStub({
-        length: 99,
+      const listOfPersons = makePersonCollectionPersistenceStub({
+        length: 100,
       })
-      await prisma.user.createMany({
-        data: [...listOfUsers],
+      await prisma.person.createMany({
+        data: [...listOfPersons],
       })
-      fetchUsersQuery = `
-        query FetchUsers($params: PaginationParams) {
-          fetchUsers(params: $params) {
+      fetchPersonsQuery = `
+        query FetchPersons($params: PaginationParams) {
+          fetchPersons(params: $params) {
             count
-            users {
+            persons {
               id
               name
-              email
               birthdate
               age
               createdAt
@@ -54,68 +55,60 @@ describe('PersonsGraphQL', () => {
       `
     })
 
-    test('fetch users without token', async () => {
+    test('fetch persons without token', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .send({
-          query: fetchUsersQuery,
+          query: fetchPersonsQuery,
           variables: {},
         })
 
-      expect(statusCode).toEqual(401)
+      expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
       expect(body).toEqual({
         errors: [
           {
-            message: 'Unauthorized.',
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['fetchUsers'],
             extensions: {
               code: 'UNAUTHORIZED',
+              stacktrace: expect.any(Array<GraphQLError>),
             },
+            locations: expect.any(Array),
+            message: 'Unauthorized.',
+            path: ['fetchPersons'],
           },
         ],
       })
     })
 
-    test('fetch users with invalid token', async () => {
+    test('fetch persons with invalid token', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', 'Bearer fake-invalid-token')
         .send({
-          query: fetchUsersQuery,
+          query: fetchPersonsQuery,
         })
 
-      expect(statusCode).toEqual(401)
+      expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
       expect(body).toEqual({
         errors: [
           {
-            message: 'Unauthorized.',
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['fetchUsers'],
             extensions: {
               code: 'UNAUTHORIZED',
+              stacktrace: expect.any(Array<GraphQLError>),
             },
+            locations: expect.any(Array),
+            message: 'Unauthorized.',
+            path: ['fetchPersons'],
           },
         ],
       })
     })
 
-    test('fetch users with invalid page[offset] and page[limit]', async () => {
+    test('fetch persons with invalid page[offset] and page[limit]', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: fetchUsersQuery,
+          query: fetchPersonsQuery,
           variables: {
             params: {
               offset: -2,
@@ -123,28 +116,28 @@ describe('PersonsGraphQL', () => {
             },
           },
         })
-      const { count, users } = body.data.fetchUsers
-      const [anyUser] = users
+      const { count, persons } = body.data.fetchPersons
+      const [anyPerson] = persons
 
-      expect(statusCode).toEqual(200)
+      expect(statusCode).toEqual(StatusCode.OK)
       expect(count).toEqual(100)
-      expect(users).toHaveLength(20)
-      expect(anyUser).toEqual({
+      expect(persons).toHaveLength(20)
+      expect(anyPerson).toEqual({
         id: expect.any(String),
         name: expect.any(String),
-        email: expect.stringMatching(emailRegExp),
+        birthdate: expect.stringMatching(ISODateRegExp),
         age: expect.any(Number),
         createdAt: expect.stringMatching(ISODateRegExp),
         updatedAt: expect.stringMatching(ISODateRegExp),
       })
     })
 
-    test('fetch users with custom page[offset] and page[limit]', async () => {
+    test('fetch persons with custom page[offset] and page[limit]', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: fetchUsersQuery,
+          query: fetchPersonsQuery,
           variables: {
             params: {
               offset: 2,
@@ -152,39 +145,39 @@ describe('PersonsGraphQL', () => {
             },
           },
         })
-      const { count, users } = body.data.fetchUsers
-      const [anyUser] = users
+      const { count, persons } = body.data.fetchPersons
+      const [anyPerson] = persons
 
-      expect(statusCode).toEqual(200)
+      expect(statusCode).toEqual(StatusCode.OK)
       expect(count).toEqual(100)
-      expect(users).toHaveLength(10)
-      expect(anyUser).toEqual({
+      expect(persons).toHaveLength(10)
+      expect(anyPerson).toEqual({
         id: expect.any(String),
         name: expect.any(String),
-        email: expect.stringMatching(emailRegExp),
+        birthdate: expect.stringMatching(ISODateRegExp),
         age: expect.any(Number),
         createdAt: expect.stringMatching(ISODateRegExp),
         updatedAt: expect.stringMatching(ISODateRegExp),
       })
     })
 
-    test('fetch users without page[offset] and page[limit]', async () => {
+    test('fetch persons without page[offset] and page[limit]', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: fetchUsersQuery,
+          query: fetchPersonsQuery,
         })
-      const { count, users } = body.data.fetchUsers
-      const [anyUser] = users
+      const { count, persons } = body.data.fetchPersons
+      const [anyPerson] = persons
 
-      expect(statusCode).toEqual(200)
+      expect(statusCode).toEqual(StatusCode.OK)
       expect(count).toEqual(100)
-      expect(users).toHaveLength(20)
-      expect(anyUser).toEqual({
+      expect(persons).toHaveLength(20)
+      expect(anyPerson).toEqual({
         id: expect.any(String),
         name: expect.any(String),
-        email: expect.stringMatching(emailRegExp),
+        birthdate: expect.stringMatching(ISODateRegExp),
         age: expect.any(Number),
         createdAt: expect.stringMatching(ISODateRegExp),
         updatedAt: expect.stringMatching(ISODateRegExp),
@@ -192,22 +185,21 @@ describe('PersonsGraphQL', () => {
     })
   })
 
-  describe('GetUserById', async () => {
+  describe('GetPersonById', async () => {
     beforeAll(async () => {
-      const listOfUsers = makeFakeUserCollectionPersistenceStub({
+      const listOfPersons = makePersonCollectionPersistenceStub({
         length: 100,
       })
-      userId = listOfUsers[9].id
-      await prisma.user.createMany({
-        data: [...listOfUsers],
+      personId = listOfPersons[9].id
+      await prisma.person.createMany({
+        data: [...listOfPersons],
       })
-      getUserByIdQuery = `
-        query GetUserById($userId: ID!) {
-          getUserById(userId: $userId) {
-            user {
+      getPersonByIdQuery = `
+        query GetPersonById($id: ID!) {
+          getPersonById(id: $id) {
+            person {
               id
               name
-              email
               birthdate
               age
               createdAt
@@ -218,135 +210,152 @@ describe('PersonsGraphQL', () => {
       `
     })
 
-    test('get user without token', async () => {
+    test('get person without token', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .send({
-          query: getUserByIdQuery,
+          query: getPersonByIdQuery,
           variables: {
-            userId,
+            id: personId,
           },
         })
 
-      expect(statusCode).toEqual(401)
+      expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
       expect(body).toEqual({
         errors: [
           {
-            message: 'Unauthorized.',
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['getUserById'],
             extensions: {
               code: 'UNAUTHORIZED',
+              stacktrace: expect.any(Array<GraphQLError>),
             },
+            locations: expect.any(Array),
+            message: 'Unauthorized.',
+            path: ['getPersonById'],
           },
         ],
       })
     })
 
-    test('get user with invalid token', async () => {
+    test('get person with invalid token', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', 'Bearer fake-invalid-token')
         .send({
-          query: getUserByIdQuery,
+          query: getPersonByIdQuery,
           variables: {
-            userId,
+            id: personId,
           },
         })
 
-      expect(statusCode).toEqual(401)
+      expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
       expect(body).toEqual({
         errors: [
           {
-            message: 'Unauthorized.',
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['getUserById'],
             extensions: {
               code: 'UNAUTHORIZED',
+              stacktrace: expect.any(Array<GraphQLError>),
             },
+            locations: expect.any(Array),
+            message: 'Unauthorized.',
+            path: ['getPersonById'],
           },
         ],
       })
     })
 
-    test('get user by invalid id', async () => {
+    test('get person without id', async () => {
+      const { statusCode, body } = await request(app.server)
+        .post('/api/graphql')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          query: getPersonByIdQuery,
+          variables: {
+            id: undefined,
+          },
+        })
+
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
+      expect(body).toEqual({
+        errors: [
+          {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              stacktrace: expect.any(Array<GraphQLError>),
+            },
+            locations: expect.any(Array),
+            message: 'Variable "$id" of required type "ID!" was not provided.',
+          },
+        ],
+      })
+    })
+
+    test('get person by invalid id', async () => {
       const invalidId = 'invalid-id'
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: getUserByIdQuery,
+          query: getPersonByIdQuery,
           variables: {
-            userId: invalidId,
+            id: invalidId,
           },
         })
 
-      expect(statusCode).toEqual(400)
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body).toEqual({
         errors: [
           {
-            message: 'The field "id" with value "invalid-id" is invalid id!',
             extensions: {
               code: 'DOMAIN_VALIDATION_ERROR',
             },
+            message: `The field "id" with value "${invalidId}" is invalid id!`,
           },
         ],
       })
     })
 
-    test('get user by non existent id', async () => {
+    test('get person by non existent id', async () => {
       const nonExistentId = randomUUID()
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: getUserByIdQuery,
+          query: getPersonByIdQuery,
           variables: {
-            userId: nonExistentId,
+            id: nonExistentId,
           },
         })
 
-      expect(statusCode).toEqual(404)
+      expect(statusCode).toEqual(StatusCode.NOT_FOUND)
       expect(body).toEqual({
         errors: [
           {
-            message: `User with id "${nonExistentId}" not found!`,
-            locations: [
-              {
-                line: 3,
-                column: 11,
-              },
-            ],
-            path: ['getUserById'],
             extensions: {
               code: 'NOT_FOUND',
+              stacktrace: expect.any(Array<GraphQLError>),
             },
+            locations: expect.any(Array),
+            message: `Person with id "${nonExistentId}" not found!`,
+            path: ['getPersonById'],
           },
         ],
       })
     })
 
-    test('get user by id', async () => {
-      const { name, email, password, birthdate } =
-        makeFakeRequiredInputSignUpStub()
-      const { id, createdAt, updatedAt } = await prisma.user.create({
-        data: {
+    test('get person by id', async () => {
+      const { name, email, password, birthdate } = makeRequiredSignUpInputStub()
+      const birthdateVO = new BirthdateVO({ value: birthdate })
+      const { personId } = await createUser({
+        prisma,
+        personPersistence: {
           name,
+          birthdate,
+        },
+        userPersistence: {
           email,
           password,
-          birthdate,
         },
       })
 
@@ -354,22 +363,25 @@ describe('PersonsGraphQL', () => {
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          query: getUserByIdQuery,
+          query: getPersonByIdQuery,
           variables: {
-            userId: id,
+            id: personId,
           },
         })
-      const { getUserById } = body.data
 
-      expect(statusCode).toEqual(200)
-      expect(getUserById).toEqual({
-        user: {
-          id,
-          name,
-          email,
-          age: new BirthdateVO({ value: birthdate }).getCurrentAgeInYears(),
-          createdAt: createdAt.toISOString(),
-          updatedAt: updatedAt.toISOString(),
+      expect(statusCode).toEqual(StatusCode.OK)
+      expect(body).toEqual({
+        data: {
+          getPersonById: {
+            person: {
+              id: personId,
+              name,
+              birthdate: birthdateVO.toString(),
+              age: birthdateVO.getCurrentAgeInYears(),
+              createdAt: expect.stringMatching(ISODateRegExp),
+              updatedAt: expect.stringMatching(ISODateRegExp),
+            },
+          },
         },
       })
     })
