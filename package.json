@@ -19,7 +19,7 @@
     "start:dev": "npm run migrate:dev && npm run node:ts -- --inspect --watch src/main/server.ts",
     "start:prod": "npm run migrate:prod && npm run node:js -- dist/main/server.js",
     "test": "vitest run --passWithNoTests",
-    "test:ci": "npm run pretest && vitest run --config ./vitest.config.ci.ts --coverage",
+    "test:ci": "vitest run --config ./vitest.config.ci.ts --coverage",
     "test:e2e": "npm run pretest && vitest run --config ./vitest.config.e2e.ts",
     "test:e2e:watch": "npm run pretest && vitest --config ./vitest.config.e2e.ts",
     "test:staged": "vitest related --run",
