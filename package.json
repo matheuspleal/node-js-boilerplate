@@ -73,7 +73,7 @@
     "@as-integrations/fastify": "2.1.1",
     "@fastify/cors": "9.0.1",
     "@prisma/client": "6.0.1",
-    "@scalar/fastify-api-reference": "1.25.72",
+    "@scalar/fastify-api-reference": "1.25.76",
     "@scalar/themes": "0.9.54",
     "bcryptjs": "2.4.3",
     "fastify": "4.27.0",
