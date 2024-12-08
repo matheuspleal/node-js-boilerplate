@@ -17,7 +17,7 @@ export function makeFakeRequiredPropsStub(): Optional<
 > {
   return {
     email: faker.internet.email(),
-    birthdate: faker.date.birthdate({ min: 1950, max: 2005 }),
+    birthdate: faker.date.birthdate({ mode: 'year', min: 1950, max: 2005 }),
     password: 'P@ssw0rd!123',
   }
 }

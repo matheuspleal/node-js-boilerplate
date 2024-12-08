@@ -22,7 +22,7 @@ export function makeFakeDTOStub(): FakeDTO {
   return {
     name: faker.person.fullName(),
     email: faker.internet.email(),
-    birthdate: faker.date.birthdate({ min: 1950, max: 2005 }),
+    birthdate: faker.date.birthdate({ mode: 'year', min: 1950, max: 2005 }),
   }
 }
 
