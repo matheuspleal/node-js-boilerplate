@@ -87,7 +87,10 @@
     "typescript",
     "clean-architecture",
     "domain-driven-design",
-    "test-driven-development"
+    "test-driven-development",
+    "boilerplate",
+    "restapi",
+    "graphql"
   ],
   "author": "Matheus Pereira Leal",
   "license": "ISC",
