@@ -1,5 +1,5 @@
 import authentication from '@/main/graphql/resolvers/authentication-resolver'
-import healthcheck from '@/main/graphql/resolvers/healthcheck-resolver'
-import user from '@/main/graphql/resolvers/user-resolver'
+import healthCheck from '@/main/graphql/resolvers/health-check-resolver'
+import person from '@/main/graphql/resolvers/person-resolver'
 
-export default [healthcheck, authentication, user]
+export default [authentication, healthCheck, person]

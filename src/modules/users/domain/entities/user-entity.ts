@@ -1,26 +1,26 @@
 import { Entity } from '@/core/domain/entities/entity'
-import { type UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { type Optional } from '@/core/shared/types/optional'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
-import { Email } from '@/modules/users/domain/value-objects/email'
+import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
 export interface UserProps {
-  name: string
-  email: Email
+  personId: UniqueEntityIdVO
+  email: EmailVO
   password: string
-  birthdate: Birthdate
   createdAt: Date
   updatedAt: Date
 }
 
-export class UserEntity extends Entity<UserProps> {
-  get name() {
-    return this.props.name
-  }
+export type UserInput = Optional<
+  Omit<UserProps, 'email'>,
+  'createdAt' | 'updatedAt'
+> & {
+  email: string
+}
 
-  set name(name: string) {
-    this.props.name = name
-    this.touch()
+export class UserEntity extends Entity<UserProps> {
+  get personId(): UniqueEntityIdVO {
+    return this.props.personId
   }
 
   get email() {
@@ -33,14 +33,7 @@ export class UserEntity extends Entity<UserProps> {
 
   set password(password: string) {
     this.props.password = password
-  }
-
-  get birthdate() {
-    return this.props.birthdate
-  }
-
-  get age() {
-    return this.props.birthdate.getCurrentAgeInYears()
+    this.touch()
   }
 
   get createdAt() {
@@ -55,22 +48,11 @@ export class UserEntity extends Entity<UserProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(
-    props: Optional<
-      Omit<UserProps, 'email' | 'password' | 'birthdate'>,
-      'createdAt' | 'updatedAt'
-    > & {
-      email: string
-      password: string
-      birthdate: Date
-    },
-    id?: UniqueEntityId,
-  ): UserEntity {
+  static create(props: UserInput, id?: UniqueEntityIdVO): UserEntity {
     const user = new UserEntity(
       {
         ...props,
-        email: new Email(props.email),
-        birthdate: new Birthdate(new Date(props.birthdate)),
+        email: new EmailVO({ value: props.email }),
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },

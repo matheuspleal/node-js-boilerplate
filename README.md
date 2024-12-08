@@ -1,11 +1,11 @@
-![Node.js Skeleton](https://i.imgur.com/SfOjXiK.jpg)
+![Node.js Boilerplate](https://i.imgur.com/SfOjXiK.jpg)
 <div align="center">
-  <h1>Node.js Skeleton</h1>
-  <a href="https://github.com/matheuspleal/node-js-skeleton/actions">
-    <img src="https://github.com/matheuspleal/node-js-skeleton/actions/workflows/ci.yml/badge.svg?branch=main" alt="Build Status">
+  <h1>Node.js Boilerplate</h1>
+  <a href="https://github.com/matheuspleal/node-js-boilerplate/actions">
+    <img src="https://github.com/matheuspleal/node-js-boilerplate/actions/workflows/ci.yml/badge.svg?branch=main" alt="Build Status">
   </a>
-  <a href="https://coveralls.io/github/matheuspleal/node-js-skeleton?branch=main">
-    <img src="https://coveralls.io/repos/github/matheuspleal/node-js-skeleton/badge.svg?branch=main" alt="Coverage Status">
+  <a href="https://coveralls.io/github/matheuspleal/node-js-boilerplate?branch=main">
+    <img src="https://coveralls.io/repos/github/matheuspleal/node-js-boilerplate/badge.svg?branch=main" alt="Coverage Status">
   </a>
   <a href="http://standardjs.com">
     <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="js-standard-style">
@@ -57,14 +57,14 @@
 </details>
 
 ## About The Project
-The **Node.js Skeleton** is a project developed in TypeScript that uses concepts of **Clean Architecture** and **Domain-Driven Design (DDD)** to maintain a decoupled and domain-centered application structure.
+The **Node.js Boilerplate** is a project developed in TypeScript that uses concepts of **Clean Architecture** and **Domain-Driven Design (DDD)** to maintain a decoupled and domain-centered application structure.
 
 In addition, various other design patterns are applied throughout the project to solve common software design problems encountered during the development process.
 
 Finally, the use of **Test-Driven Development (TDD)** ensures several benefits for the code, such as better design, quality, greater development agility, and ease of maintenance and refactoring.
 
 ### Context
-The project's goal is to demonstrate how it is possible to develop software in a decoupled manner. Thus, the example used in this skeleton is extremely simple and can be divided into two main sets of features: **Authentication** and **Users**.
+The project's goal is to demonstrate how it is possible to develop software in a decoupled manner. Thus, the example used in this boilerplate is extremely simple and can be divided into two main sets of features: **Authentication** and **Users**.
 
 The **Authentication** functionality allows **Sign Up** in the system and ensures that the **access token** is generated (**Sign In**) so that **Users** resources, which are protected, can be accessed.
 

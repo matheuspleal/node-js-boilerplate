@@ -1,5 +1,5 @@
 import { Mapper } from '@/core/application/use-cases/mappers/mapper'
-import { UniqueEntityId } from '@/core/domain/value-objects/unique-entity-id'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
 import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
@@ -8,8 +8,6 @@ export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toDTO(userEntity: UserEntity): UserDTO {
     return {
       id: userEntity.id.toString(),
-      name: userEntity.name,
-      age: userEntity.age,
       email: userEntity.email.toString(),
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt,
@@ -23,14 +21,13 @@ export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toDomain(userPersistence: UserPersistence): UserEntity {
     return UserEntity.create(
       {
-        name: userPersistence.name,
+        personId: new UniqueEntityIdVO(userPersistence.personId),
         email: userPersistence.email,
         password: userPersistence.password,
-        birthdate: userPersistence.birthdate,
         createdAt: userPersistence.createdAt,
         updatedAt: userPersistence.updatedAt,
       },
-      new UniqueEntityId(userPersistence.id),
+      new UniqueEntityIdVO(userPersistence.id),
     )
   }
 
@@ -41,10 +38,9 @@ export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toPersistence(userEntity: UserEntity): UserPersistence {
     return {
       id: userEntity.id.toString(),
-      name: userEntity.name,
+      personId: userEntity.personId.toString(),
       email: userEntity.email.toString(),
       password: userEntity.password.toString(),
-      birthdate: userEntity.birthdate.toValue(),
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt,
     }

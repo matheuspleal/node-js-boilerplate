@@ -50,7 +50,7 @@ describe('Presenter', () => {
     const [anyItemPresentedData] = presentedData
 
     expect(presentedData).toHaveLength(length)
-    expect(anyItemPresentedData).toMatchObject({
+    expect(anyItemPresentedData).toEqual({
       full_name: expect.any(String),
       email: expect.any(String),
       age: expect.any(Number),
@@ -72,7 +72,7 @@ describe('Presenter', () => {
     const [anyItemPresentedData] = csvToJSON
 
     expect(presentedData).toBeTypeOf('string')
-    expect(anyItemPresentedData).toMatchObject({
+    expect(anyItemPresentedData).toEqual({
       full_name: expect.any(String),
       email: expect.any(String),
       age: expect.any(String),

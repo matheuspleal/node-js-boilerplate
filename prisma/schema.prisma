@@ -9,12 +9,24 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  name      String
+  person    Person   @relation(fields: [personId], references: [id])
+  personId  String   @unique @db.VarChar(36)
   email     String   @unique
   password  String
-  birthdate DateTime @db.Date
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
+}
+
+model Person {
+  id        String   @id @default(uuid())
+  name      String
+  birthdate DateTime @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  userId    String?
+  User      User?
+
+  @@map("persons")
 }

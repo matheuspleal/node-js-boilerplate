@@ -1,18 +1,17 @@
-import { type PrismaClient } from '@prisma/client'
+import { randomUUID } from 'node:crypto'
 
 import { makeJwtAdapterFactory } from '@/main/factories/core/infra/gateways/jwt-adapter-factory'
 
-import { makeFakeUserPersistenceStub } from '#/modules/users/domain/@mocks/user-persistence-stub'
+export interface GenerateAccessTokenStubProps {
+  id?: string
+}
 
-export async function generateAccessToken(prisma: PrismaClient) {
-  const { id } = await prisma.user.create({
-    data: {
-      ...makeFakeUserPersistenceStub(),
-    },
-  })
+export async function generateAccessToken(
+  props?: GenerateAccessTokenStubProps,
+): Promise<string> {
   return makeJwtAdapterFactory().generate({
     payload: {
-      sub: id.toString(),
+      sub: props?.id ?? randomUUID(),
     },
     expiresInMs: 60 * 1000 * 5,
   })

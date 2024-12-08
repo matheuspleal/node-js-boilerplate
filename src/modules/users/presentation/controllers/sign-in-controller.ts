@@ -6,25 +6,28 @@ import { type ValidatorRule } from '@/core/presentation/validators/contracts/val
 import { type UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
 import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in-use-case'
 
-export namespace SignIn {
-  export interface Request {
-    email: string
-    password: string
-  }
-
-  export type Response = UnauthorizedError | { accessToken: string }
+export interface SignInControllerRequest {
+  email: string
+  password: string
 }
 
+export type SignInControllerResponse =
+  | UnauthorizedError
+  | { accessToken: string }
+
 export class SignInController extends HttpController<
-  SignIn.Request,
-  SignIn.Response
+  SignInControllerRequest,
+  SignInControllerResponse
 > {
   constructor(private readonly signInUseCase: SignInUseCase) {
     super()
   }
 
-  override buildValidators(request: SignIn.Request): ValidatorRule[] {
-    const allRequiredFields: Array<keyof SignIn.Request> = ['email', 'password']
+  override buildValidators(request: SignInControllerRequest): ValidatorRule[] {
+    const allRequiredFields: Array<keyof SignInControllerRequest> = [
+      'email',
+      'password',
+    ]
     const validations: ValidatorRule[] = []
     validations.push(
       ...allRequiredFields.flatMap((requiredField) =>
@@ -42,7 +45,7 @@ export class SignInController extends HttpController<
   override async perform({
     email,
     password,
-  }: SignIn.Request): Promise<HttpResponse<SignIn.Response>> {
+  }: SignInControllerRequest): Promise<HttpResponse<SignInControllerResponse>> {
     const result = await this.signInUseCase.execute({
       email,
       password,
@@ -50,6 +53,6 @@ export class SignInController extends HttpController<
     if (result.isLeft()) {
       return unauthorized()
     }
-    return ok<SignIn.Response>(result.value)
+    return ok<SignInControllerResponse>(result.value)
   }
 }

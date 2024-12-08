@@ -6,28 +6,33 @@ import {
   type HashGenerator,
   type HashGeneratorGateway,
 } from '@/core/application/gateways/cryptography/hash-generator'
+import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate-error'
+import { PersonEntity } from '@/modules/persons/domain/entities/person-entity'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
-import { InvalidBirthdateError } from '@/modules/users/application/errors/invalid-birthdate-error'
 import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email-error'
-import { type CreateUserRepository } from '@/modules/users/application/repositories/create-user-repository'
+import {
+  type CreateUserRepositoryInput,
+  type CreateUserRepositoryOutput,
+  type CreateUserRepository,
+} from '@/modules/users/application/repositories/create-user-repository'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
 import {
-  type SignUp,
   SignUpUseCase,
+  type SignUpUseCaseInput,
 } from '@/modules/users/application/use-cases/sign-up-use-case'
-import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
-import { Birthdate } from '@/modules/users/domain/value-objects/birthdate'
-import { Email } from '@/modules/users/domain/value-objects/email'
+import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
-import { makeFakeRequiredInputSignUpStub } from '#/modules/users/domain/@mocks/input-sign-up-stub'
+import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person-entity-stub'
 import {
   hashedPasswordStub,
   plaintextPasswordStub,
-} from '#/modules/users/domain/@mocks/password-stub'
-import { makeFakeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
+} from '#/modules/users/application/@mocks/password-stub'
+import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input-stub'
+import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity-stub'
 
 describe('SignUpUseCase', () => {
   let sut: SignUpUseCase
+  let personEntityStub: PersonEntity
   let userEntityStub: UserEntity
   let findUserByEmailRepositoryMock: MockProxy<FindUserByEmailRepository>
   let findUserByEmailRepositorySpy: MockInstance<
@@ -36,21 +41,27 @@ describe('SignUpUseCase', () => {
   >
   let createUserRepositoryMock: MockProxy<CreateUserRepository>
   let createUserRepositorySpy: MockInstance<
-    [user: UserEntity],
-    Promise<UserEntity>
+    [CreateUserRepositoryInput],
+    Promise<CreateUserRepositoryOutput>
   >
   let hashGeneratorGatewayMock: MockProxy<HashGeneratorGateway>
   let hashGeneratorGatewaySpy: MockInstance<
-    [input: HashGenerator.Input],
+    [HashGenerator.Input],
     Promise<HashGenerator.Output>
   >
 
   beforeAll(() => {
-    userEntityStub = makeFakeUserEntityStub()
+    personEntityStub = makePersonEntityStub()
+    userEntityStub = makeUserEntityStub({
+      userInput: { personId: personEntityStub?.id },
+    })
     findUserByEmailRepositoryMock = mock<FindUserByEmailRepository>()
     findUserByEmailRepositoryMock.findByEmail.mockResolvedValue(null)
     createUserRepositoryMock = mock<CreateUserRepository>()
-    createUserRepositoryMock.create.mockResolvedValue(userEntityStub)
+    createUserRepositoryMock.create.mockResolvedValue({
+      person: personEntityStub,
+      user: userEntityStub,
+    })
     hashGeneratorGatewayMock = mock<HashGeneratorGateway>()
     hashGeneratorGatewayMock.hash.mockResolvedValue(hashedPasswordStub)
   })
@@ -69,30 +80,10 @@ describe('SignUpUseCase', () => {
     )
   })
 
-  it('should be able to returns EmailAlreadyExistsError when email already exists', async () => {
-    findUserByEmailRepositoryMock.findByEmail.mockResolvedValueOnce(
-      userEntityStub,
-    )
-    const email = 'fake-existent-email'
-    const user: SignUp.Input = {
-      ...makeFakeRequiredInputSignUpStub(),
-      email,
-    }
-
-    const result = await sut.execute(user)
-
-    expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
-    expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(email)
-    expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
-    expect(createUserRepositorySpy).not.toHaveBeenCalled()
-    expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(EmailAlreadyExistsError)
-  })
-
   it('should be able to returns InvalidEmailError when email is invalid', async () => {
     const email = 'fake-invalid-email'
-    const user: SignUp.Input = {
-      ...makeFakeRequiredInputSignUpStub(),
+    const user: SignUpUseCaseInput = {
+      ...makeRequiredSignUpInputStub(),
       email,
     }
 
@@ -107,8 +98,8 @@ describe('SignUpUseCase', () => {
   })
 
   it('should be able to returns InvalidBirthdateError when birthdate is invalid', async () => {
-    const user: SignUp.Input = {
-      ...makeFakeRequiredInputSignUpStub(),
+    const user: SignUpUseCaseInput = {
+      ...makeRequiredSignUpInputStub(),
       birthdate: faker.date.future(),
     }
 
@@ -122,31 +113,44 @@ describe('SignUpUseCase', () => {
     expect(result.value).toBeInstanceOf(InvalidBirthdateError)
   })
 
+  it('should be able to returns EmailAlreadyExistsError when email already exists', async () => {
+    findUserByEmailRepositoryMock.findByEmail.mockResolvedValueOnce(
+      userEntityStub,
+    )
+    const email = 'fake-existent-email'
+    const user: SignUpUseCaseInput = {
+      ...makeRequiredSignUpInputStub(),
+      email,
+    }
+
+    const result = await sut.execute(user)
+
+    expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
+    expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(email)
+    expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
+    expect(createUserRepositorySpy).not.toHaveBeenCalled()
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(EmailAlreadyExistsError)
+  })
+
   it('should be able to returns UserDTO when user is created', async () => {
-    const user: SignUp.Input = makeFakeRequiredInputSignUpStub()
+    const user: SignUpUseCaseInput = makeRequiredSignUpInputStub()
 
     const result = await sut.execute(user)
 
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(user.email)
-    expect(createUserRepositorySpy).toHaveBeenCalledTimes(1)
-    expect(createUserRepositorySpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        _id: expect.objectContaining({
-          value: expect.any(String),
-        }),
-        props: expect.objectContaining({
-          name: user.name,
-          email: new Email(user.email),
-          birthdate: new Birthdate(user.birthdate),
-        }),
-      }),
-    )
     expect(hashGeneratorGatewaySpy).toHaveBeenCalledTimes(1)
     expect(hashGeneratorGatewaySpy).toHaveBeenCalledWith({
       plaintext: plaintextPasswordStub,
     })
-
+    expect(createUserRepositorySpy).toHaveBeenCalledTimes(1)
+    expect(createUserRepositorySpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        person: expect.any(PersonEntity),
+        user: expect.any(UserEntity),
+      }),
+    )
     expect(result.isRight()).toBe(true)
     expect(result.value).toHaveProperty('user')
   })

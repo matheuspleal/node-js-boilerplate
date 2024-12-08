@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
+import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
 
 export interface FakeDTO {
   name: string
@@ -29,7 +29,7 @@ const id = faker.string.uuid()
 const name = faker.person.fullName()
 const email = faker.internet.email()
 const password = plaintextPasswordStub
-const birthdate = faker.date.birthdate({ min: 1950, max: 2005 })
+const birthdate = faker.date.birthdate({ mode: 'year', min: 1950, max: 2005 })
 const age = new Date().getFullYear() - birthdate.getFullYear()
 
 export function makeFakeDTOStub(): FakeDTO {

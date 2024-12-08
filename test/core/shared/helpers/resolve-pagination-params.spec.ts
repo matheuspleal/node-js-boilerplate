@@ -4,7 +4,7 @@ describe('ResolvePaginationParams', () => {
   it('should be able to resolve pagination params when page is not provided', () => {
     const paginationParams = resolvePaginationParams({ limit: 20 })
 
-    expect(paginationParams).toMatchObject({
+    expect(paginationParams).toEqual({
       page: 1,
       limit: 20,
     })
@@ -13,7 +13,7 @@ describe('ResolvePaginationParams', () => {
   it('should be able to resolve pagination params when limit is not provided', () => {
     const paginationParams = resolvePaginationParams({ page: 1 })
 
-    expect(paginationParams).toMatchObject({
+    expect(paginationParams).toEqual({
       page: 1,
       limit: 20,
     })
@@ -22,7 +22,7 @@ describe('ResolvePaginationParams', () => {
   it('should be able to resolve pagination params when page and limit are not provided', () => {
     const paginationParams = resolvePaginationParams()
 
-    expect(paginationParams).toMatchObject({
+    expect(paginationParams).toEqual({
       page: 1,
       limit: 20,
     })
@@ -34,7 +34,7 @@ describe('ResolvePaginationParams', () => {
       limit: 15,
     })
 
-    expect(paginationParams).toMatchObject({
+    expect(paginationParams).toEqual({
       page: 2,
       limit: 15,
     })
@@ -45,7 +45,7 @@ describe('ResolvePaginationParams', () => {
       page: -10,
     })
 
-    expect(paginationParams).toMatchObject({
+    expect(paginationParams).toEqual({
       page: 1,
       limit: 20,
     })
@@ -56,7 +56,7 @@ describe('ResolvePaginationParams', () => {
       limit: 100,
     })
 
-    expect(paginationParams).toMatchObject({
+    expect(paginationParams).toEqual({
       page: 1,
       limit: 20,
     })
@@ -68,7 +68,7 @@ describe('ResolvePaginationParams', () => {
       limit: 15,
     })
 
-    expect(paginationParams).toMatchObject({
+    expect(paginationParams).toEqual({
       page: 2,
       limit: 15,
     })

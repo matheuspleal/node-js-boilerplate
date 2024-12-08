@@ -1,7 +1,7 @@
 import scalar from '@scalar/fastify-api-reference'
 import { type FastifyInstance } from 'fastify'
 
-import { api } from '@/core/shared/config/env/env'
+import { api } from '@/core/shared/config/env'
 import setup from '@/main/docs/openapi'
 
 export function openApiSetup(app: FastifyInstance) {
