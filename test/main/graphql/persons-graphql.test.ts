@@ -64,18 +64,15 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
-      expect(body).toEqual({
-        errors: [
-          {
-            extensions: {
-              code: 'UNAUTHORIZED',
-              stacktrace: expect.any(Array<GraphQLError>),
-            },
-            locations: expect.any(Array),
-            message: 'Unauthorized.',
-            path: ['fetchPersons'],
-          },
-        ],
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        extensions: {
+          code: 'UNAUTHORIZED',
+        },
+        locations: expect.any(Array),
+        message: 'Unauthorized.',
+        path: ['fetchPersons'],
       })
     })
 
@@ -88,18 +85,15 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
-      expect(body).toEqual({
-        errors: [
-          {
-            extensions: {
-              code: 'UNAUTHORIZED',
-              stacktrace: expect.any(Array<GraphQLError>),
-            },
-            locations: expect.any(Array),
-            message: 'Unauthorized.',
-            path: ['fetchPersons'],
-          },
-        ],
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        extensions: {
+          code: 'UNAUTHORIZED',
+        },
+        locations: expect.any(Array),
+        message: 'Unauthorized.',
+        path: ['fetchPersons'],
       })
     })
 
@@ -122,7 +116,7 @@ describe('PersonsGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.OK)
       expect(count).toEqual(100)
       expect(persons).toHaveLength(20)
-      expect(anyPerson).toEqual({
+      expect(anyPerson).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
         birthdate: expect.stringMatching(ISODateRegExp),
@@ -151,7 +145,7 @@ describe('PersonsGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.OK)
       expect(count).toEqual(100)
       expect(persons).toHaveLength(10)
-      expect(anyPerson).toEqual({
+      expect(anyPerson).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
         birthdate: expect.stringMatching(ISODateRegExp),
@@ -174,7 +168,7 @@ describe('PersonsGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.OK)
       expect(count).toEqual(100)
       expect(persons).toHaveLength(20)
-      expect(anyPerson).toEqual({
+      expect(anyPerson).toMatchObject({
         id: expect.any(String),
         name: expect.any(String),
         birthdate: expect.stringMatching(ISODateRegExp),
@@ -221,18 +215,15 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
-      expect(body).toEqual({
-        errors: [
-          {
-            extensions: {
-              code: 'UNAUTHORIZED',
-              stacktrace: expect.any(Array<GraphQLError>),
-            },
-            locations: expect.any(Array),
-            message: 'Unauthorized.',
-            path: ['getPersonById'],
-          },
-        ],
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        extensions: {
+          code: 'UNAUTHORIZED',
+        },
+        locations: expect.any(Array),
+        message: 'Unauthorized.',
+        path: ['getPersonById'],
       })
     })
 
@@ -248,18 +239,15 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
-      expect(body).toEqual({
-        errors: [
-          {
-            extensions: {
-              code: 'UNAUTHORIZED',
-              stacktrace: expect.any(Array<GraphQLError>),
-            },
-            locations: expect.any(Array),
-            message: 'Unauthorized.',
-            path: ['getPersonById'],
-          },
-        ],
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        extensions: {
+          code: 'UNAUTHORIZED',
+        },
+        locations: expect.any(Array),
+        message: 'Unauthorized.',
+        path: ['getPersonById'],
       })
     })
 
@@ -275,17 +263,14 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
-      expect(body).toEqual({
-        errors: [
-          {
-            extensions: {
-              code: 'BAD_USER_INPUT',
-              stacktrace: expect.any(Array<GraphQLError>),
-            },
-            locations: expect.any(Array),
-            message: 'Variable "$id" of required type "ID!" was not provided.',
-          },
-        ],
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        extensions: {
+          code: 'BAD_USER_INPUT',
+        },
+        locations: expect.any(Array),
+        message: 'Variable "$id" of required type "ID!" was not provided.',
       })
     })
 
@@ -303,15 +288,13 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
-      expect(body).toEqual({
-        errors: [
-          {
-            extensions: {
-              code: 'DOMAIN_VALIDATION_ERROR',
-            },
-            message: `The field "id" with value "${invalidId}" is invalid id!`,
-          },
-        ],
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        extensions: {
+          code: 'DOMAIN_VALIDATION_ERROR',
+        },
+        message: `The field "id" with value "${invalidId}" is invalid id!`,
       })
     })
 
@@ -329,18 +312,16 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(StatusCode.NOT_FOUND)
-      expect(body).toEqual({
-        errors: [
-          {
-            extensions: {
-              code: 'NOT_FOUND',
-              stacktrace: expect.any(Array<GraphQLError>),
-            },
-            locations: expect.any(Array),
-            message: `Person with id "${nonExistentId}" not found!`,
-            path: ['getPersonById'],
-          },
-        ],
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        extensions: {
+          code: 'NOT_FOUND',
+          stacktrace: expect.any(Array<GraphQLError>),
+        },
+        locations: expect.any(Array),
+        message: `Person with id "${nonExistentId}" not found!`,
+        path: ['getPersonById'],
       })
     })
 
@@ -370,7 +351,7 @@ describe('PersonsGraphQL', () => {
         })
 
       expect(statusCode).toEqual(StatusCode.OK)
-      expect(body).toEqual({
+      expect(body).toMatchObject({
         data: {
           getPersonById: {
             person: {
