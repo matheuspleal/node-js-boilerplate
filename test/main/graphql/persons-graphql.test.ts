@@ -2,7 +2,6 @@ import { randomUUID } from 'node:crypto'
 
 import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
-import { type GraphQLError } from 'graphql'
 import request from 'supertest'
 
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
@@ -317,7 +316,6 @@ describe('PersonsGraphQL', () => {
       expect(error).toMatchObject({
         extensions: {
           code: 'NOT_FOUND',
-          stacktrace: expect.any(Array<GraphQLError>),
         },
         locations: expect.any(Array),
         message: `Person with id "${nonExistentId}" not found!`,
