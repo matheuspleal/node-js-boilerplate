@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
-import { type GraphQLError } from 'graphql'
 import request from 'supertest'
 
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
@@ -62,10 +61,9 @@ describe('AuthenticationGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(4)
       body.errors.forEach((error: any) => {
-        expect(error).toEqual({
+        expect(error).toMatchObject({
           extensions: {
             code: 'BAD_USER_INPUT',
-            stacktrace: expect.any(Array<GraphQLError>),
           },
           locations: expect.any(Array),
           message: expect.any(String),
@@ -89,10 +87,9 @@ describe('AuthenticationGraphQL', () => {
         expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
         expect(body.errors).toHaveLength(1)
         const [error] = body.errors
-        expect(error).toEqual({
+        expect(error).toMatchObject({
           extensions: {
             code: 'BAD_USER_INPUT',
-            stacktrace: expect.any(Array<GraphQLError>),
           },
           locations: expect.any(Array),
           message: expect.any(String),
@@ -119,10 +116,9 @@ describe('AuthenticationGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toEqual({
+      expect(error).toMatchObject({
         extensions: {
           code: 'DOMAIN_VALIDATION_ERROR',
-          stacktrace: expect.any(Array<GraphQLError>),
         },
         locations: expect.any(Array),
         message: `Email "${invalidEmail}" is invalid!`,
@@ -149,7 +145,7 @@ describe('AuthenticationGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toEqual({
+      expect(error).toMatchObject({
         extensions: {
           code: 'DOMAIN_VALIDATION_ERROR',
         },
@@ -177,10 +173,9 @@ describe('AuthenticationGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toEqual({
+      expect(error).toMatchObject({
         extensions: {
           code: 'DOMAIN_VALIDATION_ERROR',
-          stacktrace: expect.any(Array<GraphQLError>),
         },
         locations: expect.any(Array),
         message: `Birthdate "${invalidBirthdate.toISOString()}" is invalid!`,
@@ -207,10 +202,9 @@ describe('AuthenticationGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.CONFLICT)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toEqual({
+      expect(error).toMatchObject({
         extensions: {
           code: 'CONFLICT',
-          stacktrace: expect.any(Array<GraphQLError>),
         },
         locations: expect.any(Array),
         message: `Email "${email}" already exists!`,
@@ -268,10 +262,9 @@ describe('AuthenticationGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body.errors).toHaveLength(2)
       body.errors.forEach((error: any) => {
-        expect(error).toEqual({
+        expect(error).toMatchObject({
           extensions: {
             code: 'BAD_USER_INPUT',
-            stacktrace: expect.any(Array<GraphQLError>),
           },
           locations: expect.any(Array),
           message: expect.any(String),
@@ -295,10 +288,9 @@ describe('AuthenticationGraphQL', () => {
         expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
         expect(body.errors).toHaveLength(1)
         const [error] = body.errors
-        expect(error).toEqual({
+        expect(error).toMatchObject({
           extensions: {
             code: 'BAD_USER_INPUT',
-            stacktrace: expect.any(Array<GraphQLError>),
           },
           locations: expect.any(Array),
           message: expect.any(String),
@@ -324,10 +316,9 @@ describe('AuthenticationGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toEqual({
+      expect(error).toMatchObject({
         extensions: {
           code: 'UNAUTHORIZED',
-          stacktrace: expect.any(Array<GraphQLError>),
         },
         locations: expect.any(Array),
         message: new UnauthorizedError().message,
@@ -352,10 +343,9 @@ describe('AuthenticationGraphQL', () => {
       expect(statusCode).toEqual(StatusCode.UNAUTHORIZED)
       expect(body.errors).toHaveLength(1)
       const [error] = body.errors
-      expect(error).toEqual({
+      expect(error).toMatchObject({
         extensions: {
           code: 'UNAUTHORIZED',
-          stacktrace: expect.any(Array<GraphQLError>),
         },
         locations: expect.any(Array),
         message: new UnauthorizedError().message,

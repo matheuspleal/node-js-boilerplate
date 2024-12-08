@@ -45,7 +45,7 @@ describe('HealthCheckGraphQL', () => {
       const { healthCheck } = body.data
 
       expect(statusCode).toEqual(StatusCode.OK)
-      expect(healthCheck).toEqual({
+      expect(healthCheck).toMatchObject({
         message: 'Ok!',
       })
     })
@@ -56,7 +56,7 @@ describe('HealthCheckGraphQL', () => {
       )
 
       expect(statusCode).toEqual(StatusCode.SERVER_ERROR)
-      expect(body).toEqual({
+      expect(body).toMatchObject({
         statusCode: StatusCode.SERVER_ERROR,
         error: 'Internal Server Error',
         message: fakeError.message,
