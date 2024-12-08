@@ -1,4 +1,4 @@
-FROM node:20.12.2-alpine3.18
+FROM node:22.12.0-alpine3.20
 
 WORKDIR /usr/src/app
 
@@ -8,6 +8,10 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3333
+RUN npm run build
+
+RUN npx prisma generate
+
+EXPOSE $SERVER_PORT
 
 CMD ["npm", "run", "start:prod"]

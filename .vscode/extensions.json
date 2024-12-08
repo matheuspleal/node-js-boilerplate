@@ -5,6 +5,7 @@
     "EditorConfig.EditorConfig",
     "GraphQL.vscode-graphql",
     "GraphQL.vscode-graphql-syntax",
+    "humao.rest-client",
     "mikestead.dotenv",
     "ms-azuretools.vscode-docker",
     "MylesMurphy.prettify-ts",

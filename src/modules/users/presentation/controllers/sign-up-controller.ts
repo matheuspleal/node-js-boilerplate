@@ -1,6 +1,7 @@
 import { HttpController } from '@/core/presentation/controllers/http-controller'
 import {
   badDomainRequest,
+  conflict,
   created,
 } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
@@ -8,29 +9,32 @@ import { BuilderValidator } from '@/core/presentation/validators/builder-validat
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
-import { type UserDTO } from '@/modules/users/contracts/dtos/user-dto'
+import {
+  SignUpPresenter,
+  type SignUpPresenterOutput,
+} from '@/modules/users/presentation/presenters/sign-up-presenter'
 
-export namespace SignUp {
-  export interface Request {
-    name: string
-    email: string
-    password: string
-    birthdate: string
-  }
-
-  export type Response = EmailAlreadyExistsError | { user: UserDTO }
+export interface SignUpControllerRequest {
+  name: string
+  email: string
+  password: string
+  birthdate: string
 }
 
+export type SignUpControllerResponse =
+  | EmailAlreadyExistsError
+  | { user: SignUpPresenterOutput }
+
 export class SignUpController extends HttpController<
-  SignUp.Request,
-  SignUp.Response
+  SignUpControllerRequest,
+  SignUpControllerResponse
 > {
   constructor(private readonly signUpUseCase: SignUpUseCase) {
     super()
   }
 
-  override buildValidators(request: SignUp.Request): ValidatorRule[] {
-    const allRequiredFields: Array<keyof SignUp.Request> = [
+  override buildValidators(request: SignUpControllerRequest): ValidatorRule[] {
+    const allRequiredFields: Array<keyof SignUpControllerRequest> = [
       'name',
       'email',
       'password',
@@ -60,7 +64,7 @@ export class SignUpController extends HttpController<
     email,
     password,
     birthdate,
-  }: SignUp.Request): Promise<HttpResponse<SignUp.Response>> {
+  }: SignUpControllerRequest): Promise<HttpResponse<SignUpControllerResponse>> {
     const result = await this.signUpUseCase.execute({
       name,
       email,
@@ -68,8 +72,15 @@ export class SignUpController extends HttpController<
       birthdate: new Date(birthdate),
     })
     if (result.isLeft()) {
-      return badDomainRequest(result.value)
+      const error =
+        result.value.name === 'EmailAlreadyExistsError'
+          ? conflict(result.value)
+          : badDomainRequest(result.value)
+      return error
     }
-    return created<SignUp.Response>(result.value)
+    const { person, user } = result.value
+    return created<SignUpControllerResponse>({
+      user: SignUpPresenter.toHttp({ person, user }),
+    })
   }
 }

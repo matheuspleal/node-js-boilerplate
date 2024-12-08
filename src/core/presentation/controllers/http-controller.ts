@@ -1,7 +1,7 @@
 import { BaseController } from '@/core/presentation/controllers/base-controller'
 import {
-  serverError,
   badValidatorRequest,
+  serverError,
 } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 

@@ -22,7 +22,7 @@ describe('BaseController', () => {
         lastName: 'Doe',
       })
 
-      expect(response).toMatchObject({
+      expect(response).toEqual({
         fullName: 'John Doe',
       })
     })
@@ -53,7 +53,7 @@ describe('BaseController', () => {
         lastName: 'Doe',
       })
 
-      expect(response).toMatchObject({
+      expect(response).toEqual({
         fullName: 'John Doe',
       })
     })

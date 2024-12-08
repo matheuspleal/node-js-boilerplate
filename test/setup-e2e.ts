@@ -1,7 +1,14 @@
 import { randomUUID } from 'node:crypto'
+import path from 'node:path'
 
 import { PrismaClient } from '@prisma/client'
+import * as dotenv from 'dotenv'
 import { $ } from 'zx/core'
+
+dotenv.config({
+  path: path.resolve(process.cwd(), '.env.test'),
+  override: true,
+})
 
 const prisma = new PrismaClient()
 

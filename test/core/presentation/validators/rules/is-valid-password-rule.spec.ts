@@ -3,7 +3,7 @@ import { InvalidPasswordError } from '@/core/presentation/validators/errors/inva
 import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password-rule'
 
 import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
-import { plaintextPasswordStub } from '#/modules/users/domain/@mocks/password-stub'
+import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
 
 describe('IsValidPasswordRule', () => {
   let sut: IsValidPasswordRule

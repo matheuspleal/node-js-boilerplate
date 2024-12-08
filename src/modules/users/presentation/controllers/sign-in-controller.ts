@@ -1,33 +1,33 @@
 import { HttpController } from '@/core/presentation/controllers/http-controller'
-import {
-  unauthorizedError,
-  created,
-} from '@/core/presentation/helpers/http-helpers'
+import { ok, unauthorized } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
-import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
+import { type UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
 import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in-use-case'
 
-export namespace SignIn {
-  export interface Request {
-    email: string
-    password: string
-  }
-
-  export type Response = EmailAlreadyExistsError | { token: string }
+export interface SignInControllerRequest {
+  email: string
+  password: string
 }
 
+export type SignInControllerResponse =
+  | UnauthorizedError
+  | { accessToken: string }
+
 export class SignInController extends HttpController<
-  SignIn.Request,
-  SignIn.Response
+  SignInControllerRequest,
+  SignInControllerResponse
 > {
   constructor(private readonly signInUseCase: SignInUseCase) {
     super()
   }
 
-  override buildValidators(request: SignIn.Request): ValidatorRule[] {
-    const allRequiredFields: Array<keyof SignIn.Request> = ['email', 'password']
+  override buildValidators(request: SignInControllerRequest): ValidatorRule[] {
+    const allRequiredFields: Array<keyof SignInControllerRequest> = [
+      'email',
+      'password',
+    ]
     const validations: ValidatorRule[] = []
     validations.push(
       ...allRequiredFields.flatMap((requiredField) =>
@@ -45,14 +45,14 @@ export class SignInController extends HttpController<
   override async perform({
     email,
     password,
-  }: SignIn.Request): Promise<HttpResponse<SignIn.Response>> {
+  }: SignInControllerRequest): Promise<HttpResponse<SignInControllerResponse>> {
     const result = await this.signInUseCase.execute({
       email,
       password,
     })
     if (result.isLeft()) {
-      return unauthorizedError(result.value)
+      return unauthorized()
     }
-    return created<SignIn.Response>(result.value)
+    return ok<SignInControllerResponse>(result.value)
   }
 }

@@ -8,6 +8,7 @@ import {
   type TokenVerifier,
   type TokenVerifierGateway,
 } from '@/core/application/gateways/token/token-verifier'
+import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
 
 export class JwtAdapter implements TokenGeneratorGateway, TokenVerifierGateway {
   private readonly algorithm = 'RS256'
@@ -29,8 +30,12 @@ export class JwtAdapter implements TokenGeneratorGateway, TokenVerifierGateway {
   }
 
   verify({ token }: TokenVerifier.Input): TokenVerifier.Output {
-    return jwt.verify(token, Buffer.from(this.publicKey, 'base64'), {
-      algorithms: [this.algorithm],
-    }) as string
+    try {
+      return jwt.verify(token, Buffer.from(this.publicKey, 'base64'), {
+        algorithms: [this.algorithm],
+      }) as TokenVerifier.Output
+    } catch {
+      throw new UnauthorizedError()
+    }
   }
 }

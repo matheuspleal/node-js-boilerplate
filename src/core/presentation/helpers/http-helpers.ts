@@ -1,21 +1,39 @@
 import { type UseCaseError } from '@/core/application/use-cases/errors/use-case-error'
-import { ServerError } from '@/core/presentation/errors/server-error'
+import { InternalServerError } from '@/core/presentation/errors/internal-server-error'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
-import { type UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
+import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
+
+export enum StatusCode {
+  OK = 200,
+  CREATED = 201,
+  NO_CONTENT = 204,
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  NOT_FOUND = 404,
+  CONFLICT = 409,
+  SERVER_ERROR = 500,
+}
 
 export function ok<T = any>(data: T): HttpResponse<T> {
   return {
-    statusCode: 200,
+    statusCode: StatusCode.OK,
     data,
   }
 }
 
 export function created<T = any>(data: T): HttpResponse<T> {
   return {
-    statusCode: 201,
+    statusCode: StatusCode.CREATED,
     data,
+  }
+}
+
+export function noContent(): HttpResponse<undefined> {
+  return {
+    statusCode: StatusCode.NO_CONTENT,
+    data: undefined,
   }
 }
 
@@ -24,7 +42,7 @@ export function badValidatorRequest(
 ): HttpResponse<ValidationCompositeError> {
   const listOfErrors = Array.isArray(errors) ? errors : [errors]
   return {
-    statusCode: 400,
+    statusCode: StatusCode.BAD_REQUEST,
     data: new ValidationCompositeError(listOfErrors),
   }
 }
@@ -33,30 +51,35 @@ export function badDomainRequest(
   error: UseCaseError,
 ): HttpResponse<UseCaseError> {
   return {
-    statusCode: 400,
+    statusCode: StatusCode.BAD_REQUEST,
     data: error,
   }
 }
 
-export function unauthorizedError(
-  error: UnauthorizedError,
-): HttpResponse<Error> {
+export function conflict(error: UseCaseError): HttpResponse<UseCaseError> {
   return {
-    statusCode: 401,
+    statusCode: StatusCode.CONFLICT,
     data: error,
   }
 }
 
-export function notFoundError(error: Error): HttpResponse<Error> {
+export function unauthorized(): HttpResponse<Error> {
   return {
-    statusCode: 404,
+    statusCode: StatusCode.UNAUTHORIZED,
+    data: new UnauthorizedError(),
+  }
+}
+
+export function notFound(error: Error): HttpResponse<Error> {
+  return {
+    statusCode: StatusCode.NOT_FOUND,
     data: error,
   }
 }
 
-export function serverError(error: Error): HttpResponse<Error> {
+export function serverError(error?: unknown): HttpResponse<Error> {
   return {
-    statusCode: 500,
-    data: new ServerError(error),
+    statusCode: StatusCode.SERVER_ERROR,
+    data: new InternalServerError(error instanceof Error ? error : undefined),
   }
 }

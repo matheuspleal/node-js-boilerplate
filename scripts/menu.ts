@@ -37,6 +37,7 @@ export async function menu() {
     echo(red('** 9. 👋 exit *************'))
     echo(bold(red('***************************')))
     option = Number(await question('\nOption: '))
+    await $`clear`
     switch (option) {
       case 1:
         await build({ showHeaders: true })

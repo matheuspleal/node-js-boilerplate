@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
 
 import { type HttpController } from '@/core/presentation/controllers/http-controller'
-import { ServerError } from '@/core/presentation/errors/server-error'
+import { InternalServerError } from '@/core/presentation/errors/internal-server-error'
+import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 
@@ -28,8 +29,8 @@ describe('HttpController', () => {
         lastName: 'Doe',
       })
 
-      expect(response.statusCode).toEqual(500)
-      expect(response.data).toBeInstanceOf(ServerError)
+      expect(response.statusCode).toEqual(StatusCode.SERVER_ERROR)
+      expect(response.data).toBeInstanceOf(InternalServerError)
     })
 
     it('should be able to perform with request and response handling the execution of standard validations', async () => {
@@ -38,8 +39,8 @@ describe('HttpController', () => {
         lastName: 'Doe',
       })
 
-      expect(response).toMatchObject({
-        statusCode: 200,
+      expect(response).toEqual({
+        statusCode: StatusCode.OK,
         data: {
           fullName: 'John Doe',
         },
@@ -63,8 +64,8 @@ describe('HttpController', () => {
         lastName: 'Doe',
       })
 
-      expect(response.statusCode).toEqual(500)
-      expect(response.data).toBeInstanceOf(ServerError)
+      expect(response.statusCode).toEqual(StatusCode.SERVER_ERROR)
+      expect(response.data).toBeInstanceOf(InternalServerError)
     })
 
     it('should be able to return ValidationCompositeError if any validation is failed', async () => {
@@ -78,8 +79,8 @@ describe('HttpController', () => {
         lastName,
       })
 
-      expect(response).toMatchObject({
-        statusCode: 400,
+      expect(response).toEqual({
+        statusCode: StatusCode.BAD_REQUEST,
         data: new ValidationCompositeError([
           new RequiredError('lastName', lastName),
         ]),
@@ -92,8 +93,8 @@ describe('HttpController', () => {
         lastName: 'Doe',
       })
 
-      expect(response).toMatchObject({
-        statusCode: 200,
+      expect(response).toEqual({
+        statusCode: StatusCode.OK,
         data: {
           fullName: 'John Doe',
         },
