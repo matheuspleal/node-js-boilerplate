@@ -64,11 +64,11 @@ In addition, various other design patterns are applied throughout the project to
 Finally, the use of **Test-Driven Development (TDD)** ensures several benefits for the code, such as better design, quality, greater development agility, and ease of maintenance and refactoring.
 
 ### Context
-The project's goal is to demonstrate how it is possible to develop software in a decoupled manner. Thus, the example used in this boilerplate is extremely simple and can be divided into two main sets of features: **Authentication** and **Users**.
+The project's goal is to demonstrate how it is possible to develop software in a decoupled manner. Thus, the example used in this boilerplate is extremely simple and can be divided into two main sets of features: **Authentication** and **Persons**.
 
 The **Authentication** functionality allows **Sign Up** in the system and ensures that the **access token** is generated (**Sign In**) so that **Users** resources, which are protected, can be accessed.
 
-The **Users** functionality allows an authenticated user to **Fetch Users** in a paginated way and **Get User By Id**.
+The **Persons** functionality allows an authenticated user to **Fetch Persons** in a paginated way and **Get Person By Id**.
 
 Interaction with the API can be done in two ways, through the **REST API** or the **GraphQL API**.
 

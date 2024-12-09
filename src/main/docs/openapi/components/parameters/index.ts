@@ -1,2 +1,2 @@
-export * from './filter-offset-params'
-export * from './filter-limit-params'
+export * from './page-offset-params'
+export * from './page-limit-params'
