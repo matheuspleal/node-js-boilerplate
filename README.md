@@ -66,7 +66,7 @@ Finally, the use of **Test-Driven Development (TDD)** ensures several benefits f
 ### Context
 The project's goal is to demonstrate how it is possible to develop software in a decoupled manner. Thus, the example used in this boilerplate is extremely simple and can be divided into two main sets of features: **Authentication** and **Persons**.
 
-The **Authentication** functionality allows **Sign Up** in the system and ensures that the **access token** is generated (**Sign In**) so that **Users** resources, which are protected, can be accessed.
+The **Authentication** functionality allows **Sign Up** in the system and ensures that the **access token** is generated (**Sign In**) so that **Persons** resources, which are protected, can be accessed.
 
 The **Persons** functionality allows an authenticated user to **Fetch Persons** in a paginated way and **Get Person By Id**.
 
@@ -79,27 +79,28 @@ This section describes the main **libraries** and **tools** used in the project,
 - [@apollo/server](https://github.com/apollographql/apollo-server) - 4.11.2
 - [@as-integrations/fastify](https://www.npmjs.com/package/@as-integrations/fastify) - 2.1.1
 - [@fastify/cors](https://github.com/fastify/fastify-cors) - 9.0.1
-- [@prisma/client](https://github.com/prisma/prisma) - 6.0.1
-- [@scalar/fastify-api-reference](https://github.com/scalar/scalar?tab=readme-ov-file#fastify) - 1.25.76
-- [@scalar/themes](https://github.com/scalar/scalar#themes) - 0.9.54
+- [@prisma/client](https://github.com/prisma/prisma) - 6.1.0
+- [@scalar/fastify-api-reference](https://github.com/scalar/scalar?tab=readme-ov-file#fastify) - 1.25.89
+- [@scalar/themes](https://github.com/scalar/scalar#themes) - 0.9.58
 - [bcryptjs](https://github.com/dcodeIO/bcrypt.js) - 2.4.3
 - [fastify](https://github.com/fastify/fastifyp) - 4.27.0
-- [graphql](https://github.com/graphql/graphql-js) - 16.9.0
+- [graphql](https://github.com/graphql/graphql-js) - 16.10.0
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - 9.0.2
 - [pg](https://github.com/brianc/node-postgres) - 8.13.1
 - [zx](https://github.com/google/zx) - 8.2.4
 
 ### Dev Dependencies
-- [@commitlint/cli](https://github.com/conventional-changelog/commitlint) - 19.6.0
+- [@commitlint/cli](https://github.com/conventional-changelog/commitlint) - 19.6.1
 - [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint) - 19.6.0
 - [@faker-js/faker](https://fakerjs.dev/) - 9.3.0
 - [@semantic-release/changelog](https://www.npmjs.com/package/@semantic-release/changelog) - 6.0.3
 - [@semantic-release/commit-analizer](https://www.npmjs.com/package/@semantic-release/commit-analizer) - 13.0.0
 - [@semantic-release/git](https://www.npmjs.com/package/@semantic-release/git) - 10.0.1
 - [@semantic-release/github](https://www.npmjs.com/package/@semantic-release/github) - 11.0.1
-- [@semantic-release/release-notes-generator](https://www.npmjs.com/package/@semantic-release/release-notes-generator) - 14.0.1
+- [@semantic-release/release-notes-generator](https://www.npmjs.com/package/@semantic-release/release-notes-generator) - 14.0.2
+- [@types/bcryptjs](https://www.npmjs.com/package/@types/bcryptjs) - 2.4.6
 - [@types/jsonwebtoken](https://www.npmjs.com/package/@types/jsonwebtoken) - 9.0.7
-- [@types/node](https://www.npmjs.com/package/@types/node) - 22.10.1
+- [@types/node](https://www.npmjs.com/package/@types/node) - 22.10.2
 - [@types/pg](https://www.npmjs.com/package/@types/pg) - 8.11.10
 - [@types/supertest](https://www.npmjs.com/package/@types/supertest) - 6.0.2
 - [@vitest/coverage-v8](https://vitest.dev/) - 2.1.8
@@ -115,11 +116,11 @@ This section describes the main **libraries** and **tools** used in the project,
 - [eslint-plugin-vitest-globals](https://www.npmjs.com/package/eslint-plugin-vitest-globals) - "1.5.0",
 - [husky](https://github.com/typicode/husky) - 9.1.7
 - [kleur](https://github.com/lukeed/kleur) - 4.1.5
-- [lint-staged](https://github.com/okonet/lint-staged) - 15.2.10
+- [lint-staged](https://github.com/okonet/lint-staged) - 15.2.11
 - [npm-check](https://github.com/dylang/npm-check) - 6.0.1
 - [openapi-types](https://github.com/kogosoftwarellc/open-api) - 12.1.3
-- [prisma](https://www.prisma.io/) - 5.14.0
-- [semantic-release](https://github.com/semantic-release/semantic-release) - 23.1.1
+- [prisma](https://www.prisma.io/) - 6.1.0
+- [semantic-release](https://github.com/semantic-release/semantic-release) - 24.2.0
 - [supertest](https://github.com/visionmedia/supertest) - 7.0.0
 - [tsup](https://github.com/egoist/tsup) - 8.3.5
 - [tsx](https://github.com/esbuild-kit/tsx) - 4.19.2
@@ -134,7 +135,7 @@ This section describes the main **libraries** and **tools** used in the project,
 ### Prerequisites
 In addition to **Node.js**, some other tools are required to run this project:
 
-- [Node.js](https://nodejs.org/) - 20.13.1
+- [Node.js](https://nodejs.org/) - 22.12.0
 - [Docker](https://www.docker.com/) - 25.0.5
 - [Insomnia](https://insomnia.rest/) - 9.2.0
 

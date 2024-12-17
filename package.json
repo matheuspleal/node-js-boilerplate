@@ -2,6 +2,25 @@
   "name": "node-js-boilerplate",
   "version": "1.0.0",
   "description": "Node.js Boilerplate developed with TypeScript, using Clean Architecture, Domain-Driven Design (DDD) and Test Driven Development (TDD)",
+  "author": {
+    "name": "Matheus Pereira Leal",
+    "email": "contact@matheuspleal.com"
+  },
+  "license": "ISC",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "clean-architecture",
+    "domain-driven-design",
+    "ddd",
+    "test-driven-development",
+    "tdd",
+    "solid",
+    "design-patterns",
+    "boilerplate",
+    "restapi",
+    "graphql"
+  ],
   "main": "dist/main/server.js",
   "type": "module",
   "scripts": {
@@ -82,25 +101,10 @@
     "pg": "8.13.1",
     "zx": "8.2.4"
   },
-  "keywords": [
-    "nodejs",
-    "typescript",
-    "clean-architecture",
-    "domain-driven-design",
-    "test-driven-development",
-    "boilerplate",
-    "restapi",
-    "graphql"
-  ],
-  "author": {
-    "name": "Matheus Pereira Leal",
-    "email": "contact@matheuspleal.com"
-  },
-  "license": "ISC",
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "engines": {
-    "node": ">= 22.12.0"
+    "node": "22.12.0"
   }
 }
