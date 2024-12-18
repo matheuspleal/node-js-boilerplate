@@ -80,7 +80,7 @@ This section describes the main **libraries** and **tools** used in the project,
 - [@as-integrations/fastify](https://www.npmjs.com/package/@as-integrations/fastify) - 2.1.1
 - [@fastify/cors](https://github.com/fastify/fastify-cors) - 9.0.1
 - [@prisma/client](https://github.com/prisma/prisma) - 6.1.0
-- [@scalar/fastify-api-reference](https://github.com/scalar/scalar?tab=readme-ov-file#fastify) - 1.25.89
+- [@scalar/fastify-api-reference](https://github.com/scalar/scalar?tab=readme-ov-file#fastify) - 1.25.90
 - [@scalar/themes](https://github.com/scalar/scalar#themes) - 0.9.58
 - [bcryptjs](https://github.com/dcodeIO/bcrypt.js) - 2.4.3
 - [fastify](https://github.com/fastify/fastifyp) - 4.27.0
