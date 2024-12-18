@@ -6,7 +6,7 @@ import setup from '@/main/docs/openapi'
 
 export function openApiSetup(app: FastifyInstance) {
   app.register(scalar, {
-    routePrefix: `/api/${api.currentVersion}/reference`,
+    routePrefix: `/api/${api.currentVersion}/docs`,
     configuration: {
       theme: 'purple',
       spec: {
