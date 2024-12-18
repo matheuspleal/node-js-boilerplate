@@ -1,10 +1,10 @@
 import { type OpenAPIV3_1 } from 'openapi-types'
 
 import {
-  filterLimitParams,
-  filterOffsetParams,
+  pageLimitParams,
+  pageOffsetParams,
 } from '@/main/docs/openapi/components/parameters'
-import { userIdParam } from '@/main/docs/openapi/components/parameters/users'
+import { personIdParam } from '@/main/docs/openapi/components/parameters/persons'
 import {
   badRequest,
   notFound,
@@ -19,9 +19,9 @@ import {
   signUpResponseSchema,
 } from '@/main/docs/openapi/components/schemas/authentication'
 import {
-  fetchUsersResponseSchema,
-  userResponseSchema,
-} from '@/main/docs/openapi/components/schemas/users'
+  fetchPersonsResponseSchema,
+  personResponseSchema,
+} from '@/main/docs/openapi/components/schemas/persons'
 import { bearerAuthSecurityScheme } from '@/main/docs/openapi/components/security-schemes'
 
 const responses: Record<string, OpenAPIV3_1.ResponseObject> = {
@@ -37,8 +37,8 @@ const schemas: Record<string, OpenAPIV3_1.SchemaObject> = {
   signInRequest: signInRequestSchema,
   signUpRequest: signUpRequestSchema,
   signUpResponse: signUpResponseSchema,
-  fetchUsersResponse: fetchUsersResponseSchema,
-  userResponse: userResponseSchema,
+  fetchPersonsResponse: fetchPersonsResponseSchema,
+  personResponse: personResponseSchema,
 }
 
 export const securitySchemes: Record<string, OpenAPIV3_1.SecuritySchemeObject> =
@@ -47,9 +47,9 @@ export const securitySchemes: Record<string, OpenAPIV3_1.SecuritySchemeObject> =
   }
 
 const parameters: Record<string, OpenAPIV3_1.ParameterObject> = {
-  filterLimit: filterLimitParams,
-  filterOffset: filterOffsetParams,
-  userId: userIdParam,
+  pageLimit: pageLimitParams,
+  pageOffset: pageOffsetParams,
+  personId: personIdParam,
 }
 
 export default {
