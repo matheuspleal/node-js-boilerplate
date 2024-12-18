@@ -1,6 +1,6 @@
 {
   "name": "node-js-boilerplate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node.js Boilerplate developed with TypeScript, using Clean Architecture, Domain-Driven Design (DDD) and Test Driven Development (TDD)",
   "author": {
     "name": "Matheus Pereira Leal",
