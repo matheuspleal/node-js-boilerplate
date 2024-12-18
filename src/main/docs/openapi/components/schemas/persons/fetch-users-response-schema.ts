@@ -1,6 +1,6 @@
 import { type OpenAPIV3_1 } from 'openapi-types'
 
-export const fetchUsersResponseSchema: OpenAPIV3_1.SchemaObject = {
+export const fetchPersonsResponseSchema: OpenAPIV3_1.SchemaObject = {
   type: 'object',
   properties: {
     count: {
@@ -10,7 +10,7 @@ export const fetchUsersResponseSchema: OpenAPIV3_1.SchemaObject = {
     users: {
       type: 'array',
       items: {
-        $ref: '#/components/schemas/userResponse',
+        $ref: '#/components/schemas/personResponse',
       },
     },
   },

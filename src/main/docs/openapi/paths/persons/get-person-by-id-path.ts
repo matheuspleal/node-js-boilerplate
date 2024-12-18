@@ -1,10 +1,10 @@
 import { type OpenAPIV3_1 } from 'openapi-types'
 
-export const fetchUsersPath: OpenAPIV3_1.PathItemObject = {
+export const getPersonByIdPath: OpenAPIV3_1.PathItemObject = {
   get: {
-    tags: ['User'],
-    summary: 'Fetch Users',
-    description: 'This endpoint is to fetch users by any authorized user',
+    tags: ['Person'],
+    summary: 'Get Person by Id',
+    description: 'This endpoint is to get person by id by any authorized user',
     security: [
       {
         bearerAuth: [],
@@ -12,10 +12,7 @@ export const fetchUsersPath: OpenAPIV3_1.PathItemObject = {
     ],
     parameters: [
       {
-        $ref: '#/components/parameters/filterOffset',
-      },
-      {
-        $ref: '#/components/parameters/filterLimit',
+        $ref: '#/components/parameters/personId',
       },
     ],
     responses: {
@@ -24,13 +21,16 @@ export const fetchUsersPath: OpenAPIV3_1.PathItemObject = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/fetchUsersResponse',
+              $ref: '#/components/schemas/personResponse',
             },
           },
         },
       },
       401: {
         $ref: '#/components/responses/unauthorized',
+      },
+      404: {
+        $ref: '#/components/responses/notFound',
       },
       500: {
         $ref: '#/components/responses/serverError',

@@ -14,7 +14,7 @@ export const server = {
 }
 
 export const api = {
-  currentVersion: env<string>({ key: 'VERSION', defaultValue: 'v1' }),
+  currentVersion: env<string>({ key: 'API_VERSION', defaultValue: 'v1' }),
 }
 
 export const database = {
