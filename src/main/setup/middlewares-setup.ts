@@ -4,6 +4,6 @@ import { corsSetup } from '@/main/middlewares/cors'
 import { openApiSetup } from '@/main/middlewares/open-api'
 
 export async function middlewaresSetup(app: FastifyInstance): Promise<void> {
-  corsSetup(app)
-  openApiSetup(app)
+  await corsSetup(app)
+  await openApiSetup(app)
 }

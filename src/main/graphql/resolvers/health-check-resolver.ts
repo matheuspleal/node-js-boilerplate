@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export default {
   Query: {
     async healthCheck(parent: any, args: any, context: any, info: any) {

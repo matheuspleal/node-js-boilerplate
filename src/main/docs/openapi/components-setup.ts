@@ -7,6 +7,7 @@ import {
 import { personIdParam } from '@/main/docs/openapi/components/parameters/persons'
 import {
   badRequest,
+  conflict,
   notFound,
   serverError,
   unauthorized,
@@ -26,9 +27,10 @@ import { bearerAuthSecurityScheme } from '@/main/docs/openapi/components/securit
 
 const responses: Record<string, OpenAPIV3_1.ResponseObject> = {
   badRequest,
+  conflict,
   serverError,
-  unauthorized,
   notFound,
+  unauthorized,
 }
 
 const schemas: Record<string, OpenAPIV3_1.SchemaObject> = {
