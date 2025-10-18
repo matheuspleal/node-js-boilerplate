@@ -1,8 +1,8 @@
-version: '3.9'
-
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     container_name: app
     ports:
       - ${API_PORT:-3333}:3333

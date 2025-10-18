@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { type ApolloFastifyContextFunction } from '@as-integrations/fastify'
 
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'

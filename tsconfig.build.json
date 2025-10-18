@@ -1,7 +1,30 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Production optimizations
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": true,
+    "removeComments": true,
+    "importHelpers": true,
+    "noEmitOnError": true,
+    // Module resolution optimizations
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    // Performance
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  },
   "exclude": [
-    "./tests",
-    "./dist"
+    "./test/**/*",
+    "./dist/**/*",
+    "./coverage/**/*",
+    "./node_modules/**/*",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "include": [
+    "src/**/*"
   ]
 }

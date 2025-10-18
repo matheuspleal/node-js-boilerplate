@@ -4,7 +4,7 @@ import components from '@/main/docs/openapi/components-setup'
 import paths from '@/main/docs/openapi/paths-setup'
 
 export default {
-  openapi: '3.1.0',
+  openapi: '3.1.1',
   info: {
     title: 'Node.js Skeleton API',
     description: 'API docs',
@@ -12,7 +12,7 @@ export default {
     contact: {
       name: 'Matheus Leal',
       email: 'hi@matheuspleal.com',
-      url: 'https://www.matheuspleal.com',
+      url: 'https://matheuspleal.com',
     },
   },
   servers: [
