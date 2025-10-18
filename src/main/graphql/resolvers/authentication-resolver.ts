@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { apolloServerResolverAdapter } from '@/main/adapters/apollo-server-resolver-adapter'
 import { makeSignInController } from '@/main/factories/users/presentation/controllers/sign-in-controller-factory'
 import { makeSignUpController } from '@/main/factories/users/presentation/controllers/sign-up-controller-factory'

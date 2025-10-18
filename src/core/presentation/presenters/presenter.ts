@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export abstract class Presenter<Input, Output> {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected constructor() {}
   /* Implement the methods as needed */
   /* Input and output can also be arrays, depending on the data that needs to be presented */

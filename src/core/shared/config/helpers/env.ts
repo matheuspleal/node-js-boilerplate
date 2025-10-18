@@ -44,7 +44,7 @@ export function env<T extends TypeOfValue>({
       return valueInStr as T
     }
     return JSON.parse(valueInStr) as T
-  } catch (err) {
+  } catch {
     throw new FailedToConvertEnvVariableError(key, typeOfValue)
   }
 }
