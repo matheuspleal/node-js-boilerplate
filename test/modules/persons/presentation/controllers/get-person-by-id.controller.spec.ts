@@ -8,7 +8,7 @@ import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
 import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found-error'
 import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
-import { type GetPersonByIdUseCase } from '@/modules/persons/application/use-cases/get-person-by-id-use-case'
+import { type GetPersonByIdUseCase } from '@/modules/persons/application/use-cases/get-person-by-id.use-case'
 import { GetPersonByIdController } from '@/modules/persons/presentation/controllers/get-person-by-id.controller'
 
 import { makePersonDTOStub } from '#/modules/persons/application/@mocks/person-dto-stub'

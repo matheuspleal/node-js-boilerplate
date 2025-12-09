@@ -8,7 +8,7 @@ import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
-import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
+import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up.use-case'
 import {
   SignUpPresenter,
   type SignUpPresenterOutput,

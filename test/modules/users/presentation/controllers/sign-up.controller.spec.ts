@@ -12,7 +12,7 @@ import { InvalidBirthdateError } from '@/modules/persons/application/errors/inva
 import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email-error'
 import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
-import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up-use-case'
+import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up.use-case'
 import {
   SignUpController,
   type SignUpControllerRequest,

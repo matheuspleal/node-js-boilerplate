@@ -4,7 +4,7 @@ import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { type UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
-import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in-use-case'
+import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in.use-case'
 
 export interface SignInControllerRequest {
   email: string

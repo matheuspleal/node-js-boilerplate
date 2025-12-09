@@ -8,7 +8,7 @@ import { ValidationCompositeError } from '@/core/presentation/validators/errors/
 import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
-import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in-use-case'
+import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in.use-case'
 import {
   SignInController,
   type SignInControllerRequest,

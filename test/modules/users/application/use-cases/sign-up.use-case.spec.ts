@@ -19,7 +19,7 @@ import { type FindUserByEmailRepository } from '@/modules/users/application/repo
 import {
   SignUpUseCase,
   type SignUpUseCaseInput,
-} from '@/modules/users/application/use-cases/sign-up-use-case'
+} from '@/modules/users/application/use-cases/sign-up.use-case'
 import { UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person-entity-stub'

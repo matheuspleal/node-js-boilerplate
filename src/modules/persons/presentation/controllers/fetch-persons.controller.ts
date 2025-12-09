@@ -3,7 +3,7 @@ import { ok } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { resolvePaginationParams } from '@/core/shared/helpers/resolve-pagination-params'
 import { type PersonCollectionDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
-import { type FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fetch-persons-use-case'
+import { type FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fetch-persons.use-case'
 
 export interface FetchPersonsControllerRequest {
   'page[offset]'?: number

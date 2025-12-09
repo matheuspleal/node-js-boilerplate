@@ -4,7 +4,7 @@ import { type MockProxy, mock } from 'vitest-mock-extended'
 import { type PaginationParams } from '@/core/shared/types/pagination-params'
 import { type CountPersonsRepository } from '@/modules/persons/application/repositories/count-persons-repository'
 import { type FindManyPersonsRepository } from '@/modules/persons/application/repositories/find-many-persons-repository'
-import { FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fetch-persons-use-case'
+import { FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fetch-persons.use-case'
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person-entity'
 

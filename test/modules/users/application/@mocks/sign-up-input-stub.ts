@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type SignUpUseCaseInput } from '@/modules/users/application/use-cases/sign-up-use-case'
+import { type SignUpUseCaseInput } from '@/modules/users/application/use-cases/sign-up.use-case'
 
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
 import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'

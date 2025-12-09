@@ -14,7 +14,7 @@ import { type FindUserByEmailRepository } from '@/modules/users/application/repo
 import {
   SignInUseCase,
   type SignInUseCaseInput,
-} from '@/modules/users/application/use-cases/sign-in-use-case'
+} from '@/modules/users/application/use-cases/sign-in.use-case'
 import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
 
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
