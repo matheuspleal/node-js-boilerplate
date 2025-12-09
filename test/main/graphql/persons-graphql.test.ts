@@ -5,7 +5,7 @@ import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
-import { appSetup } from '@/main/setup/app-setup'
+import { appSetup } from '@/main/setup/app.setup'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'

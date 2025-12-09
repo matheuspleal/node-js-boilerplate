@@ -6,7 +6,7 @@ import {
 import request from 'supertest'
 
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
-import { appSetup } from '@/main/setup/app-setup'
+import { appSetup } from '@/main/setup/app.setup'
 
 describe('HealthCheckGraphQL', () => {
   let app: FastifyInstance

@@ -1,7 +1,7 @@
 import { type OpenAPIV3_1 } from 'openapi-types'
 
-import components from '@/main/docs/openapi/components-setup'
-import paths from '@/main/docs/openapi/paths-setup'
+import components from '@/main/docs/openapi/components.setup'
+import paths from '@/main/docs/openapi/paths.setup'
 
 export default {
   openapi: '3.1.1',

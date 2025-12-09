@@ -5,7 +5,7 @@ import request from 'supertest'
 
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter.gateway'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
-import { appSetup } from '@/main/setup/app-setup'
+import { appSetup } from '@/main/setup/app.setup'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
