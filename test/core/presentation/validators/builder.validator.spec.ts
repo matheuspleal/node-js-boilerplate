@@ -1,4 +1,4 @@
-import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
+import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
 import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password-rule'
 import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid-rule'
 import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'

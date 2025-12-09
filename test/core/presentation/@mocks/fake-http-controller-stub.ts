@@ -1,6 +1,6 @@
 import { HttpController } from '@/core/presentation/controllers/http.controller'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
-import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
+import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 
 import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
