@@ -12,7 +12,7 @@ import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-u
 import {
   SignUpPresenter,
   type SignUpPresenterOutput,
-} from '@/modules/users/presentation/presenters/sign-up-presenter'
+} from '@/modules/users/presentation/presenters/sign-up.presenter'
 
 export interface SignUpControllerRequest {
   name: string
