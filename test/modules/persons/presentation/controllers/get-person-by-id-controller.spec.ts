@@ -30,6 +30,10 @@ describe('GetPersonById', () => {
   })
 
   beforeEach(() => {
+    getPersonByIdUseCaseMock.execute.mockClear()
+  })
+
+  beforeEach(() => {
     getPersonByIdUseCaseSpy = vi.spyOn(getPersonByIdUseCaseMock, 'execute')
     sut = new GetPersonByIdController(getPersonByIdUseCaseMock)
   })

@@ -40,6 +40,10 @@ describe('SignInController', () => {
   })
 
   beforeEach(() => {
+    signInUseCaseMock.execute.mockClear()
+  })
+
+  beforeEach(() => {
     signInUseCaseSpy = vi.spyOn(signInUseCaseMock, 'execute')
     sut = new SignInController(signInUseCaseMock)
   })
@@ -49,7 +53,7 @@ describe('SignInController', () => {
 
     const response = await sut.handle(fakeSignInInput)
 
-    expect(signInUseCaseSpy).toHaveBeenCalledTimes(0)
+    expect(signInUseCaseSpy).not.toHaveBeenCalled()
     expect(response).toEqual({
       statusCode: StatusCode.BAD_REQUEST,
       data: new ValidationCompositeError([
@@ -74,7 +78,7 @@ describe('SignInController', () => {
 
       const response = await sut.handle(fakeSignInInput)
 
-      expect(signInUseCaseSpy).toHaveBeenCalledTimes(0)
+      expect(signInUseCaseSpy).not.toHaveBeenCalled()
       expect(response).toEqual({
         statusCode: StatusCode.BAD_REQUEST,
         data: new ValidationCompositeError(errors),

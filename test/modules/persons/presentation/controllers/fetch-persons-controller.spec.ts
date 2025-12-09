@@ -31,6 +31,10 @@ describe('FetchPersonsController', () => {
   })
 
   beforeEach(() => {
+    fetchPersonsUseCaseMock.execute.mockClear()
+  })
+
+  beforeEach(() => {
     fetchPersonsUseCaseSpy = vi.spyOn(fetchPersonsUseCaseMock, 'execute')
     sut = new FetchPersonsController(fetchPersonsUseCaseMock)
   })

@@ -67,6 +67,12 @@ describe('SignUpUseCase', () => {
   })
 
   beforeEach(() => {
+    findUserByEmailRepositoryMock.findByEmail.mockClear()
+    createUserRepositoryMock.create.mockClear()
+    hashGeneratorGatewayMock.hash.mockClear()
+  })
+
+  beforeEach(() => {
     findUserByEmailRepositorySpy = vi.spyOn(
       findUserByEmailRepositoryMock,
       'findByEmail',

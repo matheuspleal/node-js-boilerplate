@@ -25,6 +25,10 @@ describe('GetPersonByIdUseCase', () => {
   })
 
   beforeEach(() => {
+    findPersonByIdRepositoryMock.findById.mockClear()
+  })
+
+  beforeEach(() => {
     findPersonByIdRepositorySpy = vi.spyOn(
       findPersonByIdRepositoryMock,
       'findById',

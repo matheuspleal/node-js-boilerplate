@@ -30,6 +30,10 @@ describe('AuthenticationMiddleware', () => {
   })
 
   beforeEach(() => {
+    tokenVerifierGatewayMock.verify.mockClear()
+  })
+
+  beforeEach(() => {
     tokenVerifierGatewaySpy = vi.spyOn(tokenVerifierGatewayMock, 'verify')
     sut = new AuthenticationMiddleware(tokenVerifierGatewayMock)
   })

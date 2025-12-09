@@ -36,6 +36,11 @@ describe('FetchPersonsUseCase', () => {
   })
 
   beforeEach(() => {
+    countPersonsRepositoryMock.count.mockClear()
+    findManyPersonsRepositoryMock.findMany.mockClear()
+  })
+
+  beforeEach(() => {
     findManyPersonsRepositorySpy = vi.spyOn(
       findManyPersonsRepositoryMock,
       'findMany',
