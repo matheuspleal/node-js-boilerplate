@@ -1,8 +1,8 @@
 import { type Either, right } from '@/core/application/either'
 import { type UseCase } from '@/core/application/use-cases/use-case'
 import { type PaginationParams } from '@/core/shared/types/pagination-params'
-import { type CountPersonsRepository } from '@/modules/persons/application/repositories/count-persons-repository'
-import { type FindManyPersonsRepository } from '@/modules/persons/application/repositories/find-many-persons-repository'
+import { type CountPersonsRepository } from '@/modules/persons/application/repositories/count-persons.repository'
+import { type FindManyPersonsRepository } from '@/modules/persons/application/repositories/find-many-persons.repository'
 import { type PersonCollectionDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
 

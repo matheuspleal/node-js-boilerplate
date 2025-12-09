@@ -14,8 +14,8 @@ import {
   type CreateUserRepositoryInput,
   type CreateUserRepositoryOutput,
   type CreateUserRepository,
-} from '@/modules/users/application/repositories/create-user-repository'
-import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
+} from '@/modules/users/application/repositories/create-user.repository'
+import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import {
   SignUpUseCase,
   type SignUpUseCaseInput,

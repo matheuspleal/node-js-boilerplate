@@ -1,5 +1,5 @@
-import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma-repository'
-import { type CountPersonsRepository } from '@/modules/persons/application/repositories/count-persons-repository'
+import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma.repository'
+import { type CountPersonsRepository } from '@/modules/persons/application/repositories/count-persons.repository'
 
 export class CountPersonsPrismaRepository
   extends BasePrismaRepository

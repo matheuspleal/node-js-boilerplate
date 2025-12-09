@@ -10,7 +10,7 @@ import {
   type TokenGeneratorGateway,
 } from '@/core/application/gateways/token/token-generator'
 import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
-import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
+import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import {
   SignInUseCase,
   type SignInUseCaseInput,

@@ -1,7 +1,7 @@
 import { type Either, left, right } from '@/core/application/either'
 import { type UseCase } from '@/core/application/use-cases/use-case'
 import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found-error'
-import { type FindPersonByIdRepository } from '@/modules/persons/application/repositories/find-person-by-id-repository'
+import { type FindPersonByIdRepository } from '@/modules/persons/application/repositories/find-person-by-id.repository'
 import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
 

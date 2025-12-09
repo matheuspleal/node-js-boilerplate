@@ -3,7 +3,7 @@ import { type HashCompareGateway } from '@/core/application/gateways/cryptograph
 import { type TokenGeneratorGateway } from '@/core/application/gateways/token/token-generator'
 import { type UseCase } from '@/core/application/use-cases/use-case'
 import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized-error'
-import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email-repository'
+import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 
 export interface SignInUseCaseInput {
   email: string
