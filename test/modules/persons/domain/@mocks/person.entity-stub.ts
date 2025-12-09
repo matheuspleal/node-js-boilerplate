@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker'
 
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
 import {
   PersonEntity,
   type PersonInput,
 } from '@/modules/persons/domain/entities/person.entity'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
 

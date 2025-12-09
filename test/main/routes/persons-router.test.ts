@@ -9,7 +9,7 @@ import { PersonNotFoundError } from '@/modules/persons/application/errors/person
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 import { type PersonPersistenceCollection } from '@/modules/persons/application/repositories/persistence/person-persistence'
 import { type PersonCollectionDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'

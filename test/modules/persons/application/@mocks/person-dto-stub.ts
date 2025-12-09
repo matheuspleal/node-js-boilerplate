@@ -4,7 +4,7 @@ import {
   type PersonDTO,
   type PersonCollectionDTO,
 } from '@/modules/persons/application/use-cases/dtos/person-dto'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
 

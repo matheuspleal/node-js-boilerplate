@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 

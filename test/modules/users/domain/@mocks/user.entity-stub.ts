@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
 import {
   UserEntity,
   type UserInput,

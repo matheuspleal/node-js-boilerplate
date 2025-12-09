@@ -1,6 +1,6 @@
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 import { getCurrentAgeInYears } from '#/modules/persons/domain/@helpers/get-current-age-in-years'

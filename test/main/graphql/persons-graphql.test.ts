@@ -6,7 +6,7 @@ import request from 'supertest'
 
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { appSetup } from '@/main/setup/app-setup'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { generateAccessToken } from '#/main/helpers/generate-access-token'

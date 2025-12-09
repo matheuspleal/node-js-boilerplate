@@ -1,5 +1,5 @@
 import { Mapper } from '@/core/application/use-cases/mappers/mapper'
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
 import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'

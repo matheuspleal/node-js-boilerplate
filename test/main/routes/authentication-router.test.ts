@@ -11,7 +11,7 @@ import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/em
 import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
 import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email.error'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'

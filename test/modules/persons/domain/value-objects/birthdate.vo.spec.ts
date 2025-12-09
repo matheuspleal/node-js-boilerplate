@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 

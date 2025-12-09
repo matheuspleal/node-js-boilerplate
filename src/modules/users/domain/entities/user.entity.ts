@@ -1,7 +1,7 @@
 import { Entity } from '@/core/domain/entities/entity'
-import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
 import { type Optional } from '@/core/shared/types/optional'
-import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
+import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 export interface UserProps {
   personId: UniqueEntityIdVO
