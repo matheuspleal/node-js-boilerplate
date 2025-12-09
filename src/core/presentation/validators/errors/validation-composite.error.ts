@@ -1,4 +1,4 @@
-import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
+import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
 
 export namespace ValidationComposite {
   export interface Reason {

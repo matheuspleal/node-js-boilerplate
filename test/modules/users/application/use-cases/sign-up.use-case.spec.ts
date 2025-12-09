@@ -6,10 +6,10 @@ import {
   type HashGenerator,
   type HashGeneratorGateway,
 } from '@/core/application/gateways/cryptography/hash-generator'
-import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate-error'
+import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
 import { PersonEntity } from '@/modules/persons/domain/entities/person-entity'
-import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists-error'
-import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email-error'
+import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
+import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email.error'
 import {
   type CreateUserRepositoryInput,
   type CreateUserRepositoryOutput,

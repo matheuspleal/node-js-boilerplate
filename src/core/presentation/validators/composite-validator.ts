@@ -1,6 +1,6 @@
 import { type Validator } from '@/core/presentation/validators/contracts/validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
-import { type ValidationError } from '@/core/presentation/validators/errors/validation-error'
+import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
 
 export class CompositeValidator implements Validator {
   constructor(private readonly validators: ValidatorRule[]) {}

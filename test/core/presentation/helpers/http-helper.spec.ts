@@ -1,4 +1,4 @@
-import { InternalServerError } from '@/core/presentation/errors/internal-server-error'
+import { InternalServerError } from '@/core/presentation/errors/internal-server.error'
 import {
   StatusCode,
   badDomainRequest,
@@ -10,7 +10,7 @@ import {
   serverError,
 } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
-import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'
+import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 
 import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
 

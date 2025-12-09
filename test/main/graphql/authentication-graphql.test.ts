@@ -6,7 +6,7 @@ import request from 'supertest'
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { appSetup } from '@/main/setup/app-setup'
-import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
+import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'

@@ -1,7 +1,7 @@
 import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
-import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found-error'
+import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found.error'
 import { type FindPersonByIdRepository } from '@/modules/persons/application/repositories/find-person-by-id.repository'
 import { GetPersonByIdUseCase } from '@/modules/persons/application/use-cases/get-person-by-id.use-case'
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'

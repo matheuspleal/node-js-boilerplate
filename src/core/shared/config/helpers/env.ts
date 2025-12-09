@@ -1,5 +1,5 @@
-import { EnvVariableNotProvidedError } from '@/core/shared/config/errors/env-variable-not-provided-error'
-import { FailedToConvertEnvVariableError } from '@/core/shared/config/errors/failed-to-convert-env-variable-error'
+import { EnvVariableNotProvidedError } from '@/core/shared/config/errors/env-variable-not-provided.error'
+import { FailedToConvertEnvVariableError } from '@/core/shared/config/errors/failed-to-convert-env-variable.error'
 import { EnvVariableEnum } from '@/core/shared/config/types/env-variable-enum'
 
 export type TypeOfValue = boolean | number | string
