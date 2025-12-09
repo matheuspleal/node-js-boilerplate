@@ -9,7 +9,7 @@ import {
   ok,
   serverError,
 } from '@/core/presentation/helpers/http-helpers'
-import { type HttpResponse } from '@/core/presentation/protocols/http'
+import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 
 import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'

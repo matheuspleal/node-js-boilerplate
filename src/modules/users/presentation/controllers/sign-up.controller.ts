@@ -4,7 +4,7 @@ import {
   conflict,
   created,
 } from '@/core/presentation/helpers/http-helpers'
-import { type HttpResponse } from '@/core/presentation/protocols/http'
+import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator.rule'
 import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
