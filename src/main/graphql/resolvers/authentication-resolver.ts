@@ -5,11 +5,11 @@ import { makeSignUpController } from '@/main/factories/users/presentation/contro
 import {
   type SignInControllerRequest,
   type SignInControllerResponse,
-} from '@/modules/users/presentation/controllers/sign-in-controller'
+} from '@/modules/users/presentation/controllers/sign-in.controller'
 import {
   type SignUpControllerResponse,
   type SignUpControllerRequest,
-} from '@/modules/users/presentation/controllers/sign-up-controller'
+} from '@/modules/users/presentation/controllers/sign-up.controller'
 
 export default {
   Query: {

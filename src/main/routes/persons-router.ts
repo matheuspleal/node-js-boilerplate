@@ -8,11 +8,11 @@ import { makeGetPersonByIdController } from '@/main/factories/persons/presentati
 import {
   type FetchPersonsControllerRequest,
   type FetchPersonsControllerResponse,
-} from '@/modules/persons/presentation/controllers/fetch-persons-controller'
+} from '@/modules/persons/presentation/controllers/fetch-persons.controller'
 import {
   type GetPersonByIdControllerRequest,
   type GetPersonByIdControllerResponse,
-} from '@/modules/persons/presentation/controllers/get-person-by-id-controller'
+} from '@/modules/persons/presentation/controllers/get-person-by-id.controller'
 
 const personRouterPrefix = '/persons'
 

@@ -1,4 +1,4 @@
-import { HttpController } from '@/core/presentation/controllers/http-controller'
+import { HttpController } from '@/core/presentation/controllers/http.controller'
 import {
   badDomainRequest,
   conflict,

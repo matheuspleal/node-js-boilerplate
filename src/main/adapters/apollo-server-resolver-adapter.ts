@@ -1,6 +1,6 @@
 import { type GraphQLError } from 'graphql'
 
-import { type HttpController } from '@/core/presentation/controllers/http-controller'
+import { type HttpController } from '@/core/presentation/controllers/http.controller'
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { isAuthorized } from '@/main/graphql/contexts/is-authorized'
 import { buildGraphQLError } from '@/main/graphql/helpers/build-graphql-error'

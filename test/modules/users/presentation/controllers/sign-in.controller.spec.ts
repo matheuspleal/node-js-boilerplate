@@ -12,7 +12,7 @@ import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-i
 import {
   SignInController,
   type SignInControllerRequest,
-} from '@/modules/users/presentation/controllers/sign-in-controller'
+} from '@/modules/users/presentation/controllers/sign-in.controller'
 
 import { makeFakeAccessTokenStub } from '#/core/infra/gateways/@mocks/access-token-stub'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'

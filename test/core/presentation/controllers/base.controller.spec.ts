@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type BaseController } from '@/core/presentation/controllers/base-controller'
+import { type BaseController } from '@/core/presentation/controllers/base.controller'
 
 import {
   FakeBaseController,

@@ -1,4 +1,4 @@
-import { BaseController } from '@/core/presentation/controllers/base-controller'
+import { BaseController } from '@/core/presentation/controllers/base.controller'
 import { BuilderValidator } from '@/core/presentation/validators/builder-validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite-error'

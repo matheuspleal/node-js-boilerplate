@@ -6,11 +6,11 @@ import { makeSignUpController } from '@/main/factories/users/presentation/contro
 import {
   type SignInControllerRequest,
   type SignInControllerResponse,
-} from '@/modules/users/presentation/controllers/sign-in-controller'
+} from '@/modules/users/presentation/controllers/sign-in.controller'
 import {
   type SignUpControllerRequest,
   type SignUpControllerResponse,
-} from '@/modules/users/presentation/controllers/sign-up-controller'
+} from '@/modules/users/presentation/controllers/sign-up.controller'
 
 const signInRouterPrefix = '/sign-in'
 const signUpRouterPrefix = '/sign-up'

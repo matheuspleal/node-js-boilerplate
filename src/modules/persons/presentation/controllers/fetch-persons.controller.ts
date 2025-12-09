@@ -1,4 +1,4 @@
-import { HttpController } from '@/core/presentation/controllers/http-controller'
+import { HttpController } from '@/core/presentation/controllers/http.controller'
 import { ok } from '@/core/presentation/helpers/http-helpers'
 import { type HttpResponse } from '@/core/presentation/protocols/http'
 import { resolvePaginationParams } from '@/core/shared/helpers/resolve-pagination-params'

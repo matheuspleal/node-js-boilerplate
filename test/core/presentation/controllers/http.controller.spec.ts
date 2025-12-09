@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type HttpController } from '@/core/presentation/controllers/http-controller'
+import { type HttpController } from '@/core/presentation/controllers/http.controller'
 import { InternalServerError } from '@/core/presentation/errors/internal-server-error'
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { RequiredError } from '@/core/presentation/validators/errors/required-error'

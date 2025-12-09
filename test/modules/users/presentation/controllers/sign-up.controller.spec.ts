@@ -16,7 +16,7 @@ import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-u
 import {
   SignUpController,
   type SignUpControllerRequest,
-} from '@/modules/users/presentation/controllers/sign-up-controller'
+} from '@/modules/users/presentation/controllers/sign-up.controller'
 
 import { makePersonDTOStub } from '#/modules/persons/application/@mocks/person-dto-stub'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'

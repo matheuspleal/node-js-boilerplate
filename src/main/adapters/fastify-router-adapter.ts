@@ -4,7 +4,7 @@ import {
   type RouteHandlerMethod,
 } from 'fastify'
 
-import { type HttpController } from '@/core/presentation/controllers/http-controller'
+import { type HttpController } from '@/core/presentation/controllers/http.controller'
 import { InternalServerError } from '@/core/presentation/errors/internal-server-error'
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 

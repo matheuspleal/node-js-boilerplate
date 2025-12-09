@@ -1,4 +1,4 @@
-import { BaseController } from '@/core/presentation/controllers/base-controller'
+import { BaseController } from '@/core/presentation/controllers/base.controller'
 import {
   badValidatorRequest,
   serverError,
