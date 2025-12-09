@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
-import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
+import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter.gateway'
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { appSetup } from '@/main/setup/app-setup'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'

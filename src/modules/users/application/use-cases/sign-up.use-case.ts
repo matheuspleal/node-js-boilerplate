@@ -1,5 +1,5 @@
 import { type Either, left, right } from '@/core/application/either'
-import { type HashGeneratorGateway } from '@/core/application/gateways/cryptography/hash-generator'
+import { type HashGeneratorGateway } from '@/core/application/gateways/cryptography/hash-generator.gateway'
 import { type UseCase } from '@/core/application/use-cases/use-case'
 import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
 import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'

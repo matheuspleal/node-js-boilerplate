@@ -4,11 +4,11 @@ import { type MockProxy, mock } from 'vitest-mock-extended'
 import {
   type HashCompare,
   type HashCompareGateway,
-} from '@/core/application/gateways/cryptography/hash-compare'
+} from '@/core/application/gateways/cryptography/hash-compare.gateway'
 import {
   type TokenGenerator,
   type TokenGeneratorGateway,
-} from '@/core/application/gateways/token/token-generator'
+} from '@/core/application/gateways/token/token-generator.gateway'
 import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized.error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import {

@@ -5,7 +5,7 @@ import { type MockProxy, mock } from 'vitest-mock-extended'
 import {
   type HashGenerator,
   type HashGeneratorGateway,
-} from '@/core/application/gateways/cryptography/hash-generator'
+} from '@/core/application/gateways/cryptography/hash-generator.gateway'
 import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
 import { PersonEntity } from '@/modules/persons/domain/entities/person-entity'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'

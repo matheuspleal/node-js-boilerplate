@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
-import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
+import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter.gateway'
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
 import { type ValidationComposite } from '@/core/presentation/validators/errors/validation-composite.error'
 import { appSetup } from '@/main/setup/app-setup'
