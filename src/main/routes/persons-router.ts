@@ -2,7 +2,7 @@ import { type FastifyInstance } from 'fastify'
 
 import { fastifyHandlerAdapter } from '@/main/adapters/fastify-handler.adapter'
 import { fastifyRouterAdapter } from '@/main/adapters/fastify-router.adapter'
-import { makeAuthenticationMiddleware } from '@/main/factories/core/presentation/middlewares/authentication-middleware.factory'
+import { makeAuthenticationMiddleware } from '@/main/factories/core/presentation/middlewares/authentication.middleware.factory'
 import { makeFetchPersonsController } from '@/main/factories/persons/presentation/controllers/fetch-persons-controller.factory'
 import { makeGetPersonByIdController } from '@/main/factories/persons/presentation/controllers/get-person-by-id-controller.factory'
 import {
