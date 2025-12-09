@@ -1,9 +1,9 @@
 import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
-import { UserEntity } from '@/modules/users/domain/entities/user-entity'
+import { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { EmailVO } from '@/modules/users/domain/value-objects/email-vo'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { makeUserInputStub } from '#/modules/users/domain/@mocks/user-entity-stub'
+import { makeUserInputStub } from '#/modules/users/domain/@mocks/user.entity-stub'
 
 describe('UserEntity', () => {
   let sut: UserEntity

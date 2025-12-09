@@ -1,12 +1,12 @@
 import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person-persistence'
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
-import { type PersonEntity } from '@/modules/persons/domain/entities/person-entity'
+import { type PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 
 import { getCurrentAgeInYears } from '#/modules/persons/domain/@helpers/get-current-age-in-years'
 import {
   makePersonEntityStub,
   makePersonEntityCollectionStub,
-} from '#/modules/persons/domain/@mocks/person-entity-stub'
+} from '#/modules/persons/domain/@mocks/person.entity-stub'
 import {
   makePersonCollectionPersistenceStub,
   makePersonPersistenceStub,

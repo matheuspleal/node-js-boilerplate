@@ -1,5 +1,5 @@
-import { type PersonEntity } from '@/modules/persons/domain/entities/person-entity'
-import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
+import { type PersonEntity } from '@/modules/persons/domain/entities/person.entity'
+import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
 
 export interface CreateUserRepositoryInput {
   person: PersonEntity

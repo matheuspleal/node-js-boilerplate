@@ -4,7 +4,7 @@ import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-v
 import {
   PersonEntity,
   type PersonInput,
-} from '@/modules/persons/domain/entities/person-entity'
+} from '@/modules/persons/domain/entities/person.entity'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'

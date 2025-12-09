@@ -1,11 +1,11 @@
 import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user-persistence'
 import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
-import { type UserEntity } from '@/modules/users/domain/entities/user-entity'
+import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
 
 import {
   makeUserEntityStub,
   makeUserEntityCollectionStub,
-} from '#/modules/users/domain/@mocks/user-entity-stub'
+} from '#/modules/users/domain/@mocks/user.entity-stub'
 import {
   makeUserCollectionPersistenceStub,
   makeUserPersistenceStub,
