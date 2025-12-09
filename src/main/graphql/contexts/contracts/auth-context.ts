@@ -2,7 +2,7 @@
 import { type ApolloFastifyContextFunction } from '@as-integrations/fastify'
 
 import { StatusCode } from '@/core/presentation/helpers/http-helpers'
-import { makeAuthenticationMiddleware } from '@/main/factories/core/presentation/middlewares/authentication-middleware-factory'
+import { makeAuthenticationMiddleware } from '@/main/factories/core/presentation/middlewares/authentication-middleware.factory'
 
 export interface AuthContext {
   sub?: string

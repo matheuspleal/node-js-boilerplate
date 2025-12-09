@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { apolloServerResolverAdapter } from '@/main/adapters/apollo-server-resolver-adapter'
-import { makeFetchPersonsController } from '@/main/factories/persons/presentation/controllers/fetch-persons-controller-factory'
-import { makeGetPersonByIdController } from '@/main/factories/persons/presentation/controllers/get-person-by-id-controller-factory'
+import { makeFetchPersonsController } from '@/main/factories/persons/presentation/controllers/fetch-persons-controller.factory'
+import { makeGetPersonByIdController } from '@/main/factories/persons/presentation/controllers/get-person-by-id-controller.factory'
 import {
   type FetchPersonsControllerRequest,
   type FetchPersonsControllerResponse,
