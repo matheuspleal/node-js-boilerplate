@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type Optional } from '@/core/shared/types/optional'
+import { type Optional } from '@/core/shared/types/optional.type'
 
 export interface FakeProps {
   name?: string

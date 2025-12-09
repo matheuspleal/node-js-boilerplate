@@ -1,6 +1,6 @@
 import { Entity } from '@/core/domain/entities/entity'
 import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
-import { type Optional } from '@/core/shared/types/optional'
+import { type Optional } from '@/core/shared/types/optional.type'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 export interface PersonProps {

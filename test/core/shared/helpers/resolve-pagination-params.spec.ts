@@ -1,4 +1,4 @@
-import { resolvePaginationParams } from '@/core/shared/helpers/resolve-pagination-params'
+import { resolvePaginationParams } from '@/core/shared/helpers/resolve-pagination-params.helper'
 
 describe('ResolvePaginationParams', () => {
   it('should be able to resolve pagination params when page is not provided', () => {

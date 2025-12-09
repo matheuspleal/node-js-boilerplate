@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker'
 
 import { Entity } from '@/core/domain/entities/entity'
 import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
-import { type Optional } from '@/core/shared/types/optional'
+import { type Optional } from '@/core/shared/types/optional.type'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 import {

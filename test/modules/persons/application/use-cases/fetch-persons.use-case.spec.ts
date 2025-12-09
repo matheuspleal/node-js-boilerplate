@@ -1,7 +1,7 @@
 import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
-import { type PaginationParams } from '@/core/shared/types/pagination-params'
+import { type PaginationParams } from '@/core/shared/types/pagination-params.type'
 import { type CountPersonsRepository } from '@/modules/persons/application/repositories/count-persons.repository'
 import { type FindManyPersonsRepository } from '@/modules/persons/application/repositories/find-many-persons.repository'
 import { FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fetch-persons.use-case'

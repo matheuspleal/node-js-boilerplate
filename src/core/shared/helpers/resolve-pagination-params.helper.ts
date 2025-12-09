@@ -1,8 +1,8 @@
 import {
   DEFAULT_OFFSET,
   MAX_LIMIT,
-} from '@/core/shared/constants/pagination-params'
-import { type PaginationParams } from '@/core/shared/types/pagination-params'
+} from '@/core/shared/constants/pagination-params.const'
+import { type PaginationParams } from '@/core/shared/types/pagination-params.type'
 
 function resolvePage(page?: number): number {
   if (!page || page < 0) {

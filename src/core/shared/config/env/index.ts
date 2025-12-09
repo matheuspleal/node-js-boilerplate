@@ -1,5 +1,5 @@
 import { env } from '@/core/shared/config/helpers/env.helper'
-import { EnvVariableEnum } from '@/core/shared/config/types/env-variable-enum'
+import { EnvVariableEnum } from '@/core/shared/config/types/env-variable.enum'
 
 export const environment = env<
   'development' | 'test' | 'staging' | 'production'
