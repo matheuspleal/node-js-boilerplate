@@ -6,7 +6,7 @@ import {
   type UserInput,
 } from '@/modules/users/domain/entities/user.entity'
 
-import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
+import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props.contract'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
 import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'
 

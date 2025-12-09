@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props-contract'
+import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props.contract'
 
 export interface FakeDTO {
   name: string
