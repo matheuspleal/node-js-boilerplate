@@ -1,5 +1,5 @@
 import { CompositeValidator } from '@/core/presentation/validators/composite.validator'
-import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
+import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 
 import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
 import { makeFakeCollectionValidatorStub } from '#/core/presentation/@mocks/fake-validators-stub'

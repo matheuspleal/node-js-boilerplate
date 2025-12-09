@@ -1,10 +1,10 @@
 import {
   type Validator,
   type ValidatorRule,
-} from '@/core/presentation/validators/contracts/validator-rule'
-import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password-rule'
-import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid-rule'
-import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
+} from '@/core/presentation/validators/contracts/validator.rule'
+import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password.rule'
+import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid.rule'
+import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 
 export class BuilderValidator {
   private constructor(

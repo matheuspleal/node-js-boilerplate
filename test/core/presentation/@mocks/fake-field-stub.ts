@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type Validator } from '@/core/presentation/validators/contracts/validator-rule'
+import { type Validator } from '@/core/presentation/validators/contracts/validator.rule'
 
 import { type FieldStubProps } from '#/core/presentation/@mocks/field-stub-props'
 

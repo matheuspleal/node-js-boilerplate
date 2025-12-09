@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password-rule'
-import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid-rule'
-import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
+import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password.rule'
+import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid.rule'
+import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 
 import { type CollectionStubProps } from '#/@types/collection-stub-props-contract'
 import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field-stub'

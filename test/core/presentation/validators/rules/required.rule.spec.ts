@@ -1,6 +1,6 @@
-import { type Validator } from '@/core/presentation/validators/contracts/validator-rule'
+import { type Validator } from '@/core/presentation/validators/contracts/validator.rule'
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
-import { RequiredRule } from '@/core/presentation/validators/rules/required-rule'
+import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 
 import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
 
