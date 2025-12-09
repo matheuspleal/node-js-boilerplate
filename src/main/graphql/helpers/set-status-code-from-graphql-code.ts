@@ -1,4 +1,4 @@
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 
 export function setStatusCodeFromGraphQLCode(code?: string) {
   switch (code) {

@@ -5,7 +5,7 @@ import {
 } from 'fastify'
 import request from 'supertest'
 
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { appSetup } from '@/main/setup/app-setup'
 
 describe('HealthCheckRouter', () => {

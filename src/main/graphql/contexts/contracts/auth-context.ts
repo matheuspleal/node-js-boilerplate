@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { type ApolloFastifyContextFunction } from '@as-integrations/fastify'
 
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { makeAuthenticationMiddleware } from '@/main/factories/core/presentation/middlewares/authentication.middleware.factory'
 
 export interface AuthContext {

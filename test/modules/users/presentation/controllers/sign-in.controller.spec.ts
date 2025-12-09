@@ -2,7 +2,7 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { left, right } from '@/core/application/either'
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'

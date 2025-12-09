@@ -2,7 +2,7 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { right } from '@/core/application/either'
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { type PersonCollectionDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
 import { type FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fetch-persons.use-case'
 import { FetchPersonsController } from '@/modules/persons/presentation/controllers/fetch-persons.controller'

@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { appSetup } from '@/main/setup/app-setup'
 import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found.error'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'

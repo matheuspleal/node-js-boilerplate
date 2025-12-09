@@ -4,7 +4,7 @@ import {
   type RouteHandlerMethod,
 } from 'fastify'
 
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { type Middleware } from '@/core/presentation/middlewares/contracts/middleware'
 
 export function fastifyHandlerAdapter<HttpRequest>(

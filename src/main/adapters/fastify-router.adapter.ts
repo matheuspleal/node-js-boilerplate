@@ -6,7 +6,7 @@ import {
 
 import { type HttpController } from '@/core/presentation/controllers/http.controller'
 import { InternalServerError } from '@/core/presentation/errors/internal-server.error'
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 
 export function fastifyRouterAdapter<HttpRequest, Data>(
   controller: HttpController<HttpRequest, Data>,

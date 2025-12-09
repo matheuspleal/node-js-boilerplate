@@ -8,7 +8,7 @@ import {
   noContent,
   ok,
   serverError,
-} from '@/core/presentation/helpers/http-helpers'
+} from '@/core/presentation/helpers/http.helper'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 

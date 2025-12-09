@@ -1,5 +1,5 @@
 import { HttpController } from '@/core/presentation/controllers/http.controller'
-import { ok } from '@/core/presentation/helpers/http-helpers'
+import { ok } from '@/core/presentation/helpers/http.helper'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { resolvePaginationParams } from '@/core/shared/helpers/resolve-pagination-params'
 import { type PersonCollectionDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'

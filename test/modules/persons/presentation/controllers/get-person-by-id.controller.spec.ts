@@ -3,7 +3,7 @@ import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
 import { left, right } from '@/core/application/either'
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-uuid.error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found.error'

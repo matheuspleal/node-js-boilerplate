@@ -1,5 +1,5 @@
 import { HttpController } from '@/core/presentation/controllers/http.controller'
-import { ok, unauthorized } from '@/core/presentation/helpers/http-helpers'
+import { ok, unauthorized } from '@/core/presentation/helpers/http.helper'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator.rule'

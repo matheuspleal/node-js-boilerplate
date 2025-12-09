@@ -5,7 +5,7 @@ import {
   type TokenVerifier,
   type TokenVerifierGateway,
 } from '@/core/application/gateways/token/token-verifier'
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { AuthenticationMiddleware } from '@/core/presentation/middlewares/authentication.middleware'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 import { type UserEntity } from '@/modules/users/domain/entities/user.entity'

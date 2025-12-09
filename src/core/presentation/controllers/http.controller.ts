@@ -2,7 +2,7 @@ import { BaseController } from '@/core/presentation/controllers/base.controller'
 import {
   badValidatorRequest,
   serverError,
-} from '@/core/presentation/helpers/http-helpers'
+} from '@/core/presentation/helpers/http.helper'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 
 export abstract class HttpController<HttpRequest, Data> extends BaseController<

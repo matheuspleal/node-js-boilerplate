@@ -3,7 +3,7 @@ import {
   badDomainRequest,
   conflict,
   created,
-} from '@/core/presentation/helpers/http-helpers'
+} from '@/core/presentation/helpers/http.helper'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator.rule'
