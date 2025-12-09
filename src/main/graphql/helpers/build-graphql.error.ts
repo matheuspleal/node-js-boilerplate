@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-import { setGraphQLCodeFromStatusCode } from '@/main/graphql/helpers/set-graphql-code-from-status-code'
+import { setGraphQLCodeFromStatusCode } from '@/main/graphql/helpers/set-graphql-code-from-status-code.helper'
 
 export function buildGraphQLError(data: any, statusCode: number): GraphQLError {
   return new GraphQLError(data, {
