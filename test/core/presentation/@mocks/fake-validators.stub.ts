@@ -5,7 +5,7 @@ import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-u
 import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 
 import { type CollectionStubProps } from '#/@types/collection-stub-props.contract'
-import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
+import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field.stub'
 import { type FieldStubProps } from '#/core/presentation/@mocks/field-stub-props'
 
 export function makeFakeValidatorStub({ withValue }: FieldStubProps) {

@@ -3,9 +3,9 @@ import {
   type GraphQLRequestContextWillSendResponse,
 } from '@apollo/server'
 
-import { type AuthContext } from '@/main/graphql/contexts/contracts/auth.context'
+import { type AuthContext } from '@/main/graphql/contexts/contracts/auth-context.contract'
 import { setStatusCodeFromGraphQLCode } from '@/main/graphql/helpers/set-status-code-from-graphql-code.helper'
-import { parseJSONSafe } from '@/main/helpers/parse-json-safe'
+import { parseJSONSafe } from '@/main/helpers/parse-json-safe.helper'
 
 export const formatApolloResponse: ApolloServerPlugin<AuthContext> = {
   async requestDidStart() {

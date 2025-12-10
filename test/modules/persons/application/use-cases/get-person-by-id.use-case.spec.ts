@@ -4,10 +4,10 @@ import { type MockProxy, mock } from 'vitest-mock-extended'
 import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found.error'
 import { type FindPersonByIdRepository } from '@/modules/persons/application/repositories/find-person-by-id.repository'
 import { GetPersonByIdUseCase } from '@/modules/persons/application/use-cases/get-person-by-id.use-case'
-import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
+import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person.mapper'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 
-import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person.entity-stub'
+import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person.entity.stub'
 
 describe('GetPersonByIdUseCase', () => {
   let sut: GetPersonByIdUseCase

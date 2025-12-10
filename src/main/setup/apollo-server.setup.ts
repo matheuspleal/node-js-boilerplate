@@ -7,8 +7,8 @@ import { type FastifyInstance } from 'fastify'
 import {
   authContext,
   type AuthContext,
-} from '@/main/graphql/contexts/contracts/auth.context'
-import { formatApolloResponse } from '@/main/graphql/plugins/format-apollo-response'
+} from '@/main/graphql/contexts/contracts/auth-context.contract'
+import { formatApolloResponse } from '@/main/graphql/plugins/format-apollo-response.plugin'
 import resolvers from '@/main/graphql/resolvers'
 import typeDefs from '@/main/graphql/type-defs'
 

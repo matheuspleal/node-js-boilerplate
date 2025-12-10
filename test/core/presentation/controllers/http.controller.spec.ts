@@ -9,8 +9,8 @@ import { ValidationCompositeError } from '@/core/presentation/validators/errors/
 import {
   FakeHttpController,
   FakeHttpWithCustomValidatorController,
-} from '#/core/presentation/@mocks/fake-http-controller-stub'
-import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
+} from '#/core/presentation/@mocks/fake-http-controller.stub'
+import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace.stub'
 
 describe('HttpController', () => {
   describe('default', () => {

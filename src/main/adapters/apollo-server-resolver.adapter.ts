@@ -2,8 +2,8 @@ import { type GraphQLError } from 'graphql'
 
 import { type HttpController } from '@/core/presentation/controllers/http.controller'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
-import { isAuthorized } from '@/main/graphql/contexts/is-authorized'
-import { buildGraphQLError } from '@/main/graphql/helpers/build-graphql.error'
+import { isAuthorized } from '@/main/graphql/contexts/is-authorized.context'
+import { buildGraphQLError } from '@/main/graphql/helpers/build-graphql-error.helper'
 import { formatErrorsToGraphQLErrors } from '@/main/graphql/helpers/format-errors-to-graphql-errors.helper'
 
 export interface ApolloServerResolverAdapterProps {

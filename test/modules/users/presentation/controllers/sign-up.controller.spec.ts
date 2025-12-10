@@ -10,18 +10,18 @@ import { type ValidationError } from '@/core/presentation/validators/errors/vali
 import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/email-already-exists.error'
 import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
 import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email.error'
-import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
-import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
+import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person.dto'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up.use-case'
 import {
   SignUpController,
   type SignUpControllerRequest,
 } from '@/modules/users/presentation/controllers/sign-up.controller'
 
-import { makePersonDTOStub } from '#/modules/persons/application/@mocks/person-dto-stub'
-import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password-stub'
-import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input-stub'
-import { makeUserDTOStub } from '#/modules/users/application/@mocks/user-dto-stub'
+import { makePersonDTOStub } from '#/modules/persons/application/@mocks/person-dto.stub'
+import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password.stub'
+import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input.stub'
+import { makeUserDTOStub } from '#/modules/users/application/@mocks/user-dto.stub'
 
 const listOfFields = ['name', 'email', 'password', 'birthdate']
 

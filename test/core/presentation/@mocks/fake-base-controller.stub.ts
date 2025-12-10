@@ -3,7 +3,7 @@ import { BuilderValidator } from '@/core/presentation/validators/builder.validat
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator.rule'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 
-import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
+import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace.stub'
 
 export class FakeBaseController extends BaseController<
   FakeNamespace.Request,

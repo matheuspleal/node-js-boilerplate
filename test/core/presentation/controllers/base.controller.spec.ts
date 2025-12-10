@@ -5,8 +5,8 @@ import { type BaseController } from '@/core/presentation/controllers/base.contro
 import {
   FakeBaseController,
   FakeBaseWithCustomValidatorController,
-} from '#/core/presentation/@mocks/fake-base-controller-stub'
-import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
+} from '#/core/presentation/@mocks/fake-base-controller.stub'
+import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace.stub'
 
 describe('BaseController', () => {
   describe('default', () => {

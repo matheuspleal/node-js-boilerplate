@@ -11,7 +11,7 @@ import {
   type FakeProps,
   makeFakeAllPropsStub,
   makeFakeRequiredPropsStub,
-} from '#/core/domain/@mocks/fake-props-stub'
+} from '#/core/domain/@mocks/fake-props.stub'
 
 class FakeEntity extends Entity<FakeProps> {
   get name(): string | undefined {

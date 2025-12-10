@@ -1,7 +1,7 @@
 import { Mapper } from '@/core/application/use-cases/mappers/mapper'
 import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
-import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person-persistence'
-import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
+import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person.persistence'
+import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person.dto'
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 
 export class PersonMapper extends Mapper<

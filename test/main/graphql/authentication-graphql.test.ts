@@ -14,7 +14,7 @@ import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 import {
   makeRequiredSignUpInputStub,
   makeSignUpInputStub,
-} from '#/modules/users/application/@mocks/sign-up-input-stub'
+} from '#/modules/users/application/@mocks/sign-up-input.stub'
 import { createUser } from '#/modules/users/infra/@helpers/user-persistence-prisma'
 
 const listOfSignUpFields = ['name', 'email', 'password', 'birthdate']

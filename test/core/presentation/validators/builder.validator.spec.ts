@@ -3,7 +3,7 @@ import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-val
 import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid.rule'
 import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 
-import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
+import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field.stub'
 
 describe('BuilderValidator', () => {
   it('should be able to return a list of validators from BuilderValidator', () => {

@@ -4,7 +4,7 @@ import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator.rule'
 import { type PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found.error'
-import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
+import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person.dto'
 import { type GetPersonByIdUseCase } from '@/modules/persons/application/use-cases/get-person-by-id.use-case'
 
 export interface GetPersonByIdControllerRequest {

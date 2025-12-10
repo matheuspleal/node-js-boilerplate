@@ -1,6 +1,6 @@
 import { Presenter } from '@/core/presentation/presenters/presenter'
-import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person-dto'
-import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user-dto'
+import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person.dto'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 
 export interface SignUpPresenterInput {
   person: PersonDTO

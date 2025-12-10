@@ -2,7 +2,7 @@ import { type Validator } from '@/core/presentation/validators/contracts/validat
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 
-import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field-stub'
+import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field.stub'
 
 describe('RequiredRule', () => {
   let sut: RequiredRule

@@ -4,7 +4,7 @@ import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 import { getCurrentAgeInYears } from '#/modules/persons/domain/@helpers/get-current-age-in-years'
-import { makePersonInputStub } from '#/modules/persons/domain/@mocks/person.entity-stub'
+import { makePersonInputStub } from '#/modules/persons/domain/@mocks/person.entity.stub'
 
 describe('PersonEntity', () => {
   let sut: PersonEntity

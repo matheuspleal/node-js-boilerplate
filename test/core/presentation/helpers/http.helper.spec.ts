@@ -12,7 +12,7 @@ import {
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 
-import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace-stub'
+import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace.stub'
 
 describe('HttpHelpers', () => {
   describe('ok [status code = 200]', () => {

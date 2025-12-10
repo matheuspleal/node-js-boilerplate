@@ -22,13 +22,13 @@ import {
 } from '@/modules/users/application/use-cases/sign-up.use-case'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
 
-import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person.entity-stub'
+import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person.entity.stub'
 import {
   hashedPasswordStub,
   plaintextPasswordStub,
-} from '#/modules/users/application/@mocks/password-stub'
-import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input-stub'
-import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user.entity-stub'
+} from '#/modules/users/application/@mocks/password.stub'
+import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input.stub'
+import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user.entity.stub'
 
 describe('SignUpUseCase', () => {
   let sut: SignUpUseCase

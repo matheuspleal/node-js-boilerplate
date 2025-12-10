@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import {
   type UserDTO,
   type UserCollectionDTO,
-} from '@/modules/users/application/use-cases/dtos/user-dto'
+} from '@/modules/users/application/use-cases/dtos/user.dto'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props.contract'
 import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'

@@ -1,11 +1,11 @@
 import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma.repository'
-import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person-mapper'
+import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person.mapper'
 import {
   type CreateUserRepositoryInput,
   type CreateUserRepositoryOutput,
   type CreateUserRepository,
 } from '@/modules/users/application/repositories/create-user.repository'
-import { UserMapper } from '@/modules/users/application/use-cases/mappers/user-mapper'
+import { UserMapper } from '@/modules/users/application/use-cases/mappers/user.mapper'
 
 export class CreateUserPrismaRepository
   extends BasePrismaRepository
