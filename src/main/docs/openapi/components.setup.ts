@@ -1,8 +1,8 @@
 import { type OpenAPIV3_1 } from 'openapi-types'
 
 import {
-  pageLimitParams,
-  pageOffsetParams,
+  pageSizeParams,
+  pageNumberParams,
 } from '@/main/docs/openapi/components/parameters'
 import { personIdParam } from '@/main/docs/openapi/components/parameters/persons'
 import {
@@ -49,8 +49,8 @@ export const securitySchemes: Record<string, OpenAPIV3_1.SecuritySchemeObject> =
   }
 
 const parameters: Record<string, OpenAPIV3_1.ParameterObject> = {
-  pageLimit: pageLimitParams,
-  pageOffset: pageOffsetParams,
+  pageSize: pageSizeParams,
+  pageNumber: pageNumberParams,
   personId: personIdParam,
 }
 

@@ -9,16 +9,21 @@ export class PrismaConnectionManager {
   static getInstance(): PrismaClient {
     if (!PrismaConnectionManager.client) {
       PrismaConnectionManager.client = new PrismaClient({
-        adapter: new PrismaPg({
-          host: database.host,
-          port: database.port,
-          database: database.name,
-          user: database.user,
-          password: database.password,
-          max: database.pool,
-          idleTimeoutMillis: database.idleTimeout,
-          connectionTimeoutMillis: database.connectionTimeout,
-        }),
+        adapter: new PrismaPg(
+          {
+            host: database.host,
+            port: database.port,
+            database: database.name,
+            user: database.user,
+            password: database.password,
+            max: database.pool,
+            idleTimeoutMillis: database.idleTimeout,
+            connectionTimeoutMillis: database.connectionTimeout,
+          },
+          {
+            schema: database.schema,
+          },
+        ),
         log: ['info', 'query', 'warn', 'error'],
       })
     }

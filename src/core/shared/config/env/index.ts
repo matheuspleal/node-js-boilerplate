@@ -6,16 +6,16 @@ export const environment = env<
 >({
   key: 'NODE_ENV',
   defaultValue: 'development',
-})
+}) as 'development' | 'test' | 'staging' | 'production'
 
 export const server = {
   host: env<string>({ key: 'API_HOST', defaultValue: '0.0.0.0' }),
   port: env<number>({ key: 'API_PORT', defaultValue: 3333 }),
-}
+} as const
 
 export const api = {
   currentVersion: env<string>({ key: 'API_VERSION', defaultValue: 'v1' }),
-}
+} as const
 
 export const database = {
   host: env<string>({ key: 'DB_HOST', defaultValue: 'localhost' }),
@@ -33,7 +33,7 @@ export const database = {
     key: 'DB_CONNECTION_TIMEOUT_IN_MS',
     defaultValue: 2000,
   }),
-}
+} as const
 
 export const token = {
   privateKey: env<string>({
@@ -44,11 +44,11 @@ export const token = {
     key: 'JWT_PUBLIC_KEY',
     type: EnvVariableEnum.STRING,
   }),
-}
+} as const
 
 export const cryptograph = {
   salt: env<number>({
     key: 'HASH_SALT_LENGTH',
     defaultValue: 8,
   }),
-}
+} as const

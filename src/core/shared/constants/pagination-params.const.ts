@@ -1,2 +1,2 @@
-export const DEFAULT_OFFSET = 1
-export const MAX_LIMIT = 20
+export const DEFAULT_PAGE_NUMBER = 1
+export const MAX_PAGE_SIZE = 20

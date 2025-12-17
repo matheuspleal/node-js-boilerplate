@@ -19,8 +19,8 @@ export default {
         FetchPersonsControllerResponse
       >(makeFetchPersonsController(), {
         args: {
-          'page[offset]': args?.params?.offset,
-          'page[limit]': args?.params?.limit,
+          'page[number]': args?.params?.number,
+          'page[size]': args?.params?.size,
         },
         context,
         requiresAuth: true,

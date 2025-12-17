@@ -1,33 +1,33 @@
 import {
-  DEFAULT_OFFSET,
-  MAX_LIMIT,
+  DEFAULT_PAGE_NUMBER,
+  MAX_PAGE_SIZE,
 } from '@/core/shared/constants/pagination-params.const'
 import { type PaginationParams } from '@/core/shared/types/pagination-params.type'
 
-function resolvePage(page?: number): number {
-  if (!page || page < 0) {
-    return DEFAULT_OFFSET
+function resolvePageNumber(number?: number): number {
+  if (!number || number < 0) {
+    return DEFAULT_PAGE_NUMBER
   }
-  return page
+  return number
 }
 
-function resolveLimit(limit?: number): number {
-  if (!limit || limit < 0 || limit > 20) {
-    return MAX_LIMIT
+function resolvePageSize(size?: number): number {
+  if (!size || size < 0 || size > MAX_PAGE_SIZE) {
+    return MAX_PAGE_SIZE
   }
-  return limit
+  return size
 }
 
 export interface ResolvePaginationParamsProps {
-  page?: number
-  limit?: number
+  number?: number
+  size?: number
 }
 
 export function resolvePaginationParams(
   resolvePaginationParams?: ResolvePaginationParamsProps,
 ): PaginationParams {
   return {
-    page: resolvePage(resolvePaginationParams?.page),
-    limit: resolveLimit(resolvePaginationParams?.limit),
+    number: resolvePageNumber(resolvePaginationParams?.number),
+    size: resolvePageSize(resolvePaginationParams?.size),
   }
 }

@@ -12,10 +12,10 @@ export const fetchPersonsPath: OpenAPIV3_1.PathItemObject = {
     ],
     parameters: [
       {
-        $ref: '#/components/parameters/pageOffset',
+        $ref: '#/components/parameters/pageNumber',
       },
       {
-        $ref: '#/components/parameters/pageLimit',
+        $ref: '#/components/parameters/pageSize',
       },
     ],
     responses: {

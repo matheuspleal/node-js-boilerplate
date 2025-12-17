@@ -6,8 +6,8 @@ import { type PersonCollectionDTO } from '@/modules/persons/application/use-case
 import { type FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fetch-persons.use-case'
 
 export interface FetchPersonsControllerRequest {
-  'page[offset]'?: number
-  'page[limit]'?: number
+  'page[number]'?: number
+  'page[size]'?: number
 }
 
 export interface FetchPersonsControllerResponse {
@@ -28,8 +28,8 @@ export class FetchPersonsController extends HttpController<
   ): Promise<HttpResponse<FetchPersonsControllerResponse>> {
     const result = await this.fetchPersonsUseCase.execute({
       paginationParams: resolvePaginationParams({
-        page: Number(request?.['page[offset]']),
-        limit: Number(request?.['page[limit]']),
+        number: Number(request?.['page[number]']),
+        size: Number(request?.['page[size]']),
       }),
     })
     return ok<FetchPersonsControllerResponse>({

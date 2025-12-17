@@ -1,7 +1,7 @@
 export default `#graphql
   input PaginationParams {
-    offset: Int
-    limit: Int
+    number: Int
+    size: Int
   }
 
   type FetchPersons {
