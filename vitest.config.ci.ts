@@ -8,6 +8,7 @@ export default mergeConfig(
     test: {
       include: ['**/*.{spec,test}.ts'],
       setupFiles: ['./test/setup-e2e.ts'],
+      maxWorkers: 1,
     },
   }),
 )
