@@ -1,5 +1,13 @@
+import path from 'node:path'
+
+import * as dotenv from 'dotenv'
 import tsConfigPaths from 'vite-tsconfig-paths'
 import { defineConfig, configDefaults } from 'vitest/config'
+
+dotenv.config({
+  path: path.resolve(process.cwd(), '.env.test'),
+  override: true,
+})
 
 export default defineConfig({
   plugins: [tsConfigPaths()],
