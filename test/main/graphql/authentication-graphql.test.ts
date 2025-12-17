@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker'
-import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter.gateway'
+import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
+import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma-connection-manager'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { appSetup } from '@/main/setup/app.setup'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
@@ -27,7 +28,7 @@ describe('AuthenticationGraphQL', () => {
   let signInQuery: string
 
   beforeAll(async () => {
-    prisma = new PrismaClient()
+    prisma = PrismaConnectionManager.getInstance()
     app = await appSetup()
     await app.ready()
   })

@@ -53,8 +53,8 @@ describe('FetchPersonsController', () => {
       expect(fetchPersonsUseCaseSpy).toHaveBeenCalledTimes(1)
       expect(fetchPersonsUseCaseSpy).toHaveBeenCalledWith({
         paginationParams: {
-          page: 1,
-          limit: 20,
+          number: 1,
+          size: 20,
         },
       })
       expect(response).toEqual({
@@ -72,8 +72,8 @@ describe('FetchPersonsController', () => {
       expect(fetchPersonsUseCaseSpy).toHaveBeenCalledTimes(1)
       expect(fetchPersonsUseCaseSpy).toHaveBeenCalledWith({
         paginationParams: {
-          page: 1,
-          limit: 20,
+          number: 1,
+          size: 20,
         },
       })
       expect(response).toEqual({
@@ -96,15 +96,15 @@ describe('FetchPersonsController', () => {
       )
 
       const response = await sut.handle({
-        'page[offset]': 2,
-        'page[limit]': 20,
+        'page[number]': 2,
+        'page[size]': 20,
       })
 
       expect(fetchPersonsUseCaseSpy).toHaveBeenCalledTimes(1)
       expect(fetchPersonsUseCaseSpy).toHaveBeenCalledWith({
         paginationParams: {
-          page: 2,
-          limit: 20,
+          number: 2,
+          size: 20,
         },
       })
       expect(response).toEqual({
@@ -126,15 +126,15 @@ describe('FetchPersonsController', () => {
       )
 
       const response = await sut.handle({
-        'page[offset]': 1,
-        'page[limit]': 10,
+        'page[number]': 1,
+        'page[size]': 10,
       })
 
       expect(fetchPersonsUseCaseSpy).toHaveBeenCalledTimes(1)
       expect(fetchPersonsUseCaseSpy).toHaveBeenCalledWith({
         paginationParams: {
-          page: 1,
-          limit: 10,
+          number: 1,
+          size: 10,
         },
       })
       expect(response).toEqual({

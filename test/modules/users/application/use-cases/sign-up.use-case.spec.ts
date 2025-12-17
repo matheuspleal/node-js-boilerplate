@@ -36,18 +36,15 @@ describe('SignUpUseCase', () => {
   let userEntityStub: UserEntity
   let findUserByEmailRepositoryMock: MockProxy<FindUserByEmailRepository>
   let findUserByEmailRepositorySpy: MockInstance<
-    [string],
-    Promise<UserEntity | null>
+    (email: string) => Promise<UserEntity | null>
   >
   let createUserRepositoryMock: MockProxy<CreateUserRepository>
   let createUserRepositorySpy: MockInstance<
-    [CreateUserRepositoryInput],
-    Promise<CreateUserRepositoryOutput>
+    (input: CreateUserRepositoryInput) => Promise<CreateUserRepositoryOutput>
   >
   let hashGeneratorGatewayMock: MockProxy<HashGeneratorGateway>
   let hashGeneratorGatewaySpy: MockInstance<
-    [HashGenerator.Input],
-    Promise<HashGenerator.Output>
+    (input: HashGenerator.Input) => Promise<HashGenerator.Output>
   >
 
   beforeAll(() => {

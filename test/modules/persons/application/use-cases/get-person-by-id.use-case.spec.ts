@@ -14,8 +14,7 @@ describe('GetPersonByIdUseCase', () => {
   let personEntityStub: PersonEntity
   let findPersonByIdRepositoryMock: MockProxy<FindPersonByIdRepository>
   let findPersonByIdRepositorySpy: MockInstance<
-    [string],
-    Promise<PersonEntity | null>
+    (id: string) => Promise<PersonEntity | null>
   >
 
   beforeAll(() => {

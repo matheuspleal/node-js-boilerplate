@@ -27,18 +27,15 @@ describe('SignInUseCase', () => {
   let fakeToken: string
   let findUserByEmailRepositoryMock: MockProxy<FindUserByEmailRepository>
   let findUserByEmailRepositorySpy: MockInstance<
-    [string],
-    Promise<UserEntity | null>
+    (email: string) => Promise<UserEntity | null>
   >
   let hashCompareGatewayMock: MockProxy<HashCompareGateway>
   let hashCompareGatewaySpy: MockInstance<
-    [input: HashCompare.Input],
-    Promise<HashCompare.Output>
+    (input: HashCompare.Input) => Promise<HashCompare.Output>
   >
   let tokenGeneratorGatewayMock: MockProxy<TokenGeneratorGateway>
   let tokenGeneratorGatewaySpy: MockInstance<
-    [input: TokenGenerator.Input],
-    TokenGenerator.Output
+    (input: TokenGenerator.Input) => TokenGenerator.Output
   >
 
   beforeAll(() => {

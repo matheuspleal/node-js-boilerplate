@@ -16,11 +16,10 @@ describe('FetchPersonsUseCase', () => {
   let personsEntitiesStub: PersonEntity[]
   let defaultEntitiesStub: PersonEntity[]
   let countPersonsRepositoryMock: MockProxy<CountPersonsRepository>
-  let countPersonsRepositorySpy: MockInstance<[], Promise<number>>
+  let countPersonsRepositorySpy: MockInstance<() => Promise<number>>
   let findManyPersonsRepositoryMock: MockProxy<FindManyPersonsRepository>
   let findManyPersonsRepositorySpy: MockInstance<
-    [paginationParams: PaginationParams],
-    Promise<PersonEntity[]>
+    (paginationParams: PaginationParams) => Promise<PersonEntity[]>
   >
 
   beforeAll(() => {
@@ -54,8 +53,8 @@ describe('FetchPersonsUseCase', () => {
 
   it('should be able to returns count and a list of first 20 persons when paginations params is default', async () => {
     const paginationParams = {
-      page: 1,
-      limit: 20,
+      number: 1,
+      size: 20,
     }
 
     const result = await sut.execute({ paginationParams })
@@ -78,8 +77,8 @@ describe('FetchPersonsUseCase', () => {
       customEntitiesStub,
     )
     const paginationParams = {
-      page: 5,
-      limit: 20,
+      number: 5,
+      size: 20,
     }
 
     const result = await sut.execute({ paginationParams })

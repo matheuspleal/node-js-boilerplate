@@ -17,8 +17,7 @@ describe('AuthenticationMiddleware', () => {
   let userEntityStub: UserEntity
   let tokenVerifierGatewayMock: MockProxy<TokenVerifierGateway>
   let tokenVerifierGatewaySpy: MockInstance<
-    [input: TokenVerifier.Input],
-    TokenVerifier.Output
+    (input: TokenVerifier.Input) => TokenVerifier.Output
   >
 
   beforeAll(() => {

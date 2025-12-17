@@ -1,8 +1,9 @@
 import { faker } from '@faker-js/faker'
-import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
+import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
+import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma-connection-manager'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { appSetup } from '@/main/setup/app.setup'
 import { PersonNotFoundError } from '@/modules/persons/application/errors/person-not-found.error'
@@ -26,7 +27,7 @@ describe('PersonsRouter', () => {
   let listOfPersons: PersonPersistenceCollection
 
   beforeAll(async () => {
-    prisma = new PrismaClient()
+    prisma = PrismaConnectionManager.getInstance()
     app = await appSetup()
     await app.ready()
     accessToken = await generateAccessToken()
@@ -62,13 +63,13 @@ describe('PersonsRouter', () => {
       })
     })
 
-    test('fetch persons with invalid page[offset] and page[limit]', async () => {
+    test('fetch persons with invalid page[number] and page[size]', async () => {
       const { statusCode, body } = await request(app.server)
         .get('/api/v1/persons')
         .set('Authorization', `Bearer ${accessToken}`)
         .query({
-          'page[offset]': '-2',
-          'page[limit]': '99',
+          'page[number]': '-2',
+          'page[size]': '99',
         })
 
       const [anyPerson] = body.persons as PersonCollectionDTO
@@ -86,13 +87,13 @@ describe('PersonsRouter', () => {
       })
     })
 
-    test('fetch persons with custom page[offset] and page[limit]', async () => {
+    test('fetch persons with custom page[number] and page[size]', async () => {
       const { statusCode, body } = await request(app.server)
         .get('/api/v1/persons')
         .set('Authorization', `Bearer ${accessToken}`)
         .query({
-          'page[offset]': '2',
-          'page[limit]': '10',
+          'page[number]': '2',
+          'page[size]': '10',
         })
 
       const [anyPerson] = body.persons as PersonCollectionDTO
@@ -110,7 +111,7 @@ describe('PersonsRouter', () => {
       })
     })
 
-    test('fetch persons without page[offset] and page[limit]', async () => {
+    test('fetch persons without page[number] and page[size]', async () => {
       const { statusCode, body } = await request(app.server)
         .get('/api/v1/persons')
         .set('Authorization', `Bearer ${accessToken}`)
