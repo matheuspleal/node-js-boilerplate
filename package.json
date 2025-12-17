@@ -43,9 +43,7 @@
     "test:e2e:watch": "npm run setup:test && vitest --config ./vitest.config.e2e.ts",
     "test:staged": "vitest related --run",
     "test:ui": "vitest --ui",
-    "test:watch": "vitest --passWithNoTests",
-    "wizard": "npm run node:ts -- ./scripts/wizard.ts",
-    "wizard:logs": "npm run node:ts -- ./scripts/wizard.ts --logs"
+    "test:watch": "vitest --passWithNoTests"
   },
   "devDependencies": {
     "@commitlint/cli": "20.2.0",
