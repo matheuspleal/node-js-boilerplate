@@ -60,7 +60,7 @@
     "@types/bcryptjs": "3.0.0",
     "@types/eslint-config-prettier": "6.11.3",
     "@types/jsonwebtoken": "9.0.10",
-    "@types/node": "25.0.2",
+    "@types/node": "25.0.3",
     "@types/pg": "8.16.0",
     "@types/supertest": "6.0.3",
     "@typescript-eslint/parser": "8.50.0",
@@ -88,7 +88,7 @@
     "tsx": "4.21.0",
     "typescript": "5.9.3",
     "typescript-eslint": "8.50.0",
-    "vite-tsconfig-paths": "6.0.1",
+    "vite-tsconfig-paths": "6.0.2",
     "vitest": "4.0.16",
     "vitest-mock-extended": "3.1.0"
   },
