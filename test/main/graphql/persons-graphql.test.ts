@@ -25,8 +25,8 @@ describe('PersonsGraphQL', () => {
 
   beforeAll(async () => {
     prisma = PrismaConnectionManager.getInstance()
-    await prisma.person.deleteMany()
     await prisma.user.deleteMany()
+    await prisma.person.deleteMany()
     app = await appSetup()
     await app.ready()
     accessToken = await generateAccessToken()
@@ -34,8 +34,8 @@ describe('PersonsGraphQL', () => {
 
   describe('FetchPersons', async () => {
     beforeAll(async () => {
-      await prisma.person.deleteMany()
       await prisma.user.deleteMany()
+      await prisma.person.deleteMany()
       const listOfPersons = makePersonCollectionPersistenceStub({
         length: 100,
       })
@@ -185,8 +185,8 @@ describe('PersonsGraphQL', () => {
 
   describe('GetPersonById', async () => {
     beforeAll(async () => {
-      await prisma.person.deleteMany()
       await prisma.user.deleteMany()
+      await prisma.person.deleteMany()
       const listOfPersons = makePersonCollectionPersistenceStub({
         length: 100,
       })
