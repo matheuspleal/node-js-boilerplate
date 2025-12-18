@@ -29,6 +29,8 @@ describe('AuthenticationGraphQL', () => {
 
   beforeAll(async () => {
     prisma = PrismaConnectionManager.getInstance()
+    await prisma.person.deleteMany()
+    await prisma.user.deleteMany()
     app = await appSetup()
     await app.ready()
   })

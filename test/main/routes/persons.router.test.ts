@@ -28,6 +28,8 @@ describe('PersonsRouter', () => {
 
   beforeAll(async () => {
     prisma = PrismaConnectionManager.getInstance()
+    await prisma.person.deleteMany()
+    await prisma.user.deleteMany()
     app = await appSetup()
     await app.ready()
     accessToken = await generateAccessToken()
@@ -35,6 +37,8 @@ describe('PersonsRouter', () => {
 
   describe('[GET] /persons', async () => {
     beforeAll(async () => {
+      await prisma.person.deleteMany()
+      await prisma.user.deleteMany()
       listOfPersons = makePersonCollectionPersistenceStub({
         length: 100,
       })
@@ -134,6 +138,8 @@ describe('PersonsRouter', () => {
 
   describe('[GET] /persons/:id', async () => {
     beforeAll(async () => {
+      await prisma.person.deleteMany()
+      await prisma.user.deleteMany()
       const listOfPersons = makePersonCollectionPersistenceStub({
         length: 100,
       })
