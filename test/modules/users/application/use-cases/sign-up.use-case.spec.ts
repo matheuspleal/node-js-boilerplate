@@ -10,12 +10,12 @@ import { InvalidBirthdateError } from '@/modules/persons/application/errors/inva
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
 import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email.error'
-import {
-  type CreateUserRepositoryInput,
-  type CreateUserRepositoryOutput,
-  type CreateUserRepository,
-} from '@/modules/users/application/repositories/create-user.repository'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
+import {
+  type SaveUserRepositoryInput,
+  type SaveUserRepositoryOutput,
+  type SaveUserRepository,
+} from '@/modules/users/application/repositories/save-user.repository'
 import {
   SignUpUseCase,
   type SignUpUseCaseInput,
@@ -38,9 +38,9 @@ describe('SignUpUseCase', () => {
   let findUserByEmailRepositorySpy: MockInstance<
     (email: string) => Promise<UserEntity | null>
   >
-  let createUserRepositoryMock: MockProxy<CreateUserRepository>
-  let createUserRepositorySpy: MockInstance<
-    (input: CreateUserRepositoryInput) => Promise<CreateUserRepositoryOutput>
+  let saveUserRepositoryMock: MockProxy<SaveUserRepository>
+  let saveUserRepositorySpy: MockInstance<
+    (input: SaveUserRepositoryInput) => Promise<SaveUserRepositoryOutput>
   >
   let hashGeneratorGatewayMock: MockProxy<HashGeneratorGateway>
   let hashGeneratorGatewaySpy: MockInstance<
@@ -54,8 +54,8 @@ describe('SignUpUseCase', () => {
     })
     findUserByEmailRepositoryMock = mock<FindUserByEmailRepository>()
     findUserByEmailRepositoryMock.findByEmail.mockResolvedValue(null)
-    createUserRepositoryMock = mock<CreateUserRepository>()
-    createUserRepositoryMock.create.mockResolvedValue({
+    saveUserRepositoryMock = mock<SaveUserRepository>()
+    saveUserRepositoryMock.save.mockResolvedValue({
       person: personEntityStub,
       user: userEntityStub,
     })
@@ -65,7 +65,7 @@ describe('SignUpUseCase', () => {
 
   beforeEach(() => {
     findUserByEmailRepositoryMock.findByEmail.mockClear()
-    createUserRepositoryMock.create.mockClear()
+    saveUserRepositoryMock.save.mockClear()
     hashGeneratorGatewayMock.hash.mockClear()
   })
 
@@ -74,11 +74,13 @@ describe('SignUpUseCase', () => {
       findUserByEmailRepositoryMock,
       'findByEmail',
     )
-    createUserRepositorySpy = vi.spyOn(createUserRepositoryMock, 'create')
+    saveUserRepositorySpy = vi.spyOn(saveUserRepositoryMock, 'save')
     hashGeneratorGatewaySpy = vi.spyOn(hashGeneratorGatewayMock, 'hash')
     sut = new SignUpUseCase(
-      findUserByEmailRepositoryMock,
-      createUserRepositoryMock,
+      {
+        findByEmail: findUserByEmailRepositoryMock.findByEmail,
+        save: saveUserRepositoryMock.save,
+      },
       hashGeneratorGatewayMock,
     )
   })
@@ -95,7 +97,7 @@ describe('SignUpUseCase', () => {
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(email)
     expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
-    expect(createUserRepositorySpy).not.toHaveBeenCalled()
+    expect(saveUserRepositorySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(InvalidEmailError)
   })
@@ -111,7 +113,7 @@ describe('SignUpUseCase', () => {
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(user.email)
     expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
-    expect(createUserRepositorySpy).not.toHaveBeenCalled()
+    expect(saveUserRepositorySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(InvalidBirthdateError)
   })
@@ -131,7 +133,7 @@ describe('SignUpUseCase', () => {
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(email)
     expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
-    expect(createUserRepositorySpy).not.toHaveBeenCalled()
+    expect(saveUserRepositorySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(EmailAlreadyExistsError)
   })
@@ -147,8 +149,8 @@ describe('SignUpUseCase', () => {
     expect(hashGeneratorGatewaySpy).toHaveBeenCalledWith({
       plaintext: plaintextPasswordStub,
     })
-    expect(createUserRepositorySpy).toHaveBeenCalledTimes(1)
-    expect(createUserRepositorySpy).toHaveBeenCalledWith(
+    expect(saveUserRepositorySpy).toHaveBeenCalledTimes(1)
+    expect(saveUserRepositorySpy).toHaveBeenCalledWith(
       expect.objectContaining({
         person: expect.any(PersonEntity),
         user: expect.any(UserEntity),

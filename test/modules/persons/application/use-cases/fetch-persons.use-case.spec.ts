@@ -45,10 +45,10 @@ describe('FetchPersonsUseCase', () => {
       'findMany',
     )
     countPersonsRepositorySpy = vi.spyOn(countPersonsRepositoryMock, 'count')
-    sut = new FetchPersonsUseCase(
-      countPersonsRepositoryMock,
-      findManyPersonsRepositoryMock,
-    )
+    sut = new FetchPersonsUseCase({
+      count: countPersonsRepositoryMock.count,
+      findMany: findManyPersonsRepositoryMock.findMany,
+    })
   })
 
   it('should be able to returns count and a list of first 20 persons when paginations params is default', async () => {
