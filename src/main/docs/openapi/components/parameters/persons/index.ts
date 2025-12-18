@@ -1,1 +1,1 @@
-export * from './person-id-parameter'
+export * from './person-id.params'

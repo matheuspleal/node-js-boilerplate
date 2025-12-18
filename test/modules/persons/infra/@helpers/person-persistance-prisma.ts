@@ -1,8 +1,7 @@
-import { type PrismaClient } from '@prisma/client'
+import { type PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
+import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person.persistence'
 
-import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person-persistence'
-
-import { makePersonPersistenceStub } from '#/modules/persons/infra/@mocks/person-persistence-stub'
+import { makePersonPersistenceStub } from '#/modules/persons/infra/@mocks/person-persistence.stub'
 
 export interface PersonDTOStubProps {
   prisma: PrismaClient

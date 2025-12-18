@@ -1,17 +1,18 @@
 import { randomUUID } from 'node:crypto'
 
-import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
-import { appSetup } from '@/main/setup/app-setup'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
+import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma-connection-manager'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
+import { appSetup } from '@/main/setup/app.setup'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { generateAccessToken } from '#/main/helpers/generate-access-token'
-import { makePersonCollectionPersistenceStub } from '#/modules/persons/infra/@mocks/person-persistence-stub'
-import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input-stub'
+import { makePersonCollectionPersistenceStub } from '#/modules/persons/infra/@mocks/person-persistence.stub'
+import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input.stub'
 import { createUser } from '#/modules/users/infra/@helpers/user-persistence-prisma'
 
 describe('PersonsGraphQL', () => {
@@ -23,7 +24,7 @@ describe('PersonsGraphQL', () => {
   let personId: string
 
   beforeAll(async () => {
-    prisma = new PrismaClient()
+    prisma = PrismaConnectionManager.getInstance()
     app = await appSetup()
     await app.ready()
     accessToken = await generateAccessToken()
@@ -96,7 +97,7 @@ describe('PersonsGraphQL', () => {
       })
     })
 
-    test('fetch persons with invalid page[offset] and page[limit]', async () => {
+    test('fetch persons with invalid page[number] and page[size]', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)
@@ -104,8 +105,8 @@ describe('PersonsGraphQL', () => {
           query: fetchPersonsQuery,
           variables: {
             params: {
-              offset: -2,
-              limit: 99,
+              number: -2,
+              size: 99,
             },
           },
         })
@@ -125,7 +126,7 @@ describe('PersonsGraphQL', () => {
       })
     })
 
-    test('fetch persons with custom page[offset] and page[limit]', async () => {
+    test('fetch persons with custom page[number] and page[size]', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)
@@ -133,8 +134,8 @@ describe('PersonsGraphQL', () => {
           query: fetchPersonsQuery,
           variables: {
             params: {
-              offset: 2,
-              limit: 10,
+              number: 2,
+              size: 10,
             },
           },
         })
@@ -154,7 +155,7 @@ describe('PersonsGraphQL', () => {
       })
     })
 
-    test('fetch persons without page[offset] and page[limit]', async () => {
+    test('fetch persons without page[number] and page[size]', async () => {
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
         .set('Authorization', `Bearer ${accessToken}`)

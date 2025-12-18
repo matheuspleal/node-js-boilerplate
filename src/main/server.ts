@@ -1,5 +1,5 @@
 import { server } from '@/core/shared/config/env'
-import { appSetup } from '@/main/setup/app-setup'
+import { appSetup } from '@/main/setup/app.setup'
 
 const app = await appSetup()
 

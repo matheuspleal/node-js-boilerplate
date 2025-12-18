@@ -1,32 +1,8 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/core/infra/repositories/prisma/generated"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model User {
-  id        String   @id @default(uuid())
-  person    Person   @relation(fields: [personId], references: [id])
-  personId  String   @unique @db.VarChar(36)
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("users")
-}
-
-model Person {
-  id        String   @id @default(uuid())
-  name      String
-  birthdate DateTime @db.Date
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  userId    String?
-  User      User?
-
-  @@map("persons")
 }

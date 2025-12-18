@@ -1,5 +1,5 @@
-import { type PaginationParams } from '@/core/shared/types/pagination-params'
+import { type PaginationParams } from '@/core/shared/types/pagination-params.type'
 
-export function resolveOffsetByPageAndLimit({ page, limit }: PaginationParams) {
-  return (page - 1) * limit
+export function resolveOffsetByPageParams({ number, size }: PaginationParams) {
+  return (number - 1) * size
 }

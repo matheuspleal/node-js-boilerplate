@@ -1,2 +1,2 @@
-export * from './fetch-persons-path'
-export * from './get-person-by-id-path'
+export * from './fetch-persons.path'
+export * from './get-person-by-id.path'

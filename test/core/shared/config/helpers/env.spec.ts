@@ -1,7 +1,7 @@
-import { EnvVariableNotProvidedError } from '@/core/shared/config/errors/env-variable-not-provided-error'
-import { FailedToConvertEnvVariableError } from '@/core/shared/config/errors/failed-to-convert-env-variable-error'
-import { env } from '@/core/shared/config/helpers/env'
-import { EnvVariableEnum } from '@/core/shared/config/types/env-variable-enum'
+import { EnvVariableNotProvidedError } from '@/core/shared/config/errors/env-variable-not-provided.error'
+import { FailedToConvertEnvVariableError } from '@/core/shared/config/errors/failed-to-convert-env-variable.error'
+import { env } from '@/core/shared/config/helpers/env.helper'
+import { EnvVariableEnum } from '@/core/shared/config/types/env-variable.enum'
 
 const envVariableTypes = [
   EnvVariableEnum.BOOLEAN,

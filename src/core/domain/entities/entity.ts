@@ -1,4 +1,4 @@
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id-vo'
+import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
 
 export abstract class Entity<T> {
   private readonly _id: UniqueEntityIdVO
