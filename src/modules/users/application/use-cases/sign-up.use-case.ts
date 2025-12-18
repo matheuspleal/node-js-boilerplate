@@ -28,12 +28,13 @@ export type SignUpUseCaseOutput = Either<
   }
 >
 
+type UserRepository = FindUserByEmailRepository & SaveUserRepository
+
 export class SignUpUseCase
   implements UseCase<SignUpUseCaseInput, SignUpUseCaseOutput>
 {
   constructor(
-    private readonly userRepository: FindUserByEmailRepository &
-      SaveUserRepository,
+    private readonly userRepository: UserRepository,
     private readonly hashGeneratorGateway: HashGeneratorGateway,
   ) {}
 
