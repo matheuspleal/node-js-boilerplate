@@ -22,16 +22,16 @@ export class FetchPersonsUseCase
   implements UseCase<FetchPersonsUseCaseInput, FetchPersonsUseCaseOutput>
 {
   constructor(
-    private readonly countPersonsRepository: CountPersonsRepository,
-    private readonly findManyPersonsRepository: FindManyPersonsRepository,
+    private readonly personRepository: CountPersonsRepository &
+      FindManyPersonsRepository,
   ) {}
 
   async execute({
     paginationParams,
   }: FetchPersonsUseCaseInput): Promise<FetchPersonsUseCaseOutput> {
     const [count, persons] = await Promise.all([
-      this.countPersonsRepository.count(),
-      this.findManyPersonsRepository.findMany(paginationParams),
+      this.personRepository.count(),
+      this.personRepository.findMany(paginationParams),
     ])
     return right({
       count,

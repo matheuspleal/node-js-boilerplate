@@ -7,8 +7,8 @@ import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/pe
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
 import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email.error'
-import { type CreateUserRepository } from '@/modules/users/application/repositories/create-user.repository'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
+import { type SaveUserRepository } from '@/modules/users/application/repositories/save-user.repository'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 import { UserMapper } from '@/modules/users/application/use-cases/mappers/user.mapper'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
@@ -32,8 +32,8 @@ export class SignUpUseCase
   implements UseCase<SignUpUseCaseInput, SignUpUseCaseOutput>
 {
   constructor(
-    private readonly findUserByEmailRepository: FindUserByEmailRepository,
-    private readonly createUserRepository: CreateUserRepository,
+    private readonly userRepository: FindUserByEmailRepository &
+      SaveUserRepository,
     private readonly hashGeneratorGateway: HashGeneratorGateway,
   ) {}
 
@@ -43,7 +43,7 @@ export class SignUpUseCase
     email,
     birthdate,
   }: SignUpUseCaseInput): Promise<SignUpUseCaseOutput> {
-    const foundUser = await this.findUserByEmailRepository.findByEmail(email)
+    const foundUser = await this.userRepository.findByEmail(email)
     if (foundUser) {
       return left(new EmailAlreadyExistsError(email))
     }
@@ -66,7 +66,7 @@ export class SignUpUseCase
       plaintext: user.password,
     })
     user.password = hashedPassword
-    const result = await this.createUserRepository.create({ person, user })
+    const result = await this.userRepository.save({ person, user })
     return right({
       person: PersonMapper.toDTO(result.person),
       user: UserMapper.toDTO(result.user),

@@ -1,19 +1,19 @@
 import { type PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
 
-export interface CreateUserRepositoryInput {
+export interface SaveUserRepositoryInput {
   person: PersonEntity
   user: UserEntity
 }
 
-export interface CreateUserRepositoryOutput {
+export interface SaveUserRepositoryOutput {
   person: PersonEntity
   user: UserEntity
 }
 
-export interface CreateUserRepository {
-  create({
+export interface SaveUserRepository {
+  save({
     person,
     user,
-  }: CreateUserRepositoryInput): Promise<CreateUserRepositoryOutput>
+  }: SaveUserRepositoryInput): Promise<SaveUserRepositoryOutput>
 }
