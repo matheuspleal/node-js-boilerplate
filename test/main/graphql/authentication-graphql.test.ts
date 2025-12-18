@@ -1,20 +1,21 @@
 import { faker } from '@faker-js/faker'
-import { PrismaClient } from '@prisma/client'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
-import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter'
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
-import { appSetup } from '@/main/setup/app-setup'
-import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized-error'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate-vo'
+import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter.gateway'
+import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
+import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma-connection-manager'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
+import { appSetup } from '@/main/setup/app.setup'
+import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
+import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 import {
   makeRequiredSignUpInputStub,
   makeSignUpInputStub,
-} from '#/modules/users/application/@mocks/sign-up-input-stub'
+} from '#/modules/users/application/@mocks/sign-up-input.stub'
 import { createUser } from '#/modules/users/infra/@helpers/user-persistence-prisma'
 
 const listOfSignUpFields = ['name', 'email', 'password', 'birthdate']
@@ -27,7 +28,9 @@ describe('AuthenticationGraphQL', () => {
   let signInQuery: string
 
   beforeAll(async () => {
-    prisma = new PrismaClient()
+    prisma = PrismaConnectionManager.getInstance()
+    await prisma.user.deleteMany()
+    await prisma.person.deleteMany()
     app = await appSetup()
     await app.ready()
   })

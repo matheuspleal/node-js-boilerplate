@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-import { makeJwtAdapterFactory } from '@/main/factories/core/infra/gateways/jwt-adapter-factory'
+import { makeJwtAdapterFactory } from '@/main/factories/core/infra/gateways/jwt-adapter.factory'
 
 export interface GenerateAccessTokenStubProps {
   id?: string

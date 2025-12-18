@@ -1,1 +1,1 @@
-export * from './bearer-auth-security-scheme'
+export * from './bearer-auth-security.scheme'

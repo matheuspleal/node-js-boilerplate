@@ -9,12 +9,7 @@ export default mergeConfig(
       exclude: ['**/*.spec.ts'],
       include: ['**/*.test.ts'],
       setupFiles: ['./test/setup-e2e.ts'],
-      poolOptions: {
-        threads: {
-          minThreads: 2,
-          maxThreads: 4,
-        },
-      },
+      maxWorkers: 1,
     },
   }),
 )

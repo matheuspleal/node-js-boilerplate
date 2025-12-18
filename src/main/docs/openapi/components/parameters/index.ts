@@ -1,2 +1,2 @@
-export * from './page-offset-params'
-export * from './page-limit-params'
+export * from './page-number.params'
+export * from './page-size.params'

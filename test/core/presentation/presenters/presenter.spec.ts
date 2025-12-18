@@ -7,7 +7,7 @@ import {
   makeFakeCollectionDTOStub,
   type FakeOutput,
   type FakeDTO,
-} from '#/core/presentation/@mocks/fake-presenter-stub'
+} from '#/core/presentation/@mocks/fake-presenter.stub'
 
 class FakePresenter extends Presenter<FakeCollectionDTO, FakeCollectionOutput> {
   static toJSON(fakeCollectionDTO: FakeCollectionDTO): FakeCollectionOutput {

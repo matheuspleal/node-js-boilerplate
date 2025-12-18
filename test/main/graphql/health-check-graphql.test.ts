@@ -5,8 +5,8 @@ import {
 } from 'fastify'
 import request from 'supertest'
 
-import { StatusCode } from '@/core/presentation/helpers/http-helpers'
-import { appSetup } from '@/main/setup/app-setup'
+import { StatusCode } from '@/core/presentation/helpers/http.helper'
+import { appSetup } from '@/main/setup/app.setup'
 
 describe('HealthCheckGraphQL', () => {
   let app: FastifyInstance

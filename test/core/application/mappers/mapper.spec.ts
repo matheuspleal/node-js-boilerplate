@@ -7,7 +7,7 @@ import {
   makeFakeDTOStub,
   makeFakePersistenceStub,
   makeFakeEntityStub,
-} from '#/core/application/@mocks/fake-mapper-stub'
+} from '#/core/application/@mocks/fake-mapper.stub'
 
 class FakeMapper extends Mapper<FakeDTO, FakeEntity, FakePersistence> {
   static toDTO(entity: FakeEntity): FakeDTO {
