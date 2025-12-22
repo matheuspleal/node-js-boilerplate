@@ -10,7 +10,7 @@ import { appSetup } from '@/main/setup/app.setup'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
-import { generateAccessToken } from '#/main/helpers/generate-access-token'
+import { generateAccessToken } from '#/main/helpers/generate-access-token.helper'
 import { makePersonCollectionPersistenceStub } from '#/modules/persons/infra/@mocks/person-persistence.stub'
 import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input.stub'
 import { createUser } from '#/modules/users/infra/@helpers/user-persistence-prisma'

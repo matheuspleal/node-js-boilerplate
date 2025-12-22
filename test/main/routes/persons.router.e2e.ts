@@ -14,7 +14,7 @@ import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { generateAccessToken } from '#/main/helpers/generate-access-token'
+import { generateAccessToken } from '#/main/helpers/generate-access-token.helper'
 import { createManyPersons } from '#/modules/persons/infra/@helpers/person-persistance-prisma'
 import { makePersonCollectionPersistenceStub } from '#/modules/persons/infra/@mocks/person-persistence.stub'
 import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input.stub'

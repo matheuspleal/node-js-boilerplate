@@ -13,7 +13,6 @@ export default defineConfig({
   plugins: [tsConfigPaths()],
   test: {
     globals: true,
-    dir: 'test',
     coverage: {
       provider: 'v8',
       include: ['src/**/*.ts'],
@@ -34,10 +33,11 @@ export default defineConfig({
         'src/modules/*/application/repositories/**/*',
         'src/modules/*/application/use-cases/dtos/**/*',
         'src/modules/*/infra/repositories/**/*',
+        'src/**/*.spec.ts',
         'test/**/*',
       ],
       reporter: ['lcov', 'text'],
     },
-    include: ['**/*.spec.ts'],
+    include: ['src/**/*.spec.ts'],
   },
 })
