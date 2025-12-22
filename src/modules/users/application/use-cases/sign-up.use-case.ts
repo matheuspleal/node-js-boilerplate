@@ -30,9 +30,10 @@ export type SignUpUseCaseOutput = Either<
 
 type UserRepository = FindUserByEmailRepository & SaveUserRepository
 
-export class SignUpUseCase
-  implements UseCase<SignUpUseCaseInput, SignUpUseCaseOutput>
-{
+export class SignUpUseCase implements UseCase<
+  SignUpUseCaseInput,
+  SignUpUseCaseOutput
+> {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly hashGeneratorGateway: HashGeneratorGateway,
