@@ -38,9 +38,9 @@
     "start": "npm run migrate:prod && npm run node:js -- dist/main/server.js",
     "start:dev": "npm run migrate:dev && npm run node:ts -- --inspect --watch src/main/server.ts",
     "test": "vitest run --passWithNoTests",
-    "test:ci": "vitest run --config ./vitest.config.ci.ts --coverage",
-    "test:e2e": "npm run setup:test && vitest run --config ./vitest.config.e2e.ts",
-    "test:e2e:watch": "npm run setup:test && vitest --config ./vitest.config.e2e.ts",
+    "test:ci": "vitest run --config ./vitest-ci.config.ts --coverage",
+    "test:e2e": "npm run setup:test && vitest run --config ./vitest-e2e.config.ts",
+    "test:e2e:watch": "npm run setup:test && vitest --config ./vitest-e2e.config.ts",
     "test:staged": "vitest related --run",
     "test:ui": "vitest --ui",
     "test:watch": "vitest --passWithNoTests"

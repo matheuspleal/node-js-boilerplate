@@ -16,9 +16,10 @@ export type GetPersonByIdUseCaseOutput = Either<
   }
 >
 
-export class GetPersonByIdUseCase
-  implements UseCase<GetPersonByIdUseCaseInput, GetPersonByIdUseCaseOutput>
-{
+export class GetPersonByIdUseCase implements UseCase<
+  GetPersonByIdUseCaseInput,
+  GetPersonByIdUseCaseOutput
+> {
   constructor(
     private readonly findPersonByIdRepository: FindPersonByIdRepository,
   ) {}

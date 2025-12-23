@@ -18,9 +18,10 @@ export type FetchPersonsUseCaseOutput = Either<
   }
 >
 
-export class FetchPersonsUseCase
-  implements UseCase<FetchPersonsUseCaseInput, FetchPersonsUseCaseOutput>
-{
+export class FetchPersonsUseCase implements UseCase<
+  FetchPersonsUseCaseInput,
+  FetchPersonsUseCaseOutput
+> {
   constructor(
     private readonly personRepository: CountPersonsRepository &
       FindManyPersonsRepository,

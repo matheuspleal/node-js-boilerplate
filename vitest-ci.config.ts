@@ -6,7 +6,7 @@ export default mergeConfig(
   vitestConfig,
   defineConfig({
     test: {
-      include: ['**/*.{spec,test}.ts'],
+      include: ['**/*.{spec,e2e}.ts'],
       setupFiles: ['./test/setup-e2e.ts'],
       maxWorkers: 1,
     },

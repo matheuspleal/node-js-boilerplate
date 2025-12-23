@@ -207,17 +207,17 @@ To run unit tests (*.spec.ts) in watch mode:
 npm run test:watch
 ```
 
-To run e2e tests (*.test.ts):
+To run e2e tests (*.e2e.ts):
 ```bash
 npm run test:e2e
 ```
 
-To run e2e tests (*.test.ts) in watch mode:
+To run e2e tests (*.e2e.ts) in watch mode:
 ```bash
 npm run test:e2e:watch
 ```
 
-To run all tests unit and e2e tests (*.spec.ts and *.test.ts)
+To run all tests unit and e2e tests (*.spec.ts and *.e2e.ts)
 ```bash
 npm run test:ci
 ```

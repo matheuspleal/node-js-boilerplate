@@ -14,9 +14,7 @@ export namespace Authentication {
     | Error
 }
 
-export class AuthenticationMiddleware
-  implements Middleware<Authentication.Request>
-{
+export class AuthenticationMiddleware implements Middleware<Authentication.Request> {
   constructor(private readonly tokenVerifierGateway: TokenVerifierGateway) {}
 
   async handle({

@@ -17,9 +17,10 @@ export type SignInUseCaseOutput = Either<
   }
 >
 
-export class SignInUseCase
-  implements UseCase<SignInUseCaseInput, SignInUseCaseOutput>
-{
+export class SignInUseCase implements UseCase<
+  SignInUseCaseInput,
+  SignInUseCaseOutput
+> {
   constructor(
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     private readonly hashCompareGateway: HashCompareGateway,

@@ -7,7 +7,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       exclude: ['**/*.spec.ts'],
-      include: ['**/*.test.ts'],
+      include: ['**/*.e2e.ts'],
       setupFiles: ['./test/setup-e2e.ts'],
       maxWorkers: 1,
     },
