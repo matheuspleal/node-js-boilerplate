@@ -1,4 +1,4 @@
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
+import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
@@ -13,7 +13,7 @@ describe('UserEntity', () => {
 
     sut = UserEntity.create(fakeProps)
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityIdVO)
+    expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.email).toBeInstanceOf(EmailVO)
     expect(sut.email.toString()).toEqual(fakeProps.email)
@@ -24,11 +24,11 @@ describe('UserEntity', () => {
 
   it('should be able to create a instance of UserEntity with all props', () => {
     const { id, ...fakeProps } = makeUserInputStub()
-    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
+    const fakeUniqueEntityId = new UniqueEntityId(id)
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityIdVO)
+    expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.email).toBeInstanceOf(EmailVO)
@@ -40,11 +40,11 @@ describe('UserEntity', () => {
 
   it('should be able to get all allowed properties', () => {
     const { id, ...fakeProps } = makeUserInputStub()
-    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
+    const fakeUniqueEntityId = new UniqueEntityId(id)
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityIdVO)
+    expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.email).toBeInstanceOf(EmailVO)
@@ -56,11 +56,11 @@ describe('UserEntity', () => {
 
   it('should be able to set all allowed properties', () => {
     const { id, ...fakeProps } = makeUserInputStub()
-    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
+    const fakeUniqueEntityId = new UniqueEntityId(id)
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityIdVO)
+    expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.email).toBeInstanceOf(EmailVO)

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
+import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import {
   UserEntity,
   type UserInput,
@@ -21,7 +21,7 @@ export function makeUserInputStub(
 ): UserInputProps {
   return {
     id: userInput?.id ?? faker.string.uuid(),
-    personId: userInput?.personId ?? new UniqueEntityIdVO(faker.string.uuid()),
+    personId: userInput?.personId ?? new UniqueEntityId(faker.string.uuid()),
     email:
       userInput?.email ??
       faker.internet.email({
@@ -35,7 +35,7 @@ export function makeUserInputStub(
 
 export function makeUserEntityStub(props?: UserEntityProps): UserEntity {
   const { id, ...userInput } = makeUserInputStub({ ...props?.userInput })
-  return UserEntity.create(userInput, id ? new UniqueEntityIdVO(id) : undefined)
+  return UserEntity.create(userInput, id ? new UniqueEntityId(id) : undefined)
 }
 
 export function makeUserEntityCollectionStub({

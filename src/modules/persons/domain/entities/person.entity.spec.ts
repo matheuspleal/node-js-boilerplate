@@ -1,4 +1,4 @@
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
+import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
@@ -14,7 +14,7 @@ describe('PersonEntity', () => {
 
     sut = PersonEntity.create(fakeProps)
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityIdVO)
+    expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.name).toEqual(fakeProps.name)
     expect(sut.birthdate).toBeInstanceOf(BirthdateVO)
@@ -26,11 +26,11 @@ describe('PersonEntity', () => {
 
   it('should be able to create a instance of PersonEntity with all props', () => {
     const { id, ...fakeProps } = makePersonInputStub()
-    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
+    const fakeUniqueEntityId = new UniqueEntityId(id)
 
     sut = PersonEntity.create(fakeProps, fakeUniqueEntityId)
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityIdVO)
+    expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id).toEqual(fakeUniqueEntityId)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.name).toEqual(fakeProps.name)
@@ -43,11 +43,11 @@ describe('PersonEntity', () => {
 
   it('should be able to get all allowed properties', () => {
     const { id, ...fakeProps } = makePersonInputStub()
-    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
+    const fakeUniqueEntityId = new UniqueEntityId(id)
 
     sut = PersonEntity.create(fakeProps, fakeUniqueEntityId)
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityIdVO)
+    expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id).toEqual(fakeUniqueEntityId)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.name).toEqual(fakeProps.name)
@@ -60,11 +60,11 @@ describe('PersonEntity', () => {
 
   it('should be able to set all allowed properties', () => {
     const { id, ...fakeProps } = makePersonInputStub()
-    const fakeUniqueEntityId = new UniqueEntityIdVO(id)
+    const fakeUniqueEntityId = new UniqueEntityId(id)
 
     sut = PersonEntity.create(fakeProps, fakeUniqueEntityId)
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityIdVO)
+    expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id).toEqual(fakeUniqueEntityId)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.name).toEqual(fakeProps.name)

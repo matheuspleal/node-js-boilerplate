@@ -1,5 +1,5 @@
-import { Entity } from '@/core/domain/entities/entity'
-import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
+import { Entity } from '@/core/domain/entity'
+import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { type Optional } from '@/core/shared/types/optional.type'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
@@ -47,7 +47,7 @@ export class PersonEntity extends Entity<PersonProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(props: PersonInput, id?: UniqueEntityIdVO): PersonEntity {
+  static create(props: PersonInput, id?: UniqueEntityId): PersonEntity {
     const user = new PersonEntity(
       {
         ...props,

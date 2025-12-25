@@ -1,4 +1,4 @@
-import { ValueObject } from '@/core/domain/value-objects/value-object'
+import { ValueObject } from '@/core/domain/value-object'
 
 interface FakeValueProps {
   value: string

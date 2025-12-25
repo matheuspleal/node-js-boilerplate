@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
+import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import {
   PersonEntity,
   type PersonInput,
@@ -33,7 +33,7 @@ export function makePersonEntityStub(props?: PersonEntityProps): PersonEntity {
   const { id, ...personInput } = makePersonInputStub({ ...props?.personInput })
   return PersonEntity.create(
     personInput,
-    id ? new UniqueEntityIdVO(id) : undefined,
+    id ? new UniqueEntityId(id) : undefined,
   )
 }
 

@@ -1,10 +1,10 @@
-import { Entity } from '@/core/domain/entities/entity'
-import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
+import { Entity } from '@/core/domain/entity'
+import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { type Optional } from '@/core/shared/types/optional.type'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 export interface UserProps {
-  personId: UniqueEntityIdVO
+  personId: UniqueEntityId
   email: EmailVO
   password: string
   createdAt: Date
@@ -19,7 +19,7 @@ export type UserInput = Optional<
 }
 
 export class UserEntity extends Entity<UserProps> {
-  get personId(): UniqueEntityIdVO {
+  get personId(): UniqueEntityId {
     return this.props.personId
   }
 
@@ -48,7 +48,7 @@ export class UserEntity extends Entity<UserProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(props: UserInput, id?: UniqueEntityIdVO): UserEntity {
+  static create(props: UserInput, id?: UniqueEntityId): UserEntity {
     const user = new UserEntity(
       {
         ...props,

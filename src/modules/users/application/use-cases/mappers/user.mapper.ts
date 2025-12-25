@@ -1,5 +1,5 @@
 import { Mapper } from '@/core/application/use-cases/mappers/mapper'
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
+import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user.persistence'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
@@ -21,13 +21,13 @@ export class UserMapper extends Mapper<UserDTO, UserEntity, UserPersistence> {
   static toDomain(userPersistence: UserPersistence): UserEntity {
     return UserEntity.create(
       {
-        personId: new UniqueEntityIdVO(userPersistence.personId),
+        personId: new UniqueEntityId(userPersistence.personId),
         email: userPersistence.email,
         password: userPersistence.password,
         createdAt: userPersistence.createdAt,
         updatedAt: userPersistence.updatedAt,
       },
-      new UniqueEntityIdVO(userPersistence.id),
+      new UniqueEntityId(userPersistence.id),
     )
   }
 

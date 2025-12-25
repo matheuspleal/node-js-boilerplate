@@ -1,5 +1,5 @@
 import { Mapper } from '@/core/application/use-cases/mappers/mapper'
-import { UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
+import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person.persistence'
 import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person.dto'
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
@@ -32,7 +32,7 @@ export class PersonMapper extends Mapper<
         createdAt: personsPersistence.createdAt,
         updatedAt: personsPersistence.updatedAt,
       },
-      new UniqueEntityIdVO(personsPersistence.id),
+      new UniqueEntityId(personsPersistence.id),
     )
   }
 
