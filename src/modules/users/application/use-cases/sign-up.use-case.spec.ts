@@ -6,9 +6,10 @@ import {
   type HashGenerator,
   type HashGeneratorGateway,
 } from '@/core/application/gateways/cryptography/hash-generator.gateway'
+import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
-import { InvalidBirthdateError } from '@/modules/persons/domain/errors/invalid-birthdate.error'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
+import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email.error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import {
   type SaveUserRepositoryInput,
@@ -20,7 +21,6 @@ import {
   type SignUpUseCaseInput,
 } from '@/modules/users/application/use-cases/sign-up.use-case'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
-import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
 
 import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person.entity.stub'
 import {

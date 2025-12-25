@@ -7,12 +7,12 @@ import { InvalidPasswordError } from '@/core/presentation/validators/errors/inva
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
+import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/email-already-exists.error'
+import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
+import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email.error'
 import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person.dto'
-import { InvalidBirthdateError } from '@/modules/persons/domain/errors/invalid-birthdate.error'
-import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up.use-case'
-import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
 import {
   SignUpController,
   type SignUpControllerRequest,
