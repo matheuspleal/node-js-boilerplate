@@ -1,5 +1,5 @@
-import { type Either, right } from '@/core/application/either'
 import { type UseCase } from '@/core/application/use-cases/use-case'
+import { type Either, right } from '@/core/shared/either'
 import { type PaginationParams } from '@/core/shared/types/pagination-params.type'
 import { type CountPersonsRepository } from '@/modules/persons/application/repositories/count-persons.repository'
 import { type FindManyPersonsRepository } from '@/modules/persons/application/repositories/find-many-persons.repository'

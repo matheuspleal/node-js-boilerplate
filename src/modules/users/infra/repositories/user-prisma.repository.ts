@@ -1,14 +1,14 @@
 import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma.repository'
 import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
-import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person.mapper'
+import { PersonMapper } from '@/modules/persons/infra/repositories/mappers/person.mapper'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import {
   SaveUserRepositoryInput,
   SaveUserRepositoryOutput,
   type SaveUserRepository,
 } from '@/modules/users/application/repositories/save-user.repository'
-import { UserMapper } from '@/modules/users/application/use-cases/mappers/user.mapper'
 import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
+import { UserMapper } from '@/modules/users/infra/repositories/mappers/user.mapper'
 
 export class UserPrismaRepository
   extends BasePrismaRepository

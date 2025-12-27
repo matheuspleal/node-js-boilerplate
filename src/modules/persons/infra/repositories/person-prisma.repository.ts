@@ -4,8 +4,8 @@ import { PaginationParams } from '@/core/shared/types/pagination-params.type'
 import { type CountPersonsRepository } from '@/modules/persons/application/repositories/count-persons.repository'
 import { type FindManyPersonsRepository } from '@/modules/persons/application/repositories/find-many-persons.repository'
 import { type FindPersonByIdRepository } from '@/modules/persons/application/repositories/find-person-by-id.repository'
-import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person.mapper'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person.entity'
+import { PersonMapper } from '@/modules/persons/infra/repositories/mappers/person.mapper'
 
 export class PersonPrismaRepository
   extends BasePrismaRepository
