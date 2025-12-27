@@ -1,5 +1,8 @@
 import { UniqueEntityId } from '@/core/domain/unique-entity.id'
-import { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import {
+  UserEntity,
+  UserProps,
+} from '@/modules/users/domain/entities/user.entity'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
@@ -86,5 +89,22 @@ describe('UserEntity', () => {
 
     expect(sut.password).toEqual(reassignedPassword)
     expect(sut.updatedAt).not.toEqual(fakeProps.updatedAt)
+  })
+
+  it('should be able to reconstitute an instance', () => {
+    const { id, ...fakeProps } = makeUserInputStub()
+    const fakeUniqueEntityId = new UniqueEntityId(id)
+
+    sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
+    const props: UserProps = {
+      personId: sut.personId,
+      email: sut.email,
+      password: sut.password,
+      createdAt: sut.createdAt,
+      updatedAt: sut.updatedAt,
+    }
+    const reconstitutedUser = UserEntity.reconstitute(props, sut.id)
+
+    expect(reconstitutedUser).toBeInstanceOf(UserEntity)
   })
 })

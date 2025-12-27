@@ -1,5 +1,8 @@
 import { UniqueEntityId } from '@/core/domain/unique-entity.id'
-import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
+import {
+  PersonEntity,
+  PersonProps,
+} from '@/modules/persons/domain/entities/person.entity'
 import { InvalidAgeError } from '@/modules/persons/domain/errors/invalid-age.error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
@@ -102,5 +105,22 @@ describe('PersonEntity', () => {
 
     expect(sut.name).toEqual(reassignedName)
     expect(sut.updatedAt).not.toEqual(fakeProps.updatedAt)
+  })
+
+  it('should be able to reconstitute an instance', () => {
+    const { id, ...fakeProps } = makePersonInputStub()
+    const fakeUniqueEntityId = new UniqueEntityId(id)
+
+    sut = PersonEntity.create(fakeProps, fakeUniqueEntityId)
+      .value as PersonEntity
+    const props: PersonProps = {
+      name: sut.name,
+      birthdate: sut.birthdate,
+      createdAt: sut.createdAt,
+      updatedAt: sut.updatedAt,
+    }
+    const reconstitutedPerson = PersonEntity.reconstitute(props, sut.id)
+
+    expect(reconstitutedPerson).toBeInstanceOf(PersonEntity)
   })
 })
