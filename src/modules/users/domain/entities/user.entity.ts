@@ -66,4 +66,8 @@ export class UserEntity extends Entity<UserProps> {
     )
     return right(user)
   }
+
+  static reconstitute(props: UserProps, id: UniqueEntityId): UserEntity {
+    return new UserEntity(props, id)
+  }
 }

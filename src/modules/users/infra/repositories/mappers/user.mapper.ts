@@ -6,17 +6,16 @@ import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 export class UserMapper extends Mapper<UserEntity, UserPersistence> {
   static toDomain(userPersistence: UserPersistence): UserEntity {
-    return UserEntity.create(
+    return UserEntity.reconstitute(
       {
         personId: new UniqueEntityId(userPersistence.personId),
-        email: EmailVO.create({ value: userPersistence.email })
-          .value as EmailVO,
+        email: EmailVO.reconstitute(userPersistence.email),
         password: userPersistence.password,
         createdAt: userPersistence.createdAt,
         updatedAt: userPersistence.updatedAt,
       },
       new UniqueEntityId(userPersistence.id),
-    ).value as UserEntity
+    )
   }
 
   static toCollectionDomain(usersModel: UserPersistence[]): UserEntity[] {

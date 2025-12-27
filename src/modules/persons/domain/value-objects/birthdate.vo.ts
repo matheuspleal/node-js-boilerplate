@@ -60,4 +60,8 @@ export class BirthdateVO extends ValueObject<BirthdateProps> {
     }
     return right(new BirthdateVO({ value: date }))
   }
+
+  static reconstitute(value: Date): BirthdateVO {
+    return new BirthdateVO({ value })
+  }
 }

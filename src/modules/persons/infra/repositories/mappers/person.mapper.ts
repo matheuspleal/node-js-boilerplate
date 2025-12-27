@@ -6,16 +6,15 @@ import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo
 
 export class PersonMapper extends Mapper<PersonEntity, PersonPersistence> {
   static toDomain(personsPersistence: PersonPersistence): PersonEntity {
-    return PersonEntity.create(
+    return PersonEntity.reconstitute(
       {
         name: personsPersistence.name,
-        birthdate: BirthdateVO.create({ value: personsPersistence.birthdate })
-          .value as BirthdateVO,
+        birthdate: BirthdateVO.reconstitute(personsPersistence.birthdate),
         createdAt: personsPersistence.createdAt,
         updatedAt: personsPersistence.updatedAt,
       },
       new UniqueEntityId(personsPersistence.id),
-    ).value as PersonEntity
+    )
   }
 
   static toCollectionDomain(

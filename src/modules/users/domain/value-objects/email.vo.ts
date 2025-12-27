@@ -71,4 +71,14 @@ export class EmailVO extends ValueObject<EmailProps> {
       }),
     )
   }
+
+  static reconstitute(value: string): EmailVO {
+    const parsed = this.parse(value)!
+    return new EmailVO({
+      value,
+      username: parsed.username,
+      domain: parsed.domain,
+      tld: parsed.tld,
+    })
+  }
 }
