@@ -3,8 +3,8 @@ import { DomainError } from '@/core/domain/errors/domain.error'
 import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { Either, left, right } from '@/core/shared/either'
 import { type Optional } from '@/core/shared/types/optional.type'
+import { InvalidAgeError } from '@/modules/persons/domain/errors/invalid-age.error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
-import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
 
 export interface PersonProps {
   name: string

@@ -1,7 +1,7 @@
 import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
+import { InvalidAgeError } from '@/modules/persons/domain/errors/invalid-age.error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
-import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 import { getCurrentAgeInYears } from '#/modules/persons/domain/@helpers/get-current-age-in-years'
