@@ -21,9 +21,9 @@ export function makePersonInputStub(
   return {
     id: personInput?.id ?? faker.string.uuid(),
     name: personInput?.name ?? faker.person.fullName(),
-    birthdate: new BirthdateVO({
-      value: personInput?.birthdate ?? faker.date.birthdate(),
-    }).toValue(),
+    birthdate: BirthdateVO.create({
+      value: personInput?.birthdate?.toString() ?? faker.date.birthdate(),
+    }).value as BirthdateVO,
     createdAt: personInput?.createdAt ?? faker.date.recent(),
     updatedAt: personInput?.updatedAt ?? faker.date.recent(),
   }
@@ -34,7 +34,7 @@ export function makePersonEntityStub(props?: PersonEntityProps): PersonEntity {
   return PersonEntity.create(
     personInput,
     id ? new UniqueEntityId(id) : undefined,
-  )
+  ).value as PersonEntity
 }
 
 export function makePersonEntityCollectionStub({

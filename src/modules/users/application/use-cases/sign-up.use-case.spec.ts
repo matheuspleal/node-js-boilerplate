@@ -6,10 +6,9 @@ import {
   type HashGenerator,
   type HashGeneratorGateway,
 } from '@/core/application/gateways/cryptography/hash-generator.gateway'
-import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
 import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
+import { InvalidBirthdateError } from '@/modules/persons/domain/errors/invalid-birthdate.error'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
-import { InvalidEmailError } from '@/modules/users/application/errors/invalid-email.error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import {
   type SaveUserRepositoryInput,
@@ -21,14 +20,17 @@ import {
   type SignUpUseCaseInput,
 } from '@/modules/users/application/use-cases/sign-up.use-case'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
+import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
+import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
 
-import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person.entity.stub'
+import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person-entity.stub'
 import {
   hashedPasswordStub,
   plaintextPasswordStub,
 } from '#/modules/users/application/@mocks/password.stub'
 import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input.stub'
-import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user.entity.stub'
+import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity.stub'
 
 describe('SignUpUseCase', () => {
   let sut: SignUpUseCase
@@ -94,8 +96,7 @@ describe('SignUpUseCase', () => {
 
     const result = await sut.execute(user)
 
-    expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
-    expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(email)
+    expect(findUserByEmailRepositorySpy).not.toHaveBeenCalled()
     expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
     expect(saveUserRepositorySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
@@ -110,8 +111,7 @@ describe('SignUpUseCase', () => {
 
     const result = await sut.execute(user)
 
-    expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
-    expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(user.email)
+    expect(findUserByEmailRepositorySpy).not.toHaveBeenCalled()
     expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
     expect(saveUserRepositorySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
@@ -122,7 +122,7 @@ describe('SignUpUseCase', () => {
     findUserByEmailRepositoryMock.findByEmail.mockResolvedValueOnce(
       userEntityStub,
     )
-    const email = 'fake-existent-email'
+    const email = 'fake-existent-email@fake-domain.com'
     const user: SignUpUseCaseInput = {
       ...makeRequiredSignUpInputStub(),
       email,
@@ -136,6 +136,36 @@ describe('SignUpUseCase', () => {
     expect(saveUserRepositorySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(EmailAlreadyExistsError)
+  })
+
+  it('should be able to returns InvalidDomainError when email domain is not valid', async () => {
+    const user: SignUpUseCaseInput = {
+      ...makeRequiredSignUpInputStub(),
+      email: 'fake-invalid-email@invalid-domain.com',
+    }
+
+    const result = await sut.execute(user)
+    expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
+    expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(user.email)
+    expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
+    expect(saveUserRepositorySpy).not.toHaveBeenCalled()
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(InvalidDomainError)
+  })
+
+  it('should be able to returns InvalidAgeError when age is less than 18', async () => {
+    const user: SignUpUseCaseInput = {
+      ...makeRequiredSignUpInputStub(),
+      birthdate: new Date(),
+    }
+
+    const result = await sut.execute(user)
+    expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
+    expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(user.email)
+    expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
+    expect(saveUserRepositorySpy).not.toHaveBeenCalled()
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(InvalidAgeError)
   })
 
   it('should be able to returns UserDTO when user is created', async () => {

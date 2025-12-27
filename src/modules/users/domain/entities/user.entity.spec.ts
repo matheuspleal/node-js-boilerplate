@@ -1,70 +1,82 @@
 import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
-import { makeUserInputStub } from '#/modules/users/domain/@mocks/user.entity.stub'
+import { makeUserInputStub } from '#/modules/users/domain/@mocks/user-entity.stub'
 
 describe('UserEntity', () => {
   let sut: UserEntity
 
-  it('should be able to create a instance of UserEntity with required props', () => {
+  it('should not be able to create an instance when email domain is not valid', () => {
+    const fakeProps = makeUserInputStub({
+      email: EmailVO.create({ value: 'john.doe@example.com' }).value as EmailVO,
+    })
+
+    const result = UserEntity.create(fakeProps)
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(InvalidDomainError)
+  })
+
+  it('should be able to create an instance with required props', () => {
     const fakeProps = makeUserInputStub()
 
-    sut = UserEntity.create(fakeProps)
+    sut = UserEntity.create(fakeProps).value as UserEntity
 
     expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.email).toBeInstanceOf(EmailVO)
-    expect(sut.email.toString()).toEqual(fakeProps.email)
+    expect(sut.email.toString()).toEqual(fakeProps.email.toValue())
     expect(sut.password).toEqual(fakeProps.password)
     expect(sut.createdAt).toEqual(fakeProps.createdAt)
     expect(sut.updatedAt).toEqual(fakeProps.updatedAt)
   })
 
-  it('should be able to create a instance of UserEntity with all props', () => {
+  it('should be able to create an instance with all props', () => {
     const { id, ...fakeProps } = makeUserInputStub()
     const fakeUniqueEntityId = new UniqueEntityId(id)
 
-    sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
+    sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
 
     expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.email).toBeInstanceOf(EmailVO)
-    expect(sut.email.toString()).toEqual(fakeProps.email)
+    expect(sut.email.toString()).toEqual(fakeProps.email.toValue())
     expect(sut.password).toEqual(fakeProps.password)
     expect(sut.createdAt).toEqual(fakeProps.createdAt)
     expect(sut.updatedAt).toEqual(fakeProps.updatedAt)
   })
 
-  it('should be able to get all allowed properties', () => {
+  it('should be able to get all allowed properties of an instance', () => {
     const { id, ...fakeProps } = makeUserInputStub()
     const fakeUniqueEntityId = new UniqueEntityId(id)
 
-    sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
+    sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
 
     expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.email).toBeInstanceOf(EmailVO)
-    expect(sut.email.toString()).toEqual(fakeProps.email)
+    expect(sut.email.toString()).toEqual(fakeProps.email.toValue())
     expect(sut.password).toEqual(fakeProps.password)
     expect(sut.createdAt).toEqual(fakeProps.createdAt)
     expect(sut.updatedAt).toEqual(fakeProps.updatedAt)
   })
 
-  it('should be able to set all allowed properties', () => {
+  it('should be able to set all allowed properties of an instance', () => {
     const { id, ...fakeProps } = makeUserInputStub()
     const fakeUniqueEntityId = new UniqueEntityId(id)
 
-    sut = UserEntity.create(fakeProps, fakeUniqueEntityId)
+    sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
 
     expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.id.toString()).toEqual(id)
     expect(sut.email).toBeInstanceOf(EmailVO)
-    expect(sut.email.toString()).toEqual(fakeProps.email)
+    expect(sut.email.toString()).toEqual(fakeProps.email.toValue())
     expect(sut.password).toEqual(fakeProps.password)
     expect(sut.createdAt).toEqual(fakeProps.createdAt)
     expect(sut.updatedAt).toEqual(fakeProps.updatedAt)

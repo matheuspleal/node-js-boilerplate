@@ -1,11 +1,11 @@
 import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
-import { left, right } from '@/core/application/either'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
+import { left, right } from '@/core/shared/either'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 import { type SignInUseCase } from '@/modules/users/application/use-cases/sign-in.use-case'

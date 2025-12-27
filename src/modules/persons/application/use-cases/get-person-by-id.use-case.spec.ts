@@ -7,7 +7,7 @@ import { GetPersonByIdUseCase } from '@/modules/persons/application/use-cases/ge
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person.mapper'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 
-import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person.entity.stub'
+import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person-entity.stub'
 
 describe('GetPersonByIdUseCase', () => {
   let sut: GetPersonByIdUseCase

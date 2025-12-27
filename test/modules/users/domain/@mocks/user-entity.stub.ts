@@ -5,6 +5,7 @@ import {
   UserEntity,
   type UserInput,
 } from '@/modules/users/domain/entities/user.entity'
+import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props.contract'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password.stub'
@@ -24,9 +25,11 @@ export function makeUserInputStub(
     personId: userInput?.personId ?? new UniqueEntityId(faker.string.uuid()),
     email:
       userInput?.email ??
-      faker.internet.email({
-        provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
-      }),
+      (EmailVO.create({
+        value: faker.internet.email({
+          provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
+        }),
+      }).value as EmailVO),
     password: userInput?.password ?? plaintextPasswordStub,
     createdAt: userInput?.createdAt ?? faker.date.recent(),
     updatedAt: userInput?.updatedAt ?? faker.date.recent(),
@@ -36,6 +39,7 @@ export function makeUserInputStub(
 export function makeUserEntityStub(props?: UserEntityProps): UserEntity {
   const { id, ...userInput } = makeUserInputStub({ ...props?.userInput })
   return UserEntity.create(userInput, id ? new UniqueEntityId(id) : undefined)
+    .value as UserEntity
 }
 
 export function makeUserEntityCollectionStub({

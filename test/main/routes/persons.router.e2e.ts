@@ -211,7 +211,8 @@ describe('PersonsRouter', () => {
 
     test('get person by id', async () => {
       const { name, email, password, birthdate } = makeRequiredSignUpInputStub()
-      const birthdateVO = new BirthdateVO({ value: birthdate })
+      const birthdateVO = BirthdateVO.create({ value: birthdate })
+        .value as BirthdateVO
       const { personId } = await createUser({
         prisma,
         personPersistence: {

@@ -102,7 +102,7 @@ describe('AuthenticationGraphQL', () => {
 
     test('sign up with invalid email', async () => {
       const { name, password, birthdate } = makeRequiredSignUpInputStub()
-      const invalidEmail = 'invalid-email@fake-domain.net'
+      const invalidEmail = 'invalid-email'
 
       const { statusCode, body } = await request(app.server)
         .post('/api/graphql')
@@ -124,7 +124,37 @@ describe('AuthenticationGraphQL', () => {
           code: 'DOMAIN_VALIDATION_ERROR',
         },
         locations: expect.any(Array),
-        message: `Email "${invalidEmail}" is invalid!`,
+        message: `The email "${invalidEmail}" is not valid.`,
+        path: ['signUp'],
+      })
+    })
+
+    test('sign up with invalid domain email', async () => {
+      const { name, password, birthdate } = makeRequiredSignUpInputStub()
+      const invalidDomain = 'invalid-domain'
+      const email = `john.doe@${invalidDomain}.com`
+
+      const { statusCode, body } = await request(app.server)
+        .post('/api/graphql')
+        .send({
+          query: signUpMutation,
+          variables: {
+            name,
+            email,
+            password,
+            birthdate,
+          },
+        })
+
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
+      expect(body.errors).toHaveLength(1)
+      const [error] = body.errors
+      expect(error).toMatchObject({
+        extensions: {
+          code: 'DOMAIN_VALIDATION_ERROR',
+        },
+        locations: expect.any(Array),
+        message: `The domain "${invalidDomain}" is not valid. It must be one of the following: foo, bar, baz.`,
         path: ['signUp'],
       })
     })
@@ -181,7 +211,7 @@ describe('AuthenticationGraphQL', () => {
           code: 'DOMAIN_VALIDATION_ERROR',
         },
         locations: expect.any(Array),
-        message: `Birthdate "${invalidBirthdate.toISOString()}" is invalid!`,
+        message: `The birthdate "${invalidBirthdate.toISOString()}" is not valid. It must be a valid past date.`,
         path: ['signUp'],
       })
     })
@@ -233,7 +263,9 @@ describe('AuthenticationGraphQL', () => {
               id: expect.stringMatching(UUIDRegExp),
               name,
               email,
-              birthdate: new BirthdateVO({ value: birthdate }).toString(),
+              birthdate: (
+                BirthdateVO.create({ value: birthdate }).value as BirthdateVO
+              ).toString(),
               createdAt: expect.stringMatching(ISODateRegExp),
               updatedAt: expect.stringMatching(ISODateRegExp),
             },

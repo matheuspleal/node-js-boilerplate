@@ -19,7 +19,7 @@ import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
 
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password.stub'
 import { makeSignInInputStub } from '#/modules/users/application/@mocks/sign-in-input.stub'
-import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user.entity.stub'
+import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity.stub'
 
 describe('SignInUseCase', () => {
   let sut: SignInUseCase

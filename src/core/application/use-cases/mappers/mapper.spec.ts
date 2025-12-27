@@ -2,14 +2,12 @@ import { Mapper } from '@/core/application/use-cases/mappers/mapper'
 
 import {
   type FakeDTO,
-  type FakeEntity,
-  type FakePersistence,
   makeFakeDTOStub,
-  makeFakePersistenceStub,
+  type FakeEntity,
   makeFakeEntityStub,
 } from '#/core/application/@mocks/fake-mapper.stub'
 
-class FakeMapper extends Mapper<FakeDTO, FakeEntity, FakePersistence> {
+class FakeMapper extends Mapper<FakeDTO, FakeEntity> {
   static toDTO(entity: FakeEntity): FakeDTO {
     return {
       name: entity.name,
@@ -23,48 +21,29 @@ class FakeMapper extends Mapper<FakeDTO, FakeEntity, FakePersistence> {
     return entityCollection.map<FakeDTO>(this.toDTO)
   }
 
-  static toEntity(persistence: FakePersistence): FakeEntity {
+  static toDomain(dto: FakeDTO): FakeEntity {
+    const currentYear = new Date().getFullYear()
     return {
-      id: persistence.id,
-      name: persistence.full_name,
-      email: persistence.email,
-      password: persistence.password,
-      birthdate: persistence.birthdate,
+      id: 'generated-id',
+      name: dto.name,
+      email: dto.email,
+      password: dto.password,
+      birthdate: new Date(currentYear - dto.age, 0, 1),
     }
   }
 
-  static toCollectionEntity(
-    persistenceCollection: FakePersistence[],
-  ): FakeEntity[] {
-    return persistenceCollection.map<FakeEntity>(this.toEntity)
-  }
-
-  static toPersistence(entity: FakeEntity): FakePersistence {
-    return {
-      id: entity.id,
-      full_name: entity.name,
-      email: entity.email,
-      password: entity.password,
-      birthdate: entity.birthdate,
-    }
-  }
-
-  static toCollectionPersistence(
-    entityCollection: FakeEntity[],
-  ): FakePersistence[] {
-    return entityCollection.map<FakePersistence>(this.toPersistence)
+  static toCollectionDomain(dtoCollection: FakeDTO[]): FakeEntity[] {
+    return dtoCollection.map<FakeEntity>(this.toDomain)
   }
 }
 
 describe('Mapper', () => {
   let fakeDTO: FakeDTO
   let fakeEntity: FakeEntity
-  let fakePersistence: FakePersistence
 
   beforeAll(() => {
     fakeDTO = makeFakeDTOStub()
     fakeEntity = makeFakeEntityStub()
-    fakePersistence = makeFakePersistenceStub()
   })
 
   it('should be able to convert Domain to DTO', () => {
@@ -79,27 +58,19 @@ describe('Mapper', () => {
     expect(domainToDTO).toEqual([fakeDTO])
   })
 
-  it('should be able to convert Persistence to Domain', () => {
-    const entityToDomain = FakeMapper.toEntity(fakePersistence)
+  it('should be able to convert DTO to Domain', () => {
+    const dtoToDomain = FakeMapper.toDomain(fakeDTO)
 
-    expect(entityToDomain).toEqual(fakeEntity)
+    expect(dtoToDomain.name).toEqual(fakeEntity.name)
+    expect(dtoToDomain.email).toEqual(fakeEntity.email)
+    expect(dtoToDomain.password).toEqual(fakeEntity.password)
   })
 
-  it('should be able to convert collection Persistence to collection Domain', () => {
-    const entityToDomain = FakeMapper.toCollectionEntity([fakePersistence])
+  it('should be able to convert collection DTO to collection Domain', () => {
+    const dtoToDomain = FakeMapper.toCollectionDomain([fakeDTO])
 
-    expect(entityToDomain).toEqual([fakeEntity])
-  })
-
-  it('should be able to convert Domain to Persistence', () => {
-    const domainToEntity = FakeMapper.toPersistence(fakeEntity)
-
-    expect(domainToEntity).toEqual(fakePersistence)
-  })
-
-  it('should be able to convert collection Domain to collection Persistence', () => {
-    const domainToEntity = FakeMapper.toCollectionPersistence([fakeEntity])
-
-    expect(domainToEntity).toEqual([fakePersistence])
+    expect(dtoToDomain[0].name).toEqual(fakeEntity.name)
+    expect(dtoToDomain[0].email).toEqual(fakeEntity.email)
+    expect(dtoToDomain[0].password).toEqual(fakeEntity.password)
   })
 })

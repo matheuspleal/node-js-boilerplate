@@ -19,9 +19,11 @@ export function makeUserPersistenceStub(
     personId: userPersistence?.personId ?? faker.string.uuid(),
     email:
       userPersistence?.email ??
-      faker.internet.email({
-        provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
-      }),
+      faker.internet
+        .email({
+          provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
+        })
+        .toLowerCase(),
     password: userPersistence?.password ?? hashedPasswordStub,
     createdAt: userPersistence?.createdAt ?? faker.date.recent(),
     updatedAt: userPersistence?.updatedAt ?? faker.date.recent(),

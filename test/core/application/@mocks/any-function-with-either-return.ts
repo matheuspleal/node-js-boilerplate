@@ -1,4 +1,4 @@
-import { type Either, left, right } from '@/core/application/either'
+import { type Either, left, right } from '@/core/shared/either'
 
 export function anyFunctionWithEitherReturn(
   isSuccess: boolean,

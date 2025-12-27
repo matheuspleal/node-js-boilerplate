@@ -17,9 +17,11 @@ export function makeRequiredSignUpInputStub(
     name: signUpInput?.name ?? faker.person.fullName(),
     email:
       signUpInput?.email ??
-      faker.internet.email({
-        provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
-      }),
+      faker.internet
+        .email({
+          provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
+        })
+        .toLowerCase(),
     password: signUpInput?.password ?? plaintextPasswordStub,
     birthdate: signUpInput?.birthdate ?? faker.date.birthdate(),
   }

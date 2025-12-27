@@ -9,10 +9,11 @@ import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { type ValidationComposite } from '@/core/presentation/validators/errors/validation-composite.error'
 import { appSetup } from '@/main/setup/app.setup'
 import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/email-already-exists.error'
-import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
-import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email.error'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
+import { InvalidBirthdateError } from '@/modules/persons/domain/errors/invalid-birthdate.error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
+import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
+import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
@@ -130,7 +131,7 @@ describe('AuthenticationRouter', () => {
 
     test('sign up with invalid email', async () => {
       const { name, password, birthdate } = makeRequiredSignUpInputStub()
-      const invalidEmail = 'invalid-email@fake-domain.net'
+      const invalidEmail = 'invalid-email'
 
       const { statusCode, body } = await request(app.server)
         .post('/api/v1/sign-up')
@@ -144,6 +145,25 @@ describe('AuthenticationRouter', () => {
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body).toEqual({
         error: new InvalidEmailError(invalidEmail).message,
+      })
+    })
+
+    test('sign up with invalid email domain', async () => {
+      const { name, password, birthdate } = makeRequiredSignUpInputStub()
+      const invalidDomain = 'invalid-domain'
+      const email = `john.doe@${invalidDomain}.com`
+      const { statusCode, body } = await request(app.server)
+        .post('/api/v1/sign-up')
+        .send({
+          name,
+          email,
+          password,
+          birthdate,
+        })
+
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
+      expect(body).toEqual({
+        error: new InvalidDomainError('invalid-domain').message,
       })
     })
 
@@ -232,7 +252,9 @@ describe('AuthenticationRouter', () => {
         id: expect.stringMatching(UUIDRegExp),
         name,
         email,
-        birthdate: new BirthdateVO({ value: birthdate }).toString(),
+        birthdate: (
+          BirthdateVO.create({ value: birthdate }).value as BirthdateVO
+        ).toString(),
         createdAt: expect.stringMatching(ISODateRegExp),
         updatedAt: expect.stringMatching(ISODateRegExp),
       })

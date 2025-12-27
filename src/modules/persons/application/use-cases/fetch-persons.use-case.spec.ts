@@ -8,7 +8,7 @@ import { FetchPersonsUseCase } from '@/modules/persons/application/use-cases/fet
 import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person.mapper'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 
-import { makePersonEntityCollectionStub } from '#/modules/persons/domain/@mocks/person.entity.stub'
+import { makePersonEntityCollectionStub } from '#/modules/persons/domain/@mocks/person-entity.stub'
 
 describe('FetchPersonsUseCase', () => {
   let sut: FetchPersonsUseCase

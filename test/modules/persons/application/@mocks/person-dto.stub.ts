@@ -17,7 +17,10 @@ export function makePersonDTOStub(props?: PersonDTOStubProps): PersonDTO {
   const birthdate = personDTO?.birthdate ?? faker.date.birthdate()
   const age =
     personDTO?.age ??
-    new BirthdateVO({ value: birthdate }).getCurrentAgeInYears()
+    (
+      BirthdateVO.create({ value: birthdate }).value as BirthdateVO
+    )?.getCurrentAgeInYears() ??
+    0
   return {
     id: personDTO?.id ?? faker.string.uuid(),
     name: personDTO?.name ?? faker.person.fullName(),
