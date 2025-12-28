@@ -1,8 +1,7 @@
-import { type UseCaseError } from '@/core/application/use-cases/errors/use-case.error'
+import { ApplicationError } from '@/core/application/errors/application.error'
 
-export class EmailAlreadyExistsError extends Error implements UseCaseError {
+export class EmailAlreadyExistsError extends ApplicationError {
   constructor(email: string) {
     super(`Email "${email}" already exists!`)
-    this.name = 'EmailAlreadyExistsError'
   }
 }

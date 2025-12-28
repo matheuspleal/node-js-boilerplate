@@ -1,8 +1,7 @@
-import { type UseCaseError } from '@/core/application/use-cases/errors/use-case.error'
+import { ApplicationError } from '@/core/application/errors/application.error'
 
-export class PersonNotFoundError extends Error implements UseCaseError {
+export class PersonNotFoundError extends ApplicationError {
   constructor(id: string) {
     super(`Person with id "${id}" not found!`)
-    this.name = 'PersonNotFoundError'
   }
 }

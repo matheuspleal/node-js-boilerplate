@@ -1,6 +1,6 @@
-import { type DomainError } from '@/core/domain/errors/domain.error'
+import { DomainError } from '@/core/domain/errors/domain.error'
 
-export class InvalidBirthdateError extends Error implements DomainError {
+export class InvalidBirthdateError extends DomainError {
   constructor(birthdate: string | Date) {
     const birthdateString =
       birthdate instanceof Date && !isNaN(birthdate.getTime())
@@ -9,6 +9,5 @@ export class InvalidBirthdateError extends Error implements DomainError {
     super(
       `The birthdate "${birthdateString}" is not valid. It must be a valid past date.`,
     )
-    this.name = 'InvalidBirthdateError'
   }
 }

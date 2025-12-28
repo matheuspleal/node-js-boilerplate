@@ -1,8 +1,7 @@
-import { type UseCaseError } from '@/core/application/use-cases/errors/use-case.error'
+import { ApplicationError } from '@/core/application/errors/application.error'
 
-export class UnauthorizedError extends Error implements UseCaseError {
+export class UnauthorizedError extends ApplicationError {
   constructor() {
     super('Invalid Credentials!')
-    this.name = 'UnauthorizedError'
   }
 }
