@@ -4,6 +4,7 @@ import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import {
   UserEntity,
   type UserInput,
+  type UserProps,
 } from '@/modules/users/domain/entities/user.entity'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
@@ -25,11 +26,11 @@ export function makeUserInputStub(
     personId: userInput?.personId ?? new UniqueEntityId(faker.string.uuid()),
     email:
       userInput?.email ??
-      (EmailVO.create({
-        value: faker.internet.email({
+      EmailVO.reconstitute(
+        faker.internet.email({
           provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
         }),
-      }).value as EmailVO),
+      ),
     password: userInput?.password ?? plaintextPasswordStub,
     createdAt: userInput?.createdAt ?? faker.date.recent(),
     updatedAt: userInput?.updatedAt ?? faker.date.recent(),
@@ -37,9 +38,15 @@ export function makeUserInputStub(
 }
 
 export function makeUserEntityStub(props?: UserEntityProps): UserEntity {
-  const { id, ...userInput } = makeUserInputStub({ ...props?.userInput })
-  return UserEntity.create(userInput, id ? new UniqueEntityId(id) : undefined)
-    .value as UserEntity
+  const { id, ...rest } = makeUserInputStub({ ...props?.userInput })
+  const userProps: UserProps = {
+    personId: rest.personId,
+    email: rest.email,
+    password: rest.password,
+    createdAt: rest.createdAt ?? new Date(),
+    updatedAt: rest.updatedAt ?? new Date(),
+  }
+  return UserEntity.reconstitute(userProps, new UniqueEntityId(id))
 }
 
 export function makeUserEntityCollectionStub({

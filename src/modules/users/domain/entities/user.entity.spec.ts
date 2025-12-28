@@ -91,7 +91,7 @@ describe('UserEntity', () => {
     expect(sut.updatedAt).not.toEqual(fakeProps.updatedAt)
   })
 
-  it('should be able to reconstitute an instance', () => {
+  it('should be able to reconstitute an instance of valid props', () => {
     const { id, ...fakeProps } = makeUserInputStub()
     const fakeUniqueEntityId = new UniqueEntityId(id)
 

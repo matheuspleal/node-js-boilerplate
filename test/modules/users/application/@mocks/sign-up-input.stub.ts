@@ -13,6 +13,8 @@ export function makeRequiredSignUpInputStub(
   props?: SignUpDTOStubProps,
 ): SignUpUseCaseInput {
   const { signUpInput } = props ?? {}
+  const normalizedBirthdate = signUpInput?.birthdate ?? faker.date.birthdate()
+  normalizedBirthdate.setUTCHours(0, 0, 0, 0)
   return {
     name: signUpInput?.name ?? faker.person.fullName(),
     email:
@@ -23,7 +25,7 @@ export function makeRequiredSignUpInputStub(
         })
         .toLowerCase(),
     password: signUpInput?.password ?? plaintextPasswordStub,
-    birthdate: signUpInput?.birthdate ?? faker.date.birthdate(),
+    birthdate: normalizedBirthdate,
   }
 }
 

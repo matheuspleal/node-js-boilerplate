@@ -263,9 +263,7 @@ describe('AuthenticationGraphQL', () => {
               id: expect.stringMatching(UUIDRegExp),
               name,
               email,
-              birthdate: (
-                BirthdateVO.create({ value: birthdate }).value as BirthdateVO
-              ).toString(),
+              birthdate: BirthdateVO.reconstitute(birthdate).toString(),
               createdAt: expect.stringMatching(ISODateRegExp),
               updatedAt: expect.stringMatching(ISODateRegExp),
             },

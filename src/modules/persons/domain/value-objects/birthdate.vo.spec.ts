@@ -6,7 +6,7 @@ import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 
 describe('BirthdateVO', () => {
-  it('should not be able to create an instance of BirthdateVO with invalid string format', () => {
+  it('should not be able to create an instance with invalid string format', () => {
     const fakeInvalidBirthdate = '01/2000/01'
     const birthdateVOResult = BirthdateVO.create({
       value: fakeInvalidBirthdate,
@@ -16,7 +16,7 @@ describe('BirthdateVO', () => {
     expect(birthdateVOResult.value).toBeInstanceOf(InvalidBirthdateError)
   })
 
-  it('should not be able to create an instance of BirthdateVO with invalid date format', () => {
+  it('should not be able to create an instance with invalid date format', () => {
     const fakeInvalidBirthdate = new Date('01/2000/01')
     const birthdateVOResult = BirthdateVO.create({
       value: fakeInvalidBirthdate,
@@ -26,7 +26,7 @@ describe('BirthdateVO', () => {
     expect(birthdateVOResult.value).toBeInstanceOf(InvalidBirthdateError)
   })
 
-  it('should not be able to create an instance of BirthdateVO with a future date', () => {
+  it('should not be able to create an instance with a future date', () => {
     const fakeFutureDate = faker.date.future()
     const birthdateVOResult = BirthdateVO.create({ value: fakeFutureDate })
 
@@ -34,7 +34,7 @@ describe('BirthdateVO', () => {
     expect(birthdateVOResult.value).toBeInstanceOf(InvalidBirthdateError)
   })
 
-  it('should be able to create an instance of BirthdateVO with a valid string format', () => {
+  it('should be able to create an instance with a valid string format', () => {
     const fakeValidBirthdate = faker.date.birthdate().toISOString()
     const birthdateVOResult = BirthdateVO.create({ value: fakeValidBirthdate })
 
@@ -46,7 +46,7 @@ describe('BirthdateVO', () => {
     }
   })
 
-  it('should be able to create an instance of BirthdateVO with a valid date format', () => {
+  it('should be able to create an instance with a valid date format', () => {
     const fakeValidBirthdate = faker.date.birthdate()
     const birthdateVOResult = BirthdateVO.create({ value: fakeValidBirthdate })
 
@@ -69,5 +69,13 @@ describe('BirthdateVO', () => {
       expect(age).toBeGreaterThanOrEqual(24)
       expect(age).toBeLessThanOrEqual(25)
     }
+  })
+
+  it('should be able to reconstitute an instance of valid props', () => {
+    const fakeValidBirthdate = faker.date.birthdate()
+    const birthdateVO = BirthdateVO.reconstitute(fakeValidBirthdate)
+
+    expect(birthdateVO).toBeInstanceOf(BirthdateVO)
+    expect(birthdateVO.toValue()).toEqual(fakeValidBirthdate)
   })
 })
