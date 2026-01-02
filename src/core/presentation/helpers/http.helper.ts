@@ -2,7 +2,7 @@ import { type ApplicationError } from '@/core/application/errors/application.err
 import { InternalServerError } from '@/core/presentation/errors/internal-server.error'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
-import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
+import { ValidationError } from '@/core/presentation/validators/errors/validation.error'
 import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 
 export enum StatusCode {
