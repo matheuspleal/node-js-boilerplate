@@ -1,20 +1,79 @@
 import { faker } from '@faker-js/faker'
 
-import { type HttpController } from '@/core/presentation/controllers/http.controller'
+import { HttpController } from '@/core/presentation/controllers/http.controller'
 import { InternalServerError } from '@/core/presentation/errors/internal-server.error'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
+import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
+import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
+import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator.rule'
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 
-import {
-  FakeHttpController,
-  FakeHttpWithCustomValidatorController,
-} from '#/core/presentation/@mocks/fake-http-controller.stub'
-import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace.stub'
+interface FakeRequest {
+  firstName: string
+  lastName: string
+}
+
+interface FakeResponse {
+  fullName: string
+}
+
+class FakeHttpController extends HttpController<FakeRequest, FakeResponse> {
+  constructor() {
+    super()
+  }
+
+  override async perform(
+    request: FakeRequest,
+  ): Promise<HttpResponse<FakeResponse>> {
+    return Promise.resolve({
+      statusCode: 200,
+      data: {
+        fullName: `${request.firstName} ${request.lastName}`,
+      },
+    })
+  }
+}
+
+class FakeHttpWithCustomValidatorController extends HttpController<
+  FakeRequest,
+  FakeResponse
+> {
+  constructor() {
+    super()
+  }
+
+  override buildValidators(request: FakeRequest): ValidatorRule[] {
+    const validations: ValidatorRule[] = []
+    let key: keyof FakeRequest
+    for (key in request) {
+      validations.push(
+        ...BuilderValidator.of({
+          name: key,
+          value: request[key],
+        })
+          .required()
+          .build(),
+      )
+    }
+    return validations
+  }
+
+  override async perform(
+    request: FakeRequest,
+  ): Promise<HttpResponse<FakeResponse>> {
+    return Promise.resolve({
+      statusCode: 200,
+      data: {
+        fullName: `${request.firstName} ${request.lastName}`,
+      },
+    })
+  }
+}
 
 describe('HttpController', () => {
   describe('default', () => {
-    let sut: HttpController<FakeNamespace.Request, FakeNamespace.Response>
+    let sut: HttpController<FakeRequest, FakeResponse>
 
     beforeAll(() => {
       sut = new FakeHttpController()
@@ -49,7 +108,7 @@ describe('HttpController', () => {
   })
 
   describe('override buildValidator', () => {
-    let sut: HttpController<FakeNamespace.Request, FakeNamespace.Response>
+    let sut: HttpController<FakeRequest, FakeResponse>
 
     beforeAll(() => {
       sut = new FakeHttpWithCustomValidatorController()
