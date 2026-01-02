@@ -8,7 +8,7 @@ import {
 } from '@/modules/users/domain/entities/user.entity'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
-import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props.contract'
+import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password.stub'
 import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'
 

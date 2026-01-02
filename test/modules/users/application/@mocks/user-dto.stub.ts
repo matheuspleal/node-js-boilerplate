@@ -5,7 +5,7 @@ import {
   type UserCollectionDTO,
 } from '@/modules/users/application/use-cases/dtos/user.dto'
 
-import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props.contract'
+import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
 import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'
 
 export interface UserDTOStubProps {

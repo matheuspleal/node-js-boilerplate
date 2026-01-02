@@ -8,7 +8,7 @@ import {
 } from '@/modules/persons/domain/entities/person.entity'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
-import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props.contract'
+import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
 
 export type PersonInputProps = PersonInput & { id?: string }
 
