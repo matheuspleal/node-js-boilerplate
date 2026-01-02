@@ -5,7 +5,7 @@ import { InternalServerError } from '@/core/presentation/errors/internal-server.
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
-import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator.rule'
+import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 

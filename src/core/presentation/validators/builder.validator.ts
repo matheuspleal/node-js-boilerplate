@@ -1,7 +1,7 @@
 import {
   type Validator,
   type ValidatorRule,
-} from '@/core/presentation/validators/contracts/validator.rule'
+} from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password.rule'
 import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid.rule'
 import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'

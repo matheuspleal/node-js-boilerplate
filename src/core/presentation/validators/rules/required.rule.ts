@@ -1,7 +1,7 @@
 import {
   type ValidatorRule,
   type Validator,
-} from '@/core/presentation/validators/contracts/validator.rule'
+} from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { ValidationError } from '@/core/presentation/validators/errors/validation.error'
 

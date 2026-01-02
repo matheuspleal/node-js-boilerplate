@@ -1,4 +1,4 @@
-import { type Validator } from '@/core/presentation/validators/contracts/validator.rule'
+import { type Validator } from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { InvalidPasswordError } from '@/core/presentation/validators/errors/invalid-password.error'
 import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password.rule'
 

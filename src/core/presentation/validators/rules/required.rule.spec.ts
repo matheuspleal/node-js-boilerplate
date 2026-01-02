@@ -1,4 +1,4 @@
-import { type Validator } from '@/core/presentation/validators/contracts/validator.rule'
+import { type Validator } from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 

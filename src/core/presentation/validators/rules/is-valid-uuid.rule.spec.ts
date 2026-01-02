@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-import { type Validator } from '@/core/presentation/validators/contracts/validator.rule'
+import { type Validator } from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-uuid.error'
 import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid.rule'
 
