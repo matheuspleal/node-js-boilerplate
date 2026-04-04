@@ -1,20 +1,22 @@
 # Build stage
-FROM node:24.12-alpine3.23 AS builder
+FROM node:24.14.1-alpine3.23 AS builder
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+RUN corepack enable pnpm
 
-RUN npm ci
+COPY package.json pnpm-lock.yaml ./
+
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
-RUN npx prisma generate
+RUN pnpm exec prisma generate
 
 # Production stage
-FROM node:24.12-alpine3.23 AS production
+FROM node:24.14.1-alpine3.23 AS production
 
 WORKDIR /usr/src/app
 
@@ -22,9 +24,11 @@ WORKDIR /usr/src/app
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nodejs -u 1001
 
-COPY package*.json ./
+RUN corepack enable pnpm
 
-RUN npm ci --only=production --ignore-scripts
+COPY package.json pnpm-lock.yaml ./
+
+RUN pnpm install --frozen-lockfile --prod
 
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/prisma ./prisma
@@ -35,4 +39,4 @@ USER nodejs
 
 EXPOSE $SERVER_PORT
 
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "run", "start"]
