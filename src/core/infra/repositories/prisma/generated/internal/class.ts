@@ -16,18 +16,26 @@ import type * as Prisma from "./prismaNamespace.js"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.1.0",
-  "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
+  "clientVersion": "7.4.2",
+  "engineVersion": "94a226be1cf2967af2541cca5529f0f7ba866919",
   "activeProvider": "postgresql",
   "inlineSchema": "model Person {\n  id        String   @id @default(uuid())\n  name      String\n  birthdate DateTime @db.Date\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n  userId    String?\n  User      User?\n\n  @@map(\"persons\")\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  person    Person   @relation(fields: [personId], references: [id])\n  personId  String   @unique @db.VarChar(36)\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  @@map(\"users\")\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/core/infra/repositories/prisma/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
     "types": {}
+  },
+  "parameterizationSchema": {
+    "strings": [],
+    "graph": ""
   }
 }
 
 config.runtimeDataModel = JSON.parse("{\"models\":{\"Person\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthdate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PersonToUser\"}],\"dbName\":\"persons\"},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"person\",\"kind\":\"object\",\"type\":\"Person\",\"relationName\":\"PersonToUser\"},{\"name\":\"personId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"}],\"dbName\":\"users\"}},\"enums\":{},\"types\":{}}")
+config.parameterizationSchema = {
+  strings: JSON.parse("[\"where\",\"person\",\"User\",\"Person.findUnique\",\"Person.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"Person.findFirst\",\"Person.findFirstOrThrow\",\"Person.findMany\",\"data\",\"Person.createOne\",\"Person.createMany\",\"Person.createManyAndReturn\",\"Person.updateOne\",\"Person.updateMany\",\"Person.updateManyAndReturn\",\"create\",\"update\",\"Person.upsertOne\",\"Person.deleteOne\",\"Person.deleteMany\",\"having\",\"_count\",\"_min\",\"_max\",\"Person.groupBy\",\"Person.aggregate\",\"User.findUnique\",\"User.findUniqueOrThrow\",\"User.findFirst\",\"User.findFirstOrThrow\",\"User.findMany\",\"User.createOne\",\"User.createMany\",\"User.createManyAndReturn\",\"User.updateOne\",\"User.updateMany\",\"User.updateManyAndReturn\",\"User.upsertOne\",\"User.deleteOne\",\"User.deleteMany\",\"User.groupBy\",\"User.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"personId\",\"email\",\"password\",\"createdAt\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"name\",\"birthdate\",\"userId\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"disconnect\",\"delete\",\"connect\",\"set\"]"),
+  graph: "YREgCgIAAEcAICwAAEUAMC0AAAYAEC4AAEUAMC8BAAAAATNAAD4AITRAAD4AIUABAD0AIUFAAD4AIUIBAEYAIQEAAAABACAKAQAAPwAgLAAAPAAwLQAAAwAQLgAAPAAwLwEAPQAhMAEAPQAhMQEAPQAhMgEAPQAhM0AAPgAhNEAAPgAhAQAAAAMAIAEAAAABACAKAgAARwAgLAAARQAwLQAABgAQLgAARQAwLwEAPQAhM0AAPgAhNEAAPgAhQAEAPQAhQUAAPgAhQgEARgAhAgIAAFwAIEIAAFAAIAMAAAAGACAFAAAHADAGAAABACADAAAABgAgBQAABwAwBgAAAQAgAwAAAAYAIAUAAAcAMAYAAAEAIAcCAABbACAvAQAAAAEzQAAAAAE0QAAAAAFAAQAAAAFBQAAAAAFCAQAAAAEBCgAACwAgBi8BAAAAATNAAAAAATRAAAAAAUABAAAAAUFAAAAAAUIBAAAAAQEKAAANADABCgAADQAwBwIAAFUAIC8BAEsAITNAAEwAITRAAEwAIUABAEsAIUFAAEwAIUIBAFQAIQIAAAABACAKAAAQACAGLwEASwAhM0AATAAhNEAATAAhQAEASwAhQUAATAAhQgEAVAAhAgAAAAYAIAoAABIAIAIAAAAGACAKAAASACADAAAAAQAgEQAACwAgEgAAEAAgAQAAAAEAIAEAAAAGACAEFwAAUQAgGAAAUwAgGQAAUgAgQgAAUAAgCSwAAEAAMC0AABkAEC4AAEAAMC8BADUAITNAADYAITRAADYAIUABADUAIUFAADYAIUIBAEEAIQMAAAAGACAFAAAYADAWAAAZACADAAAABgAgBQAABwAwBgAAAQAgCgEAAD8AICwAADwAMC0AAAMAEC4AADwAMC8BAAAAATABAAAAATEBAAAAATIBAD0AITNAAD4AITRAAD4AIQEAAAAcACABAAAAHAAgAQEAAE8AIAMAAAADACAFAAAfADAGAAAcACADAAAAAwAgBQAAHwAwBgAAHAAgAwAAAAMAIAUAAB8AMAYAABwAIAcBAABOACAvAQAAAAEwAQAAAAExAQAAAAEyAQAAAAEzQAAAAAE0QAAAAAEBCgAAIwAgBi8BAAAAATABAAAAATEBAAAAATIBAAAAATNAAAAAATRAAAAAAQEKAAAlADABCgAAJQAwBwEAAE0AIC8BAEsAITABAEsAITEBAEsAITIBAEsAITNAAEwAITRAAEwAIQIAAAAcACAKAAAoACAGLwEASwAhMAEASwAhMQEASwAhMgEASwAhM0AATAAhNEAATAAhAgAAAAMAIAoAACoAIAIAAAADACAKAAAqACADAAAAHAAgEQAAIwAgEgAAKAAgAQAAABwAIAEAAAADACADFwAASAAgGAAASgAgGQAASQAgCSwAADQAMC0AADEAEC4AADQAMC8BADUAITABADUAITEBADUAITIBADUAITNAADYAITRAADYAIQMAAAADACAFAAAwADAWAAAxACADAAAAAwAgBQAAHwAwBgAAHAAgCSwAADQAMC0AADEAEC4AADQAMC8BADUAITABADUAITEBADUAITIBADUAITNAADYAITRAADYAIQ4XAAA4ACAYAAA7ACAZAAA7ACA1AQAAAAE2AQAAAAQ3AQAAAAQ4AQAAAAE5AQAAAAE6AQAAAAE7AQAAAAE8AQA6ACE9AQAAAAE-AQAAAAE_AQAAAAELFwAAOAAgGAAAOQAgGQAAOQAgNUAAAAABNkAAAAAEN0AAAAAEOEAAAAABOUAAAAABOkAAAAABO0AAAAABPEAANwAhCxcAADgAIBgAADkAIBkAADkAIDVAAAAAATZAAAAABDdAAAAABDhAAAAAATlAAAAAATpAAAAAATtAAAAAATxAADcAIQg1AgAAAAE2AgAAAAQ3AgAAAAQ4AgAAAAE5AgAAAAE6AgAAAAE7AgAAAAE8AgA4ACEINUAAAAABNkAAAAAEN0AAAAAEOEAAAAABOUAAAAABOkAAAAABO0AAAAABPEAAOQAhDhcAADgAIBgAADsAIBkAADsAIDUBAAAAATYBAAAABDcBAAAABDgBAAAAATkBAAAAAToBAAAAATsBAAAAATwBADoAIT0BAAAAAT4BAAAAAT8BAAAAAQs1AQAAAAE2AQAAAAQ3AQAAAAQ4AQAAAAE5AQAAAAE6AQAAAAE7AQAAAAE8AQA7ACE9AQAAAAE-AQAAAAE_AQAAAAEKAQAAPwAgLAAAPAAwLQAAAwAQLgAAPAAwLwEAPQAhMAEAPQAhMQEAPQAhMgEAPQAhM0AAPgAhNEAAPgAhCzUBAAAAATYBAAAABDcBAAAABDgBAAAAATkBAAAAAToBAAAAATsBAAAAATwBADsAIT0BAAAAAT4BAAAAAT8BAAAAAQg1QAAAAAE2QAAAAAQ3QAAAAAQ4QAAAAAE5QAAAAAE6QAAAAAE7QAAAAAE8QAA5ACEMAgAARwAgLAAARQAwLQAABgAQLgAARQAwLwEAPQAhM0AAPgAhNEAAPgAhQAEAPQAhQUAAPgAhQgEARgAhQwAABgAgRAAABgAgCSwAAEAAMC0AABkAEC4AAEAAMC8BADUAITNAADYAITRAADYAIUABADUAIUFAADYAIUIBAEEAIQ4XAABDACAYAABEACAZAABEACA1AQAAAAE2AQAAAAU3AQAAAAU4AQAAAAE5AQAAAAE6AQAAAAE7AQAAAAE8AQBCACE9AQAAAAE-AQAAAAE_AQAAAAEOFwAAQwAgGAAARAAgGQAARAAgNQEAAAABNgEAAAAFNwEAAAAFOAEAAAABOQEAAAABOgEAAAABOwEAAAABPAEAQgAhPQEAAAABPgEAAAABPwEAAAABCDUCAAAAATYCAAAABTcCAAAABTgCAAAAATkCAAAAAToCAAAAATsCAAAAATwCAEMAIQs1AQAAAAE2AQAAAAU3AQAAAAU4AQAAAAE5AQAAAAE6AQAAAAE7AQAAAAE8AQBEACE9AQAAAAE-AQAAAAE_AQAAAAEKAgAARwAgLAAARQAwLQAABgAQLgAARQAwLwEAPQAhM0AAPgAhNEAAPgAhQAEAPQAhQUAAPgAhQgEARgAhCzUBAAAAATYBAAAABTcBAAAABTgBAAAAATkBAAAAAToBAAAAATsBAAAAATwBAEQAIT0BAAAAAT4BAAAAAT8BAAAAAQwBAAA_ACAsAAA8ADAtAAADABAuAAA8ADAvAQA9ACEwAQA9ACExAQA9ACEyAQA9ACEzQAA-ACE0QAA-ACFDAAADACBEAAADACAAAAABSgEAAAABAUpAAAAAAQURAABdACASAABgACBFAABeACBGAABfACBJAAABACADEQAAXQAgRQAAXgAgSQAAAQAgAgIAAFwAIEIAAFAAIAAAAAABSgEAAAABBxEAAFYAIBIAAFkAIEUAAFcAIEYAAFgAIEcAAAMAIEgAAAMAIEkAABwAIAUvAQAAAAExAQAAAAEyAQAAAAEzQAAAAAE0QAAAAAECAAAAHAAgEQAAVgAgAwAAAAMAIBEAAFYAIBIAAFoAIAcAAAADACAKAABaACAvAQBLACExAQBLACEyAQBLACEzQABMACE0QABMACEFLwEASwAhMQEASwAhMgEASwAhM0AATAAhNEAATAAhAxEAAFYAIEUAAFcAIEkAABwAIAEBAABPACAGLwEAAAABM0AAAAABNEAAAAABQAEAAAABQUAAAAABQgEAAAABAgAAAAEAIBEAAF0AIAMAAAAGACARAABdACASAABhACAIAAAABgAgCgAAYQAgLwEASwAhM0AATAAhNEAATAAhQAEASwAhQUAATAAhQgEAVAAhBi8BAEsAITNAAEwAITRAAEwAIUABAEsAIUFAAEwAIUIBAFQAIQECBAIBAQABAAAAAxcABxgACBkACQAAAAMXAAcYAAgZAAkBAQABAQEAAQMXAA4YAA8ZABAAAAADFwAOGAAPGQAQAwIBBAUBBwgBCAkBCQoBCwwBDA4DDQ8EDhEBDxMDEBQFExUBFBYBFRcDGhoGGxsKHB0CHR4CHiACHyECICICISQCIiYDIycLJCkCJSsDJiwMJy0CKC4CKS8DKjINKzMR"
+}
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -36,12 +44,14 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
-  }
+  },
+
+  importName: "./query_compiler_fast_bg.js"
 }
 
 
@@ -56,7 +66,9 @@ export interface PrismaClientConstructor {
    * Type-safe database client for TypeScript
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more People
    * const people = await prisma.person.findMany()
    * ```
@@ -78,7 +90,9 @@ export interface PrismaClientConstructor {
  * Type-safe database client for TypeScript
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more People
  * const people = await prisma.person.findMany()
  * ```
@@ -163,7 +177,7 @@ export interface PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 

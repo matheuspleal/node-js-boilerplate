@@ -1,6 +1,6 @@
 {
   "*.ts": [
-    "pnpm lint:fix",
+    "eslint --fix",
     "pnpm test:staged"
   ]
 }

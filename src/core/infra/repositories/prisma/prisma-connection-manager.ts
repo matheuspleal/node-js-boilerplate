@@ -13,9 +13,9 @@ export class PrismaConnectionManager {
           {
             host: database.host,
             port: database.port,
-            database: database.name,
             user: database.user,
             password: database.password,
+            database: database.name,
             max: database.pool,
             idleTimeoutMillis: database.idleTimeout,
             connectionTimeoutMillis: database.connectionTimeout,

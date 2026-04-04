@@ -1,5 +1,5 @@
-import { type Validator } from '@/core/presentation/validators/contracts/validator'
 import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule.contract'
+import { type Validator } from '@/core/presentation/validators/contracts/validator.contract'
 import { ValidationError } from '@/core/presentation/validators/errors/validation.error'
 
 export class CompositeValidator implements Validator {
