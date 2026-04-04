@@ -17,6 +17,8 @@ export type SignInUseCaseOutput = Either<
   }
 >
 
+const TOKEN_EXPIRATION_IN_MS = 60 * 1000 * 5
+
 export class SignInUseCase implements UseCase<
   SignInUseCaseInput,
   SignInUseCaseOutput
@@ -46,7 +48,7 @@ export class SignInUseCase implements UseCase<
       payload: {
         sub: foundUser.id.toString(),
       },
-      expiresInMs: 60 * 1000 * 5,
+      expiresInMs: TOKEN_EXPIRATION_IN_MS,
     })
     return right({
       accessToken: token,

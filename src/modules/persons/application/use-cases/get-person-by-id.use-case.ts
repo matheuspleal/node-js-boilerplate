@@ -27,12 +27,12 @@ export class GetPersonByIdUseCase implements UseCase<
   async execute({
     id,
   }: GetPersonByIdUseCaseInput): Promise<GetPersonByIdUseCaseOutput> {
-    const user = await this.findPersonByIdRepository.findById(id)
-    if (!user) {
+    const person = await this.findPersonByIdRepository.findById(id)
+    if (!person) {
       return left(new PersonNotFoundError(id))
     }
     return right({
-      person: PersonMapper.toDTO(user),
+      person: PersonMapper.toDTO(person),
     })
   }
 }

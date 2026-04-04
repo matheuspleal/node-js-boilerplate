@@ -184,6 +184,17 @@ describe('Entity', () => {
     expect(sut.equals(fakeEntityToCompare)).toBe(true)
   })
 
+  it('should be able to compare two instances of Entity and return true when ids have the same value but different references', () => {
+    const uuid = uniqueEntityIdStub.toValue()
+    sut = FakeEntity.create(fakeRequiredPropsStub, new UniqueEntityId(uuid))
+    const fakeEntityToCompare = FakeEntity.create(
+      fakeAllPropsStub,
+      new UniqueEntityId(uuid),
+    )
+
+    expect(sut.equals(fakeEntityToCompare)).toBe(true)
+  })
+
   it('should be able to compare two instances of Entity and return true when the instances are equal', () => {
     sut = FakeEntity.create(fakeRequiredPropsStub, uniqueEntityIdStub)
     const fakeEntityToCompare = sut

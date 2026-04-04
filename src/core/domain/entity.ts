@@ -17,7 +17,7 @@ export abstract class Entity<T> {
     if (entity === this) {
       return true
     }
-    if (entity.id === this.id) {
+    if (entity.id.equals(this.id)) {
       return true
     }
     return false
