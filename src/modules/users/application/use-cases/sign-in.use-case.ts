@@ -1,8 +1,8 @@
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import { type HashCompareGateway } from '@/core/application/gateways/cryptography/hash-compare.gateway'
 import { type TokenGeneratorGateway } from '@/core/application/gateways/token/token-generator.gateway'
 import { type UseCase } from '@/core/application/use-cases/use-case'
 import { type Either, left, right } from '@/core/shared/either'
-import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized.error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 
 export interface SignInUseCaseInput {

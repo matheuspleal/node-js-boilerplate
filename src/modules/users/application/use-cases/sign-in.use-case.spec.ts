@@ -1,6 +1,7 @@
 import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import {
   type HashCompare,
   type HashCompareGateway,
@@ -9,7 +10,6 @@ import {
   type TokenGenerator,
   type TokenGeneratorGateway,
 } from '@/core/application/gateways/token/token-generator.gateway'
-import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized.error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import {
   SignInUseCase,

@@ -1,13 +1,13 @@
 import { type MockInstance } from 'vitest'
 import { mock, type MockProxy } from 'vitest-mock-extended'
 
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import {
   type TokenVerifier,
   type TokenVerifierGateway,
-} from '@/core/application/gateways/token/token-verifier'
+} from '@/core/application/gateways/token/token-verifier.gateway'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { AuthenticationMiddleware } from '@/core/presentation/middlewares/authentication.middleware'
-import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
 
 import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity.stub'

@@ -2,12 +2,12 @@ import { faker } from '@faker-js/faker'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter.gateway'
 import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
 import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma-connection-manager'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { appSetup } from '@/main/setup/app.setup'
-import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
