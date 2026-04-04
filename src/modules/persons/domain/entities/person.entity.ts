@@ -3,6 +3,7 @@ import { DomainError } from '@/core/domain/errors/domain.error'
 import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { Either, left, right } from '@/core/shared/either'
 import { type Optional } from '@/core/shared/types/optional.type'
+import { MINIMUM_AGE } from '@/modules/persons/domain/constants/minimum-age.const'
 import { InvalidAgeError } from '@/modules/persons/domain/errors/invalid-age.error'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
@@ -50,7 +51,7 @@ export class PersonEntity extends Entity<PersonProps> {
     id?: UniqueEntityId,
   ): Either<DomainError, PersonEntity> {
     const age = props.birthdate.getCurrentAgeInYears()
-    if (age < 18) {
+    if (age < MINIMUM_AGE) {
       return left(new InvalidAgeError(age))
     }
     const person = new PersonEntity(
