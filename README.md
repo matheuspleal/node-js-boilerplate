@@ -75,64 +75,63 @@ Interaction with the API can be done in two ways, through the **REST API** or th
 This section describes the main **libraries** and **tools** used in the project, separated between development and production dependencies.
 
 ### Dependencies
-- [@apollo/server](https://github.com/apollographql/apollo-server) - 5.2.0
+- [@apollo/server](https://github.com/apollographql/apollo-server) - 5.3.0
 - [@as-integrations/fastify](https://www.npmjs.com/package/@as-integrations/fastify) - 3.1.0
 - [@fastify/cors](https://github.com/fastify/fastify-cors) - 11.2.0
 - [@fastify/swagger](https://github.com/fastify/fastify-swagger) - 9.6.1
-- [@prisma/adapter-pg](https://github.com/prisma/prisma) - 7.2.0
-- [@prisma/client](https://github.com/prisma/prisma) - 7.2.0
-- [@scalar/fastify-api-reference](https://github.com/scalar/scalar?tab=readme-ov-file#fastify) - 1.40.5
+- [@prisma/adapter-pg](https://github.com/prisma/prisma) - 7.3.0
+- [@prisma/client](https://github.com/prisma/prisma) - 7.3.0
+- [@scalar/fastify-api-reference](https://github.com/scalar/scalar?tab=readme-ov-file#fastify) - 1.43.15
 - [@scalar/themes](https://github.com/scalar/scalar#themes) - 0.13.26
 - [bcryptjs](https://github.com/dcodeIO/bcrypt.js) - 3.0.3
-- [fastify](https://github.com/fastify/fastify) - 5.6.2
+- [fastify](https://github.com/fastify/fastify) - 5.7.2
 - [graphql](https://github.com/graphql/graphql-js) - 16.12.0
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - 9.0.3
-- [pg](https://github.com/brianc/node-postgres) - 8.16.3
+- [pg](https://github.com/brianc/node-postgres) - 8.17.2
 - [zx](https://github.com/google/zx) - 8.8.5
 
 ### Dev Dependencies
-- [@commitlint/cli](https://github.com/conventional-changelog/commitlint) - 20.2.0
-- [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint) - 20.2.0
+- [@commitlint/cli](https://github.com/conventional-changelog/commitlint) - 20.3.1
+- [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint) - 20.3.1
 - [@eslint/js](https://eslint.org/) - 9.39.2
-- [@faker-js/faker](https://fakerjs.dev/) - 10.1.0
+- [@faker-js/faker](https://fakerjs.dev/) - 10.2.0
 - [@semantic-release/changelog](https://www.npmjs.com/package/@semantic-release/changelog) - 6.0.3
 - [@semantic-release/commit-analyzer](https://www.npmjs.com/package/@semantic-release/commit-analyzer) - 13.0.1
 - [@semantic-release/git](https://www.npmjs.com/package/@semantic-release/git) - 10.0.1
 - [@semantic-release/github](https://www.npmjs.com/package/@semantic-release/github) - 12.0.2
 - [@semantic-release/release-notes-generator](https://www.npmjs.com/package/@semantic-release/release-notes-generator) - 14.1.0
-- [@types/bcryptjs](https://www.npmjs.com/package/@types/bcryptjs) - 3.0.0
 - [@types/eslint-config-prettier](https://www.npmjs.com/package/@types/eslint-config-prettier) - 6.11.3
 - [@types/jsonwebtoken](https://www.npmjs.com/package/@types/jsonwebtoken) - 9.0.10
-- [@types/node](https://www.npmjs.com/package/@types/node) - 25.0.3
+- [@types/node](https://www.npmjs.com/package/@types/node) - 25.0.10
 - [@types/pg](https://www.npmjs.com/package/@types/pg) - 8.16.0
 - [@types/supertest](https://www.npmjs.com/package/@types/supertest) - 6.0.3
-- [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) - 8.50.0
-- [@vitest/coverage-v8](https://vitest.dev/) - 4.0.16
-- [@vitest/ui](https://vitest.dev/) - 4.0.16
+- [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) - 8.54.0
+- [@vitest/coverage-v8](https://vitest.dev/) - 4.0.18
+- [@vitest/ui](https://vitest.dev/) - 4.0.18
 - [coveralls](https://coveralls.io/) - 3.1.1
 - [dotenv](https://www.dotenv.org/) - 17.2.3
 - [eslint](https://eslint.org/) - 9.39.2
 - [eslint-config-prettier](https://www.npmjs.com/package/eslint-config-prettier) - 10.1.8
 - [eslint-import-resolver-typescript](https://github.com/import-js/eslint-plugin-import) - 4.4.4
 - [eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import) - 2.32.0
-- [eslint-plugin-prettier](https://www.npmjs.com/package/eslint-plugin-prettier) - 5.5.4
+- [eslint-plugin-prettier](https://www.npmjs.com/package/eslint-plugin-prettier) - 5.5.5
 - [eslint-plugin-promise](https://www.npmjs.com/package/eslint-plugin-promise) - 7.2.1
 - [eslint-plugin-vitest-globals](https://www.npmjs.com/package/eslint-plugin-vitest-globals) - 1.5.0
-- [globals](https://github.com/sindresorhus/globals) - 16.5.0
+- [globals](https://github.com/sindresorhus/globals) - 17.1.0
 - [husky](https://github.com/typicode/husky) - 9.1.7
 - [kleur](https://github.com/lukeed/kleur) - 4.1.5
 - [lint-staged](https://github.com/okonet/lint-staged) - 16.2.7
 - [npm-check](https://github.com/dylang/npm-check) - 6.0.1
 - [openapi-types](https://github.com/kogosoftwarellc/open-api) - 12.1.3
-- [prisma](https://www.prisma.io/) - 7.2.0
+- [prisma](https://www.prisma.io/) - 7.3.0
 - [semantic-release](https://github.com/semantic-release/semantic-release) - 25.0.2
-- [supertest](https://github.com/visionmedia/supertest) - 7.1.4
+- [supertest](https://github.com/visionmedia/supertest) - 7.2.2
 - [tsup](https://github.com/egoist/tsup) - 8.5.1
 - [tsx](https://github.com/esbuild-kit/tsx) - 4.21.0
 - [typescript](https://www.typescriptlang.org/) - 5.9.3
-- [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint) - 8.50.0
-- [vite-tsconfig-paths](https://github.com/aleclarson/vite-tsconfig-paths) - 6.0.3
-- [vitest](https://vitest.dev/) - 4.0.16
+- [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint) - 8.54.0
+- [vite-tsconfig-paths](https://github.com/aleclarson/vite-tsconfig-paths) - 6.0.5
+- [vitest](https://vitest.dev/) - 4.0.18
 - [vitest-mock-extended](https://github.com/ericalli/vitest-mock-extended) - 3.1.0
 
 ## Getting Started
@@ -141,7 +140,7 @@ This section describes the main **libraries** and **tools** used in the project,
 ### Prerequisites
 In addition to **Node.js**, some other tools are required to run this project:
 
-- [Node.js](https://nodejs.org/) - 24.12.0
+- [Node.js](https://nodejs.org/) - 24.14.1
 - [Docker](https://www.docker.com/) - 28.5.1
 
 ### Optionals
