@@ -65,8 +65,8 @@ describe('FetchPersonsUseCase', () => {
     expect(findManyPersonsRepositorySpy).toHaveBeenCalledWith(paginationParams)
     expect(result.isRight()).toBe(true)
     expect(result.isLeft()).toBe(false)
-    expect(result.value?.count).toEqual(length)
-    expect(result.value?.persons).toEqual(
+    expect(result.value.count).toEqual(length)
+    expect(result.value.persons).toEqual(
       PersonMapper.toCollectionDTO(defaultEntitiesStub),
     )
   })
@@ -89,8 +89,8 @@ describe('FetchPersonsUseCase', () => {
     expect(findManyPersonsRepositorySpy).toHaveBeenCalledWith(paginationParams)
     expect(result.isRight()).toBe(true)
     expect(result.isLeft()).toBe(false)
-    expect(result.value?.count).toEqual(length)
-    expect(result.value?.persons).toEqual(
+    expect(result.value.count).toEqual(length)
+    expect(result.value.persons).toEqual(
       PersonMapper.toCollectionDTO(customEntitiesStub),
     )
   })

@@ -11,7 +11,7 @@ export interface FetchPersonsUseCaseInput {
 }
 
 export type FetchPersonsUseCaseOutput = Either<
-  null,
+  never,
   {
     count: number
     persons: PersonCollectionDTO
