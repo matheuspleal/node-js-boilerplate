@@ -38,17 +38,25 @@ describe('AuthenticationMiddleware', () => {
   })
 
   it('should be able to return UnauthorizedError when the token does not have the "Bearer" prefix', async () => {
-    tokenVerifierGatewayMock.verify.mockImplementationOnce(() => {
-      throw new UnauthorizedError() as any
-    })
     const fakeToken = 'fake-token'
 
     const response = await sut.handle({
       authorization: fakeToken,
     })
 
-    expect(tokenVerifierGatewaySpy).toHaveBeenCalledTimes(1)
-    expect(tokenVerifierGatewaySpy).toHaveBeenCalledWith({ token: undefined })
+    expect(tokenVerifierGatewaySpy).not.toHaveBeenCalled()
+    expect(response).toEqual({
+      statusCode: StatusCode.UNAUTHORIZED,
+      data: new UnauthorizedError(),
+    })
+  })
+
+  it('should be able to return UnauthorizedError when authorization header is empty', async () => {
+    const response = await sut.handle({
+      authorization: '',
+    })
+
+    expect(tokenVerifierGatewaySpy).not.toHaveBeenCalled()
     expect(response).toEqual({
       statusCode: StatusCode.UNAUTHORIZED,
       data: new UnauthorizedError(),

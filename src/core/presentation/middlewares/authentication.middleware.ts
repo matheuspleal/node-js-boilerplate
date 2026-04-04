@@ -20,6 +20,9 @@ export class AuthenticationMiddleware implements Middleware<Authentication.Reque
   async handle({
     authorization,
   }: Authentication.Request): Promise<HttpResponse<Authentication.Response>> {
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+      return unauthorized()
+    }
     try {
       const [, token] = authorization.split(' ')
       const { sub } = this.tokenVerifierGateway.verify({ token })
