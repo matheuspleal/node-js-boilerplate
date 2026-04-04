@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user.persistence'
+import { type UserPersistence } from '@/modules/users/infra/repositories/persistence/user.persistence'
 
 import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
 import { hashedPasswordStub } from '#/modules/users/application/@mocks/password.stub'

@@ -1,6 +1,6 @@
 import { type PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
-import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person.persistence'
-import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user.persistence'
+import { type PersonPersistence } from '@/modules/persons/infra/repositories/persistence/person.persistence'
+import { type UserPersistence } from '@/modules/users/infra/repositories/persistence/user.persistence'
 
 import { createPerson } from '#/modules/persons/infra/@helpers/person-persistance-prisma'
 import { makeUserPersistenceStub } from '#/modules/users/infra/@mocks/user-persistence.stub'

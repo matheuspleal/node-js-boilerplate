@@ -1,6 +1,6 @@
-import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person.persistence'
 import { type PersonEntity } from '@/modules/persons/domain/entities/person.entity'
 import { PersonMapper } from '@/modules/persons/infra/repositories/mappers/person.mapper'
+import { type PersonPersistence } from '@/modules/persons/infra/repositories/persistence/person.persistence'
 
 import {
   makePersonEntityStub,

@@ -1,6 +1,6 @@
-import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user.persistence'
 import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { UserMapper } from '@/modules/users/infra/repositories/mappers/user.mapper'
+import { type UserPersistence } from '@/modules/users/infra/repositories/persistence/user.persistence'
 
 import {
   makeUserEntityStub,

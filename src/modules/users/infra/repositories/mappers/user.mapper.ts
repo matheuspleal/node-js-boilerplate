@@ -1,8 +1,8 @@
 import { UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { Mapper } from '@/core/infra/repositories/mappers/mapper'
-import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user.persistence'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
+import { type UserPersistence } from '@/modules/users/infra/repositories/persistence/user.persistence'
 
 export class UserMapper extends Mapper<UserEntity, UserPersistence> {
   static toDomain(userPersistence: UserPersistence): UserEntity {

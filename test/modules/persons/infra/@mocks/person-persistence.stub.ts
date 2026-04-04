@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { type PersonPersistence } from '@/modules/persons/application/repositories/persistence/person.persistence'
+import { type PersonPersistence } from '@/modules/persons/infra/repositories/persistence/person.persistence'
 
 import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
 
