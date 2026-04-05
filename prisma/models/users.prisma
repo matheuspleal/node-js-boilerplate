@@ -1,7 +1,7 @@
 model User {
   id        String   @id @default(uuid())
-  person    Person   @relation(fields: [personId], references: [id])
-  personId  String   @unique @db.VarChar(36)
+  name      String
+  birthdate DateTime @db.Date
   email     String   @unique
   password  String
   createdAt DateTime @default(now()) @map("created_at")

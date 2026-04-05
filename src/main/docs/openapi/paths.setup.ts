@@ -5,13 +5,13 @@ import {
   signUpPath,
 } from '@/main/docs/openapi/paths/authentication'
 import {
-  fetchPersonsPath,
-  getPersonByIdPath,
-} from '@/main/docs/openapi/paths/persons'
+  fetchUsersPath,
+  getUserByIdPath,
+} from '@/main/docs/openapi/paths/users'
 
 export default {
   '/signin': signInPath,
   '/signup': signUpPath,
-  '/persons': fetchPersonsPath,
-  '/persons/{id}': getPersonByIdPath,
+  '/users': fetchUsersPath,
+  '/users/{id}': getUserByIdPath,
 } satisfies Record<string, OpenAPIV3_1.PathItemObject>

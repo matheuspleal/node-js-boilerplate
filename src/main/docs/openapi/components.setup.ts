@@ -4,7 +4,7 @@ import {
   pageSizeParams,
   pageNumberParams,
 } from '@/main/docs/openapi/components/parameters'
-import { personIdParam } from '@/main/docs/openapi/components/parameters/persons'
+import { userIdParam } from '@/main/docs/openapi/components/parameters/users'
 import {
   badRequest,
   conflict,
@@ -20,9 +20,9 @@ import {
   signUpResponseSchema,
 } from '@/main/docs/openapi/components/schemas/authentication'
 import {
-  fetchPersonsResponseSchema,
-  personResponseSchema,
-} from '@/main/docs/openapi/components/schemas/persons'
+  fetchUsersResponseSchema,
+  userResponseSchema,
+} from '@/main/docs/openapi/components/schemas/users'
 import { bearerAuthSecurityScheme } from '@/main/docs/openapi/components/security-schemes'
 
 const responses: Record<string, OpenAPIV3_1.ResponseObject> = {
@@ -39,8 +39,8 @@ const schemas: Record<string, OpenAPIV3_1.SchemaObject> = {
   signInRequest: signInRequestSchema,
   signUpRequest: signUpRequestSchema,
   signUpResponse: signUpResponseSchema,
-  fetchPersonsResponse: fetchPersonsResponseSchema,
-  personResponse: personResponseSchema,
+  fetchUsersResponse: fetchUsersResponseSchema,
+  userResponse: userResponseSchema,
 }
 
 export const securitySchemes: Record<string, OpenAPIV3_1.SecuritySchemeObject> =
@@ -51,7 +51,7 @@ export const securitySchemes: Record<string, OpenAPIV3_1.SecuritySchemeObject> =
 const parameters: Record<string, OpenAPIV3_1.ParameterObject> = {
   pageSize: pageSizeParams,
   pageNumber: pageNumberParams,
-  personId: personIdParam,
+  userId: userIdParam,
 }
 
 export default {

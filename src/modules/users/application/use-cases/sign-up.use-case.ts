@@ -1,16 +1,15 @@
 import { type HashGeneratorGateway } from '@/core/application/gateways/cryptography/hash-generator.gateway'
 import { type UseCase } from '@/core/application/use-cases/use-case'
 import { combine, type Either, left, right } from '@/core/shared/either'
-import { PersonMapper } from '@/modules/persons/application/use-cases/mappers/person.mapper'
-import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
-import { InvalidBirthdateError } from '@/modules/persons/domain/errors/invalid-birthdate.error'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import { type SaveUserRepository } from '@/modules/users/application/repositories/save-user.repository'
+import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 import { UserMapper } from '@/modules/users/application/use-cases/mappers/user.mapper'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import { InvalidBirthdateError } from '@/modules/users/domain/errors/invalid-birthdate.error'
 import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 export interface SignUpUseCaseInput {
@@ -20,26 +19,9 @@ export interface SignUpUseCaseInput {
   password: string
 }
 
-export interface PersonDTO {
-  id: string
-  name: string
-  birthdate: Date
-  age: number
-  createdAt: Date
-  updatedAt: Date
-}
-
-export interface UserDTO {
-  id: string
-  email: string
-  createdAt: Date
-  updatedAt: Date
-}
-
 export type SignUpUseCaseOutput = Either<
   EmailAlreadyExistsError | InvalidEmailError | InvalidBirthdateError,
   {
-    person: PersonDTO
     user: UserDTO
   }
 >
@@ -72,16 +54,9 @@ export class SignUpUseCase implements UseCase<
     if (foundUser) {
       return left(new EmailAlreadyExistsError(email))
     }
-    const personResult = PersonEntity.create({
+    const userResult = UserEntity.create({
       name,
       birthdate: birthdateVO,
-    })
-    if (personResult.isLeft()) {
-      return left(personResult.value)
-    }
-    const person = personResult.value
-    const userResult = UserEntity.create({
-      personId: person.id,
       email: emailVO,
       password,
     })
@@ -93,10 +68,9 @@ export class SignUpUseCase implements UseCase<
       plaintext: user.password,
     })
     user.password = hashedPassword
-    const result = await this.userRepository.save({ person, user })
+    const savedUser = await this.userRepository.save(user)
     return right({
-      person: PersonMapper.toDTO(result.person),
-      user: UserMapper.toDTO(result.user),
+      user: UserMapper.toDTO(savedUser),
     })
   }
 }

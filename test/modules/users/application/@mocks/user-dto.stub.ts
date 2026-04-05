@@ -4,6 +4,7 @@ import {
   type UserDTO,
   type UserCollectionDTO,
 } from '@/modules/users/application/use-cases/dtos/user.dto'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 
 import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
 import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'
@@ -14,8 +15,14 @@ export interface UserDTOStubProps {
 
 export function makeUserDTOStub(props?: UserDTOStubProps): UserDTO {
   const { userDTO } = props ?? {}
+  const birthdate = userDTO?.birthdate ?? faker.date.birthdate()
+  const age =
+    userDTO?.age ?? BirthdateVO.reconstitute(birthdate).getCurrentAgeInYears()
   return {
     id: userDTO?.id ?? faker.string.uuid(),
+    name: userDTO?.name ?? faker.person.fullName(),
+    birthdate,
+    age,
     email:
       userDTO?.email ??
       faker.internet.email({

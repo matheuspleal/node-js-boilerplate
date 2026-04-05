@@ -8,7 +8,7 @@ import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
 import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma-connection-manager'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { appSetup } from '@/main/setup/app.setup'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
@@ -30,7 +30,6 @@ describe('AuthenticationGraphQL', () => {
   beforeAll(async () => {
     prisma = PrismaConnectionManager.getInstance()
     await prisma.user.deleteMany()
-    await prisma.person.deleteMany()
     app = await appSetup()
     await app.ready()
   })

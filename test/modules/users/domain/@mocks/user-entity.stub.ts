@@ -6,6 +6,7 @@ import {
   type UserInput,
   type UserProps,
 } from '@/modules/users/domain/entities/user.entity'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
@@ -23,7 +24,9 @@ export function makeUserInputStub(
 ): UserInputProps {
   return {
     id: userInput?.id ?? faker.string.uuid(),
-    personId: userInput?.personId ?? new UniqueEntityId(faker.string.uuid()),
+    name: userInput?.name ?? faker.person.fullName(),
+    birthdate:
+      userInput?.birthdate ?? BirthdateVO.reconstitute(faker.date.birthdate()),
     email:
       userInput?.email ??
       EmailVO.reconstitute(
@@ -40,7 +43,8 @@ export function makeUserInputStub(
 export function makeUserEntityStub(props?: UserEntityProps): UserEntity {
   const { id, ...rest } = makeUserInputStub({ ...props?.userInput })
   const userProps: UserProps = {
-    personId: rest.personId,
+    name: rest.name,
+    birthdate: rest.birthdate,
     email: rest.email,
     password: rest.password,
     createdAt: rest.createdAt ?? new Date(),

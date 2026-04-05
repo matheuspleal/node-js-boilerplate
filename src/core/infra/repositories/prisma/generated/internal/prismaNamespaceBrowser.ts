@@ -50,7 +50,6 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Person: 'Person',
   User: 'User'
 } as const
 
@@ -70,21 +69,10 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const PersonScalarFieldEnum = {
+export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   birthdate: 'birthdate',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userId: 'userId'
-} as const
-
-export type PersonScalarFieldEnum = (typeof PersonScalarFieldEnum)[keyof typeof PersonScalarFieldEnum]
-
-
-export const UserScalarFieldEnum = {
-  id: 'id',
-  personId: 'personId',
   email: 'email',
   password: 'password',
   createdAt: 'createdAt',
@@ -108,12 +96,4 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

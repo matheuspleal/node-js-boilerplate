@@ -9,11 +9,11 @@ import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { type ValidationComposite } from '@/core/presentation/validators/errors/validation-composite.error'
 import { appSetup } from '@/main/setup/app.setup'
-import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/email-already-exists.error'
-import { InvalidBirthdateError } from '@/modules/persons/domain/errors/invalid-birthdate.error'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
+import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
+import { InvalidBirthdateError } from '@/modules/users/domain/errors/invalid-birthdate.error'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
@@ -33,7 +33,6 @@ describe('AuthenticationRouter', () => {
   beforeAll(async () => {
     prisma = PrismaConnectionManager.getInstance()
     await prisma.user.deleteMany()
-    await prisma.person.deleteMany()
     app = await appSetup()
     await app.ready()
   })

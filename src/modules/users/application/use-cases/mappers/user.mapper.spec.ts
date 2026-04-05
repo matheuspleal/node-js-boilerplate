@@ -23,6 +23,9 @@ describe('UserMapper', () => {
 
     expect(entityToDTO).toEqual<UserDTO>({
       id: userEntity.id.toString(),
+      name: userEntity.name,
+      birthdate: userEntity.birthdate.toValue(),
+      age: userEntity.age,
       email: userEntity.email.toString(),
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt,
@@ -37,6 +40,9 @@ describe('UserMapper', () => {
     entityCollectionToDTOCollection.forEach((item, index) => {
       expect(item).toEqual<UserDTO>({
         id: userCollectionEntity[index].id.toString(),
+        name: userCollectionEntity[index].name,
+        birthdate: userCollectionEntity[index].birthdate.toValue(),
+        age: userCollectionEntity[index].age,
         email: userCollectionEntity[index].email.toString(),
         createdAt: userCollectionEntity[index].createdAt,
         updatedAt: userCollectionEntity[index].updatedAt,

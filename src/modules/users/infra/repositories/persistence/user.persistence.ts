@@ -1,6 +1,7 @@
 export interface UserPersistence {
   id: string
-  personId: string
+  name: string
+  birthdate: Date
   email: string
   password: string
   createdAt: Date

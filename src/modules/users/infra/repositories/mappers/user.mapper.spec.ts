@@ -33,7 +33,8 @@ describe('UserMapper', () => {
 
     expect(entityToPersistence).toEqual({
       id: userEntity.id.toString(),
-      personId: userEntity.personId.toString(),
+      name: userEntity.name,
+      birthdate: userEntity.birthdate.toValue(),
       email: userEntity.email.toString(),
       password: userEntity.password,
       createdAt: userEntity.createdAt,
@@ -48,7 +49,8 @@ describe('UserMapper', () => {
     entityCollectionToPersistenceCollection.forEach((item, index) => {
       expect(item).toEqual({
         id: userCollectionEntity[index].id.toString(),
-        personId: userCollectionEntity[index].personId.toString(),
+        name: userCollectionEntity[index].name,
+        birthdate: userCollectionEntity[index].birthdate.toValue(),
         email: userCollectionEntity[index].email.toString(),
         password: userCollectionEntity[index].password,
         createdAt: userCollectionEntity[index].createdAt,
@@ -61,6 +63,10 @@ describe('UserMapper', () => {
     const persistenceToEntity = UserMapper.toDomain(userPersistence)
 
     expect(persistenceToEntity.id.toValue()).toEqual(userPersistence.id)
+    expect(persistenceToEntity.name).toEqual(userPersistence.name)
+    expect(persistenceToEntity.birthdate.toValue()).toEqual(
+      userPersistence.birthdate,
+    )
     expect(persistenceToEntity.email.toValue()).toEqual(userPersistence.email)
     expect(persistenceToEntity.createdAt).toEqual(userPersistence.createdAt)
     expect(persistenceToEntity.updatedAt).toEqual(userPersistence.updatedAt)
@@ -72,6 +78,7 @@ describe('UserMapper', () => {
 
     persistenceCollectionToEntityCollection.forEach((item, index) => {
       expect(item.id.toValue()).toEqual(userCollectionPersistence[index].id)
+      expect(item.name).toEqual(userCollectionPersistence[index].name)
       expect(item.email.toValue()).toEqual(
         userCollectionPersistence[index].email,
       )

@@ -6,25 +6,19 @@ import {
   type HashGenerator,
   type HashGeneratorGateway,
 } from '@/core/application/gateways/cryptography/hash-generator.gateway'
-import { PersonEntity } from '@/modules/persons/domain/entities/person.entity'
-import { InvalidAgeError } from '@/modules/persons/domain/errors/invalid-age.error'
-import { InvalidBirthdateError } from '@/modules/persons/domain/errors/invalid-birthdate.error'
 import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
-import {
-  type SaveUserRepositoryInput,
-  type SaveUserRepositoryOutput,
-  type SaveUserRepository,
-} from '@/modules/users/application/repositories/save-user.repository'
+import { type SaveUserRepository } from '@/modules/users/application/repositories/save-user.repository'
 import {
   SignUpUseCase,
   type SignUpUseCaseInput,
 } from '@/modules/users/application/use-cases/sign-up.use-case'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
+import { InvalidBirthdateError } from '@/modules/users/domain/errors/invalid-birthdate.error'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
 
-import { makePersonEntityStub } from '#/modules/persons/domain/@mocks/person-entity.stub'
 import {
   hashedPasswordStub,
   plaintextPasswordStub,
@@ -34,7 +28,6 @@ import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity.st
 
 describe('SignUpUseCase', () => {
   let sut: SignUpUseCase
-  let personEntityStub: PersonEntity
   let userEntityStub: UserEntity
   let findUserByEmailRepositoryMock: MockProxy<FindUserByEmailRepository>
   let findUserByEmailRepositorySpy: MockInstance<
@@ -42,7 +35,7 @@ describe('SignUpUseCase', () => {
   >
   let saveUserRepositoryMock: MockProxy<SaveUserRepository>
   let saveUserRepositorySpy: MockInstance<
-    (input: SaveUserRepositoryInput) => Promise<SaveUserRepositoryOutput>
+    (user: UserEntity) => Promise<UserEntity>
   >
   let hashGeneratorGatewayMock: MockProxy<HashGeneratorGateway>
   let hashGeneratorGatewaySpy: MockInstance<
@@ -50,17 +43,11 @@ describe('SignUpUseCase', () => {
   >
 
   beforeAll(() => {
-    personEntityStub = makePersonEntityStub()
-    userEntityStub = makeUserEntityStub({
-      userInput: { personId: personEntityStub?.id },
-    })
+    userEntityStub = makeUserEntityStub()
     findUserByEmailRepositoryMock = mock<FindUserByEmailRepository>()
     findUserByEmailRepositoryMock.findByEmail.mockResolvedValue(null)
     saveUserRepositoryMock = mock<SaveUserRepository>()
-    saveUserRepositoryMock.save.mockResolvedValue({
-      person: personEntityStub,
-      user: userEntityStub,
-    })
+    saveUserRepositoryMock.save.mockResolvedValue(userEntityStub)
     hashGeneratorGatewayMock = mock<HashGeneratorGateway>()
     hashGeneratorGatewayMock.hash.mockResolvedValue(hashedPasswordStub)
   })
@@ -180,12 +167,7 @@ describe('SignUpUseCase', () => {
       plaintext: plaintextPasswordStub,
     })
     expect(saveUserRepositorySpy).toHaveBeenCalledTimes(1)
-    expect(saveUserRepositorySpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        person: expect.any(PersonEntity),
-        user: expect.any(UserEntity),
-      }),
-    )
+    expect(saveUserRepositorySpy).toHaveBeenCalledWith(expect.any(UserEntity))
     expect(result.isRight()).toBe(true)
     expect(result.value).toHaveProperty('user')
   })

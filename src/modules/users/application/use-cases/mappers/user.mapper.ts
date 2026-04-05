@@ -6,6 +6,9 @@ export class UserMapper extends Mapper<UserDTO, UserEntity> {
   static toDTO(userEntity: UserEntity): UserDTO {
     return {
       id: userEntity.id.toString(),
+      name: userEntity.name,
+      birthdate: userEntity.birthdate.toValue(),
+      age: userEntity.age,
       email: userEntity.email.toString(),
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt,

@@ -4,12 +4,16 @@ import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { Either, left, right } from '@/core/shared/either'
 import { Optional } from '@/core/shared/types/optional.type'
 import { ALLOWED_EMAIL_DOMAINS } from '@/modules/users/domain/constants/allowed-email-domains.const'
+import { MINIMUM_AGE } from '@/modules/users/domain/constants/minimum-age.const'
+import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 export interface UserProps {
-  personId: UniqueEntityId
+  name: string
+  birthdate: BirthdateVO
   email: EmailVO
   password: string
   createdAt: Date
@@ -19,8 +23,21 @@ export interface UserProps {
 export type UserInput = Optional<UserProps, 'createdAt' | 'updatedAt'>
 
 export class UserEntity extends AggregateRoot<UserProps> {
-  get personId(): UniqueEntityId {
-    return this.props.personId
+  get name() {
+    return this.props.name
+  }
+
+  set name(name: string) {
+    this.props.name = name
+    this.touch()
+  }
+
+  get birthdate() {
+    return this.props.birthdate
+  }
+
+  get age() {
+    return this.props.birthdate.getCurrentAgeInYears()
   }
 
   get email() {
@@ -52,14 +69,19 @@ export class UserEntity extends AggregateRoot<UserProps> {
     props: UserInput,
     id?: UniqueEntityId,
   ): Either<DomainError, UserEntity> {
-    const { email, ...rest } = props
+    const { email, birthdate, ...rest } = props
     if (!(ALLOWED_EMAIL_DOMAINS as readonly string[]).includes(email.domain)) {
       return left(new InvalidDomainError(email.domain))
+    }
+    const age = birthdate.getCurrentAgeInYears()
+    if (age < MINIMUM_AGE) {
+      return left(new InvalidAgeError(age))
     }
     const user = new UserEntity(
       {
         ...rest,
         email,
+        birthdate,
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },

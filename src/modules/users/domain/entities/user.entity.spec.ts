@@ -3,8 +3,10 @@ import {
   UserEntity,
   UserProps,
 } from '@/modules/users/domain/entities/user.entity'
+import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
@@ -24,6 +26,17 @@ describe('UserEntity', () => {
     expect(result.value).toBeInstanceOf(InvalidDomainError)
   })
 
+  it('should not be able to create an instance when age is less than minimum', () => {
+    const fakeProps = makeUserInputStub({
+      birthdate: BirthdateVO.reconstitute(new Date()),
+    })
+
+    const result = UserEntity.create(fakeProps)
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(InvalidAgeError)
+  })
+
   it('should be able to create an instance with required props', () => {
     const fakeProps = makeUserInputStub()
 
@@ -31,6 +44,10 @@ describe('UserEntity', () => {
 
     expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
+    expect(sut.name).toEqual(fakeProps.name)
+    expect(sut.birthdate).toBeInstanceOf(BirthdateVO)
+    expect(sut.birthdate.toValue()).toEqual(fakeProps.birthdate.toValue())
+    expect(sut.age).toBeGreaterThanOrEqual(18)
     expect(sut.email).toBeInstanceOf(EmailVO)
     expect(sut.email.toString()).toEqual(fakeProps.email.toValue())
     expect(sut.password).toEqual(fakeProps.password)
@@ -47,22 +64,8 @@ describe('UserEntity', () => {
     expect(sut.id).toBeInstanceOf(UniqueEntityId)
     expect(sut.id.toValue()).toMatch(UUIDRegExp)
     expect(sut.id.toString()).toEqual(id)
-    expect(sut.email).toBeInstanceOf(EmailVO)
-    expect(sut.email.toString()).toEqual(fakeProps.email.toValue())
-    expect(sut.password).toEqual(fakeProps.password)
-    expect(sut.createdAt).toEqual(fakeProps.createdAt)
-    expect(sut.updatedAt).toEqual(fakeProps.updatedAt)
-  })
-
-  it('should be able to get all allowed properties of an instance', () => {
-    const { id, ...fakeProps } = makeUserInputStub()
-    const fakeUniqueEntityId = new UniqueEntityId(id)
-
-    sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
-
-    expect(sut.id).toBeInstanceOf(UniqueEntityId)
-    expect(sut.id.toValue()).toMatch(UUIDRegExp)
-    expect(sut.id.toString()).toEqual(id)
+    expect(sut.name).toEqual(fakeProps.name)
+    expect(sut.birthdate).toBeInstanceOf(BirthdateVO)
     expect(sut.email).toBeInstanceOf(EmailVO)
     expect(sut.email.toString()).toEqual(fakeProps.email.toValue())
     expect(sut.password).toEqual(fakeProps.password)
@@ -76,20 +79,16 @@ describe('UserEntity', () => {
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
 
-    expect(sut.id).toBeInstanceOf(UniqueEntityId)
-    expect(sut.id.toValue()).toMatch(UUIDRegExp)
-    expect(sut.id.toString()).toEqual(id)
-    expect(sut.email).toBeInstanceOf(EmailVO)
-    expect(sut.email.toString()).toEqual(fakeProps.email.toValue())
-    expect(sut.password).toEqual(fakeProps.password)
-    expect(sut.createdAt).toEqual(fakeProps.createdAt)
-    expect(sut.updatedAt).toEqual(fakeProps.updatedAt)
-
     const reassignedPassword = 'fake-reassigned-password'
     sut.password = reassignedPassword
 
     expect(sut.password).toEqual(reassignedPassword)
     expect(sut.updatedAt).not.toEqual(fakeProps.updatedAt)
+
+    const reassignedName = 'New Name'
+    sut.name = reassignedName
+
+    expect(sut.name).toEqual(reassignedName)
   })
 
   it('should be able to emit UserCreatedEvent when created', () => {
@@ -108,7 +107,8 @@ describe('UserEntity', () => {
     const created = UserEntity.create(fakeProps, fakeUniqueEntityId)
       .value as UserEntity
     const props: UserProps = {
-      personId: created.personId,
+      name: created.name,
+      birthdate: created.birthdate,
       email: created.email,
       password: created.password,
       createdAt: created.createdAt,
@@ -126,7 +126,8 @@ describe('UserEntity', () => {
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
     const props: UserProps = {
-      personId: sut.personId,
+      name: sut.name,
+      birthdate: sut.birthdate,
       email: sut.email,
       password: sut.password,
       createdAt: sut.createdAt,

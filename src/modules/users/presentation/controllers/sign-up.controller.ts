@@ -78,9 +78,9 @@ export class SignUpController extends HttpController<
           : badDomainRequest(result.value)
       return error
     }
-    const { person, user } = result.value
+    const { user } = result.value
     return created<SignUpControllerResponse>({
-      user: SignUpPresenter.toHttp({ person, user }),
+      user: SignUpPresenter.toHttp({ user }),
     })
   }
 }

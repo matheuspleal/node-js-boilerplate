@@ -16,7 +16,8 @@ export function makeUserPersistenceStub(
   const { userPersistence } = props ?? {}
   return {
     id: userPersistence?.id ?? faker.string.uuid(),
-    personId: userPersistence?.personId ?? faker.string.uuid(),
+    name: userPersistence?.name ?? faker.person.fullName(),
+    birthdate: userPersistence?.birthdate ?? faker.date.birthdate(),
     email:
       userPersistence?.email ??
       faker.internet
