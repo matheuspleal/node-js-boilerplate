@@ -1,10 +1,11 @@
-import { Entity } from '@/core/domain/entity'
+import { AggregateRoot } from '@/core/domain/aggregate-root'
 import { DomainError } from '@/core/domain/errors/domain.error'
 import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { Either, left, right } from '@/core/shared/either'
 import { Optional } from '@/core/shared/types/optional.type'
 import { ALLOWED_EMAIL_DOMAINS } from '@/modules/users/domain/constants/allowed-email-domains.const'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
+import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 export interface UserProps {
@@ -17,7 +18,7 @@ export interface UserProps {
 
 export type UserInput = Optional<UserProps, 'createdAt' | 'updatedAt'>
 
-export class UserEntity extends Entity<UserProps> {
+export class UserEntity extends AggregateRoot<UserProps> {
   get personId(): UniqueEntityId {
     return this.props.personId
   }
@@ -64,6 +65,7 @@ export class UserEntity extends Entity<UserProps> {
       },
       id,
     )
+    user.addDomainEvent(new UserCreatedEvent(user.id))
     return right(user)
   }
 

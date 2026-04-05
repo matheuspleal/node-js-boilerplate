@@ -4,6 +4,7 @@ import {
   UserProps,
 } from '@/modules/users/domain/entities/user.entity'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
+import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
@@ -89,6 +90,34 @@ describe('UserEntity', () => {
 
     expect(sut.password).toEqual(reassignedPassword)
     expect(sut.updatedAt).not.toEqual(fakeProps.updatedAt)
+  })
+
+  it('should be able to emit UserCreatedEvent when created', () => {
+    const fakeProps = makeUserInputStub()
+
+    sut = UserEntity.create(fakeProps).value as UserEntity
+
+    expect(sut.domainEvents).toHaveLength(1)
+    expect(sut.domainEvents[0]).toBeInstanceOf(UserCreatedEvent)
+    expect(sut.domainEvents[0].aggregateId).toEqual(sut.id)
+  })
+
+  it('should not emit domain events when reconstituted', () => {
+    const { id, ...fakeProps } = makeUserInputStub()
+    const fakeUniqueEntityId = new UniqueEntityId(id)
+    const created = UserEntity.create(fakeProps, fakeUniqueEntityId)
+      .value as UserEntity
+    const props: UserProps = {
+      personId: created.personId,
+      email: created.email,
+      password: created.password,
+      createdAt: created.createdAt,
+      updatedAt: created.updatedAt,
+    }
+
+    const reconstituted = UserEntity.reconstitute(props, created.id)
+
+    expect(reconstituted.domainEvents).toHaveLength(0)
   })
 
   it('should be able to reconstitute an instance of valid props', () => {

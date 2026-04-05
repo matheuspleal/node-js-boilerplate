@@ -1,10 +1,11 @@
-import { Entity } from '@/core/domain/entity'
+import { AggregateRoot } from '@/core/domain/aggregate-root'
 import { DomainError } from '@/core/domain/errors/domain.error'
 import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { Either, left, right } from '@/core/shared/either'
 import { type Optional } from '@/core/shared/types/optional.type'
 import { MINIMUM_AGE } from '@/modules/persons/domain/constants/minimum-age.const'
 import { InvalidAgeError } from '@/modules/persons/domain/errors/invalid-age.error'
+import { PersonCreatedEvent } from '@/modules/persons/domain/events/person-created.event'
 import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
 
 export interface PersonProps {
@@ -16,7 +17,7 @@ export interface PersonProps {
 
 export type PersonInput = Optional<PersonProps, 'createdAt' | 'updatedAt'>
 
-export class PersonEntity extends Entity<PersonProps> {
+export class PersonEntity extends AggregateRoot<PersonProps> {
   get name() {
     return this.props.name
   }
@@ -62,6 +63,7 @@ export class PersonEntity extends Entity<PersonProps> {
       },
       id,
     )
+    person.addDomainEvent(new PersonCreatedEvent(person.id))
     return right(person)
   }
 
