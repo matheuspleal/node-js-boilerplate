@@ -8,9 +8,10 @@ import {
 } from '@/modules/users/domain/entities/user.entity'
 import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
+import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
 
 import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
-import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password.stub'
+import { hashedPasswordStub } from '#/modules/users/application/@mocks/password.stub'
 import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'
 
 export type UserInputProps = UserInput & { id?: string }
@@ -34,7 +35,8 @@ export function makeUserInputStub(
           provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
         }),
       ),
-    password: userInput?.password ?? plaintextPasswordStub,
+    password:
+      userInput?.password ?? PasswordVO.reconstitute(hashedPasswordStub),
     createdAt: userInput?.createdAt ?? faker.date.recent(),
     updatedAt: userInput?.updatedAt ?? faker.date.recent(),
   }

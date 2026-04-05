@@ -18,6 +18,7 @@ import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error
 import { InvalidBirthdateError } from '@/modules/users/domain/errors/invalid-birthdate.error'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
+import { InvalidPasswordError } from '@/modules/users/domain/errors/invalid-password.error'
 
 import {
   hashedPasswordStub,
@@ -105,6 +106,21 @@ describe('SignUpUseCase', () => {
     expect(result.value).toBeInstanceOf(InvalidBirthdateError)
   })
 
+  it('should be able to returns InvalidPasswordError when password is weak', async () => {
+    const user: SignUpUseCaseInput = {
+      ...makeRequiredSignUpInputStub(),
+      password: 'weak',
+    }
+
+    const result = await sut.execute(user)
+
+    expect(findUserByEmailRepositorySpy).not.toHaveBeenCalled()
+    expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
+    expect(saveUserRepositorySpy).not.toHaveBeenCalled()
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(InvalidPasswordError)
+  })
+
   it('should be able to returns EmailAlreadyExistsError when email already exists', async () => {
     findUserByEmailRepositoryMock.findByEmail.mockResolvedValueOnce(
       userEntityStub,
@@ -134,7 +150,7 @@ describe('SignUpUseCase', () => {
     const result = await sut.execute(user)
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(user.email)
-    expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
+    expect(hashGeneratorGatewaySpy).toHaveBeenCalledTimes(1)
     expect(saveUserRepositorySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(InvalidDomainError)
@@ -149,7 +165,7 @@ describe('SignUpUseCase', () => {
     const result = await sut.execute(user)
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledTimes(1)
     expect(findUserByEmailRepositorySpy).toHaveBeenCalledWith(user.email)
-    expect(hashGeneratorGatewaySpy).not.toHaveBeenCalled()
+    expect(hashGeneratorGatewaySpy).toHaveBeenCalledTimes(1)
     expect(saveUserRepositorySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(InvalidAgeError)

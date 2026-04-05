@@ -10,12 +10,13 @@ import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain
 import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
 import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
+import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
 
 export interface UserProps {
   name: string
   birthdate: BirthdateVO
   email: EmailVO
-  password: string
+  password: PasswordVO
   createdAt: Date
   updatedAt: Date
 }
@@ -48,7 +49,7 @@ export class UserEntity extends AggregateRoot<UserProps> {
     return this.props.password
   }
 
-  set password(password: string) {
+  set password(password: PasswordVO) {
     this.props.password = password
     this.touch()
   }

@@ -36,7 +36,7 @@ describe('UserMapper', () => {
       name: userEntity.name,
       birthdate: userEntity.birthdate.toValue(),
       email: userEntity.email.toString(),
-      password: userEntity.password,
+      password: userEntity.password.toString(),
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt,
     })
@@ -52,7 +52,7 @@ describe('UserMapper', () => {
         name: userCollectionEntity[index].name,
         birthdate: userCollectionEntity[index].birthdate.toValue(),
         email: userCollectionEntity[index].email.toString(),
-        password: userCollectionEntity[index].password,
+        password: userCollectionEntity[index].password.toString(),
         createdAt: userCollectionEntity[index].createdAt,
         updatedAt: userCollectionEntity[index].updatedAt,
       })

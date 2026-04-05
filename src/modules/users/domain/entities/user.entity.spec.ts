@@ -8,6 +8,7 @@ import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain
 import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
 import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
+import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
 
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
 import { makeUserInputStub } from '#/modules/users/domain/@mocks/user-entity.stub'
@@ -79,10 +80,10 @@ describe('UserEntity', () => {
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
 
-    const reassignedPassword = 'fake-reassigned-password'
+    const reassignedPassword = PasswordVO.reconstitute('fake-reassigned-hash')
     sut.password = reassignedPassword
 
-    expect(sut.password).toEqual(reassignedPassword)
+    expect(sut.password.toValue()).toEqual('fake-reassigned-hash')
     expect(sut.updatedAt).not.toEqual(fakeProps.updatedAt)
 
     const reassignedName = 'New Name'

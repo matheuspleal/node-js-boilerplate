@@ -9,8 +9,10 @@ import { UserMapper } from '@/modules/users/application/use-cases/mappers/user.m
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { InvalidBirthdateError } from '@/modules/users/domain/errors/invalid-birthdate.error'
 import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
+import { InvalidPasswordError } from '@/modules/users/domain/errors/invalid-password.error'
 import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
+import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
 
 export interface SignUpUseCaseInput {
   birthdate: Date
@@ -20,7 +22,10 @@ export interface SignUpUseCaseInput {
 }
 
 export type SignUpUseCaseOutput = Either<
-  EmailAlreadyExistsError | InvalidEmailError | InvalidBirthdateError,
+  | EmailAlreadyExistsError
+  | InvalidEmailError
+  | InvalidBirthdateError
+  | InvalidPasswordError,
   {
     user: UserDTO
   }
@@ -45,7 +50,12 @@ export class SignUpUseCase implements UseCase<
   }: SignUpUseCaseInput): Promise<SignUpUseCaseOutput> {
     const birthdateResult = BirthdateVO.create({ value: birthdate })
     const emailResult = EmailVO.create({ value: email })
-    const combinedResults = combine([birthdateResult, emailResult])
+    const passwordResult = PasswordVO.create({ value: password })
+    const combinedResults = combine([
+      birthdateResult,
+      emailResult,
+      passwordResult,
+    ])
     if (combinedResults.isLeft()) {
       return left(combinedResults.value)
     }
@@ -54,20 +64,19 @@ export class SignUpUseCase implements UseCase<
     if (foundUser) {
       return left(new EmailAlreadyExistsError(email))
     }
+    const hashedPassword = await this.hashGeneratorGateway.hash({
+      plaintext: password,
+    })
     const userResult = UserEntity.create({
       name,
       birthdate: birthdateVO,
       email: emailVO,
-      password,
+      password: PasswordVO.reconstitute(hashedPassword),
     })
     if (userResult.isLeft()) {
       return left(userResult.value)
     }
     const user = userResult.value
-    const hashedPassword = await this.hashGeneratorGateway.hash({
-      plaintext: user.password,
-    })
-    user.password = hashedPassword
     const savedUser = await this.userRepository.save(user)
     return right({
       user: UserMapper.toDTO(savedUser),

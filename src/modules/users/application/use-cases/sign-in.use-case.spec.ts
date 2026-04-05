@@ -102,7 +102,7 @@ describe('SignInUseCase', () => {
     expect(hashCompareGatewaySpy).toHaveBeenCalledTimes(1)
     expect(hashCompareGatewaySpy).toHaveBeenCalledWith({
       plaintext: password,
-      digest: userEntityStub.password,
+      digest: userEntityStub.password.toValue(),
     })
     expect(tokenGeneratorGatewaySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
@@ -122,7 +122,7 @@ describe('SignInUseCase', () => {
     expect(hashCompareGatewaySpy).toHaveBeenCalledTimes(1)
     expect(hashCompareGatewaySpy).toHaveBeenCalledWith({
       plaintext: user.password,
-      digest: userEntityStub.password,
+      digest: userEntityStub.password.toValue(),
     })
     expect(tokenGeneratorGatewaySpy).toHaveBeenCalledTimes(1)
     expect(tokenGeneratorGatewaySpy).toHaveBeenCalledWith({

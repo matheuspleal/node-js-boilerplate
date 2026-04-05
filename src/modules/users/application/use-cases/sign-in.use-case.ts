@@ -39,7 +39,7 @@ export class SignInUseCase implements UseCase<
     }
     const passwordMatch = await this.hashCompareGateway.compare({
       plaintext: password,
-      digest: foundUser.password,
+      digest: foundUser.password.toValue(),
     })
     if (!passwordMatch) {
       return left(new UnauthorizedError())
