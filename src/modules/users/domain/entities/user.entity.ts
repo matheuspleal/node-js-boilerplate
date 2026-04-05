@@ -3,12 +3,12 @@ import { DomainError } from '@/core/domain/errors/domain.error'
 import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
 import { Either, left, right } from '@/core/shared/either'
 import { Optional } from '@/core/shared/types/optional.type'
-import { ALLOWED_EMAIL_DOMAINS } from '@/modules/users/domain/constants/allowed-email-domains.const'
-import { MINIMUM_AGE } from '@/modules/users/domain/constants/minimum-age.const'
 import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
 import { UserPasswordChangedEvent } from '@/modules/users/domain/events/user-password-changed.event'
+import { AllowedEmailDomainSpecification } from '@/modules/users/domain/specifications/allowed-email-domain.specification'
+import { MinimumAgeSpecification } from '@/modules/users/domain/specifications/minimum-age.specification'
 import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
@@ -73,12 +73,13 @@ export class UserEntity extends AggregateRoot<UserProps> {
     id?: UniqueEntityId,
   ): Either<DomainError, UserEntity> {
     const { email, birthdate, ...rest } = props
-    if (!(ALLOWED_EMAIL_DOMAINS as readonly string[]).includes(email.domain)) {
+    const allowedEmailDomain = new AllowedEmailDomainSpecification()
+    if (!allowedEmailDomain.isSatisfiedBy(email)) {
       return left(new InvalidDomainError(email.domain))
     }
-    const age = birthdate.getCurrentAgeInYears()
-    if (age < MINIMUM_AGE) {
-      return left(new InvalidAgeError(age))
+    const minimumAge = new MinimumAgeSpecification()
+    if (!minimumAge.isSatisfiedBy(birthdate)) {
+      return left(new InvalidAgeError(birthdate.getCurrentAgeInYears()))
     }
     const user = new UserEntity(
       {
