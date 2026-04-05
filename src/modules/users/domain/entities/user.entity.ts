@@ -8,6 +8,7 @@ import { MINIMUM_AGE } from '@/modules/users/domain/constants/minimum-age.const'
 import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
+import { UserPasswordChangedEvent } from '@/modules/users/domain/events/user-password-changed.event'
 import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
@@ -28,11 +29,6 @@ export class UserEntity extends AggregateRoot<UserProps> {
     return this.props.name
   }
 
-  set name(name: string) {
-    this.props.name = name
-    this.touch()
-  }
-
   get birthdate() {
     return this.props.birthdate
   }
@@ -49,8 +45,14 @@ export class UserEntity extends AggregateRoot<UserProps> {
     return this.props.password
   }
 
-  set password(password: PasswordVO) {
-    this.props.password = password
+  changeName(newName: string): void {
+    this.props.name = newName
+    this.touch()
+  }
+
+  changePassword(newPassword: PasswordVO): void {
+    this.props.password = newPassword
+    this.addDomainEvent(new UserPasswordChangedEvent(this.id))
     this.touch()
   }
 

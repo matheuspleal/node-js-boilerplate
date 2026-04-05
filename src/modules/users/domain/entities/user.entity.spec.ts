@@ -6,6 +6,7 @@ import {
 import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
 import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
 import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
+import { UserPasswordChangedEvent } from '@/modules/users/domain/events/user-password-changed.event'
 import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
@@ -74,22 +75,37 @@ describe('UserEntity', () => {
     expect(sut.updatedAt).toEqual(fakeProps.updatedAt)
   })
 
-  it('should be able to set all allowed properties of an instance', () => {
+  it('should be able to change name via domain method', () => {
     const { id, ...fakeProps } = makeUserInputStub()
     const fakeUniqueEntityId = new UniqueEntityId(id)
 
     sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
+    const previousUpdatedAt = sut.updatedAt
 
-    const reassignedPassword = PasswordVO.reconstitute('fake-reassigned-hash')
-    sut.password = reassignedPassword
+    sut.changeName('New Name')
 
-    expect(sut.password.toValue()).toEqual('fake-reassigned-hash')
-    expect(sut.updatedAt).not.toEqual(fakeProps.updatedAt)
+    expect(sut.name).toEqual('New Name')
+    expect(sut.updatedAt).not.toEqual(previousUpdatedAt)
+  })
 
-    const reassignedName = 'New Name'
-    sut.name = reassignedName
+  it('should be able to change password via domain method and emit event', () => {
+    const { id, ...fakeProps } = makeUserInputStub()
+    const fakeUniqueEntityId = new UniqueEntityId(id)
 
-    expect(sut.name).toEqual(reassignedName)
+    sut = UserEntity.create(fakeProps, fakeUniqueEntityId).value as UserEntity
+    const previousUpdatedAt = sut.updatedAt
+    const eventsBeforeChange = sut.domainEvents.length
+
+    const newPassword = PasswordVO.reconstitute('new-hashed-password')
+    sut.changePassword(newPassword)
+
+    expect(sut.password.toValue()).toEqual('new-hashed-password')
+    expect(sut.updatedAt).not.toEqual(previousUpdatedAt)
+    expect(sut.domainEvents).toHaveLength(eventsBeforeChange + 1)
+    expect(sut.domainEvents[eventsBeforeChange]).toBeInstanceOf(
+      UserPasswordChangedEvent,
+    )
+    expect(sut.domainEvents[eventsBeforeChange].aggregateId).toEqual(sut.id)
   })
 
   it('should be able to emit UserCreatedEvent when created', () => {
