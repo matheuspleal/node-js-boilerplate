@@ -3,6 +3,7 @@ import {
   type ValidatorRule,
 } from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { IsEmailRule } from '@/core/presentation/validators/rules/is-email.rule'
+import { IsValidDateRule } from '@/core/presentation/validators/rules/is-valid-date.rule'
 import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-valid-password.rule'
 import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid.rule'
 import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
@@ -29,6 +30,11 @@ export class BuilderValidator {
 
   isEmail(): this {
     this.validators.push(new IsEmailRule(this.field))
+    return this
+  }
+
+  isValidDate(): this {
+    this.validators.push(new IsValidDateRule(this.field))
     return this
   }
 
