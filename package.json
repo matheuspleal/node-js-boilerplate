@@ -35,7 +35,7 @@
     "prepare": "husky",
     "prisma:studio": "pnpm exec prisma studio",
     "setup:test": "docker-compose up database -d",
-    "start": "pnpm run migrate:prod && pnpm run node:js -- dist/main/server.js",
+    "start": "pnpm run migrate:prod && node -- dist/main/server.js",
     "start:dev": "pnpm run migrate:dev && pnpm run node:ts -- --inspect --watch src/main/server.ts",
     "test": "vitest run --passWithNoTests",
     "test:ci": "vitest run --config ./vitest-ci.config.ts --coverage",
