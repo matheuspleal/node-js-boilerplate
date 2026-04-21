@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/domain/events/domain-events'
 import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma.repository'
 import { type CountNotificationsByRecipientIdRepository } from '@/modules/notification/application/repositories/count-notifications-by-recipient-id.repository'
 import { type FindManyNotificationsByRecipientIdRepository } from '@/modules/notification/application/repositories/find-many-notifications-by-recipient-id.repository'
@@ -30,6 +31,7 @@ export class NotificationPrismaRepository
         id: notification.id.toValue(),
       },
     })
+    await DomainEvents.dispatchEventsForAggregate(notification.id)
     return NotificationMapper.toDomain(savedNotification)
   }
 
