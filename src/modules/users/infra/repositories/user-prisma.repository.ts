@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/domain/events/domain-events'
 import { BasePrismaRepository } from '@/core/infra/repositories/base-prisma.repository'
 import { resolveOffsetByPageParams } from '@/core/infra/repositories/helpers/resolve-offset-by-pagination-params'
 import { PaginationParams } from '@/core/shared/types/pagination-params.type'
@@ -34,6 +35,7 @@ export class UserPrismaRepository
         id: user.id.toValue(),
       },
     })
+    await DomainEvents.dispatchEventsForAggregate(user.id)
     return UserMapper.toDomain(savedUser)
   }
 
