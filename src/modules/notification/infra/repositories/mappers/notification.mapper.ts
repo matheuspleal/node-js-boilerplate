@@ -1,12 +1,8 @@
 import { UniqueEntityId } from '@/core/domain/unique-entity.id'
-import { Mapper } from '@/core/infra/repositories/mappers/mapper'
 import { NotificationEntity } from '@/modules/notification/domain/entities/notification.entity'
 import { type NotificationPersistence } from '@/modules/notification/infra/repositories/persistence/notification.persistence'
 
-export class NotificationMapper extends Mapper<
-  NotificationEntity,
-  NotificationPersistence
-> {
+export class NotificationMapper {
   static toDomain(persistence: NotificationPersistence): NotificationEntity {
     return NotificationEntity.reconstitute(
       {

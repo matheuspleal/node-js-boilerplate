@@ -1,12 +1,11 @@
 import { UniqueEntityId } from '@/core/domain/unique-entity.id'
-import { Mapper } from '@/core/infra/repositories/mappers/mapper'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
 import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
 import { type UserPersistence } from '@/modules/users/infra/repositories/persistence/user.persistence'
 
-export class UserMapper extends Mapper<UserEntity, UserPersistence> {
+export class UserMapper {
   static toDomain(userPersistence: UserPersistence): UserEntity {
     return UserEntity.reconstitute(
       {
