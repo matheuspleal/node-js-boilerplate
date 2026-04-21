@@ -23,7 +23,6 @@ export default defineConfig({
         'src/core/application/gateways/**/*',
         'src/core/application/use-cases/**/*',
         'src/core/infra/**/*',
-        'src/core/presentation/presenters/presenter.ts',
         'src/core/presentation/protocols/http.protocol.ts',
         'src/core/shared/config/env/env.ts',
         'src/core/shared/config/errors/config.error.ts',

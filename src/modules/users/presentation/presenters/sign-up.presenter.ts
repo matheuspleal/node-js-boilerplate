@@ -1,4 +1,3 @@
-import { Presenter } from '@/core/presentation/presenters/presenter'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 
 export interface SignUpPresenterInput {
@@ -14,10 +13,7 @@ export interface SignUpPresenterOutput {
   updatedAt: Date
 }
 
-export class SignUpPresenter extends Presenter<
-  SignUpPresenterInput,
-  SignUpPresenterOutput
-> {
+export class SignUpPresenter {
   static toHttp({ user }: SignUpPresenterInput): SignUpPresenterOutput {
     return {
       id: user.id,
