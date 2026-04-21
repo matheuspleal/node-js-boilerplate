@@ -5,6 +5,10 @@ import {
   signUpPath,
 } from '@/main/docs/openapi/paths/authentication'
 import {
+  fetchNotificationsByRecipientPath,
+  readNotificationPath,
+} from '@/main/docs/openapi/paths/notifications'
+import {
   fetchUsersPath,
   getUserByIdPath,
 } from '@/main/docs/openapi/paths/users'
@@ -14,4 +18,6 @@ export default {
   '/signup': signUpPath,
   '/users': fetchUsersPath,
   '/users/{id}': getUserByIdPath,
+  '/notifications/recipient/{recipientId}': fetchNotificationsByRecipientPath,
+  '/notifications/{id}/read': readNotificationPath,
 } satisfies Record<string, OpenAPIV3_1.PathItemObject>

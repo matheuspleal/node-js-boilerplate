@@ -4,6 +4,10 @@ import {
   pageSizeParams,
   pageNumberParams,
 } from '@/main/docs/openapi/components/parameters'
+import {
+  notificationIdParam,
+  recipientIdParam,
+} from '@/main/docs/openapi/components/parameters/notifications'
 import { userIdParam } from '@/main/docs/openapi/components/parameters/users'
 import {
   badRequest,
@@ -19,6 +23,10 @@ import {
   signUpRequestSchema,
   signUpResponseSchema,
 } from '@/main/docs/openapi/components/schemas/authentication'
+import {
+  fetchNotificationsResponseSchema,
+  notificationResponseSchema,
+} from '@/main/docs/openapi/components/schemas/notifications'
 import {
   fetchUsersResponseSchema,
   userResponseSchema,
@@ -41,6 +49,8 @@ const schemas: Record<string, OpenAPIV3_1.SchemaObject> = {
   signUpResponse: signUpResponseSchema,
   fetchUsersResponse: fetchUsersResponseSchema,
   userResponse: userResponseSchema,
+  fetchNotificationsResponse: fetchNotificationsResponseSchema,
+  notificationResponse: notificationResponseSchema,
 }
 
 export const securitySchemes: Record<string, OpenAPIV3_1.SecuritySchemeObject> =
@@ -52,6 +62,8 @@ const parameters: Record<string, OpenAPIV3_1.ParameterObject> = {
   pageSize: pageSizeParams,
   pageNumber: pageNumberParams,
   userId: userIdParam,
+  notificationId: notificationIdParam,
+  recipientId: recipientIdParam,
 }
 
 export default {
