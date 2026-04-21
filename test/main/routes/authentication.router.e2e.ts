@@ -32,6 +32,7 @@ describe('AuthenticationRouter', () => {
 
   beforeAll(async () => {
     prisma = PrismaConnectionManager.getInstance()
+    await prisma.notification.deleteMany()
     await prisma.user.deleteMany()
     app = await appSetup()
     await app.ready()
@@ -254,6 +255,28 @@ describe('AuthenticationRouter', () => {
         birthdate: BirthdateVO.reconstitute(birthdate).toString(),
         createdAt: expect.stringMatching(ISODateRegExp),
         updatedAt: expect.stringMatching(ISODateRegExp),
+      })
+    })
+
+    test('sign up persists a welcome notification for the new user', async () => {
+      const { name, email, password, birthdate } = makeRequiredSignUpInputStub()
+
+      const { body } = await request(app.server).post('/api/v1/sign-up').send({
+        name,
+        email,
+        password,
+        birthdate,
+      })
+
+      const notifications = await prisma.notification.findMany({
+        where: { recipientId: body.user.id },
+      })
+      expect(notifications).toHaveLength(1)
+      expect(notifications[0]).toMatchObject({
+        recipientId: body.user.id,
+        title: 'Welcome!',
+        content: 'Thanks for signing up. We are glad to have you with us.',
+        readAt: null,
       })
     })
   })
