@@ -67,7 +67,7 @@ describe('DomainEvents', () => {
       DomainEvents.register('FakeDomainEvent', handler)
       const aggregate = FakeAggregateRoot.create({ name: 'test' })
       const event = new FakeDomainEvent(aggregate.id.toString())
-      aggregate.addDomainEvent(event)
+      aggregate.publishDomainEvent(event)
 
       DomainEvents.markAggregateForDispatch(aggregate)
       await DomainEvents.dispatchEventsForAggregate(aggregate.id)
@@ -80,7 +80,7 @@ describe('DomainEvents', () => {
       const handler = { handle: vi.fn() }
       DomainEvents.register('FakeDomainEvent', handler)
       const aggregate = FakeAggregateRoot.create({ name: 'test' })
-      aggregate.addDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
+      aggregate.publishDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
 
       DomainEvents.markAggregateForDispatch(aggregate)
       DomainEvents.markAggregateForDispatch(aggregate)
@@ -97,8 +97,8 @@ describe('DomainEvents', () => {
       const aggregate = FakeAggregateRoot.create({ name: 'test' })
       const event1 = new FakeDomainEvent(aggregate.id.toString())
       const event2 = new FakeDomainEvent(aggregate.id.toString())
-      aggregate.addDomainEvent(event1)
-      aggregate.addDomainEvent(event2)
+      aggregate.publishDomainEvent(event1)
+      aggregate.publishDomainEvent(event2)
       DomainEvents.markAggregateForDispatch(aggregate)
 
       await DomainEvents.dispatchEventsForAggregate(aggregate.id)
@@ -112,7 +112,7 @@ describe('DomainEvents', () => {
       const handler = { handle: vi.fn() }
       DomainEvents.register('FakeDomainEvent', handler)
       const aggregate = FakeAggregateRoot.create({ name: 'test' })
-      aggregate.addDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
+      aggregate.publishDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
       DomainEvents.markAggregateForDispatch(aggregate)
 
       await DomainEvents.dispatchEventsForAggregate(aggregate.id)
@@ -124,11 +124,9 @@ describe('DomainEvents', () => {
       const handler = { handle: vi.fn() }
       DomainEvents.register('FakeDomainEvent', handler)
       const aggregate = FakeAggregateRoot.create({ name: 'test' })
-      aggregate.addDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
-      DomainEvents.markAggregateForDispatch(aggregate)
+      aggregate.publishDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
 
       await DomainEvents.dispatchEventsForAggregate(aggregate.id)
-      aggregate.addDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
       await DomainEvents.dispatchEventsForAggregate(aggregate.id)
 
       expect(handler.handle).toHaveBeenCalledTimes(1)
@@ -148,7 +146,7 @@ describe('DomainEvents', () => {
       const handler = { handle: vi.fn() }
       DomainEvents.register('FakeDomainEvent', handler)
       const aggregate = FakeAggregateRoot.create({ name: 'test' })
-      aggregate.addDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
+      aggregate.publishDomainEvent(new FakeDomainEvent(aggregate.id.toString()))
       DomainEvents.markAggregateForDispatch(aggregate)
 
       DomainEvents.clearMarkedAggregates()
