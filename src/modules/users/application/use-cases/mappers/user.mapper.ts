@@ -1,8 +1,7 @@
-import { Mapper } from '@/core/application/use-cases/mappers/mapper'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 import { UserEntity } from '@/modules/users/domain/entities/user.entity'
 
-export class UserMapper extends Mapper<UserDTO, UserEntity> {
+export class UserMapper {
   static toDTO(userEntity: UserEntity): UserDTO {
     return {
       id: userEntity.id.toString(),

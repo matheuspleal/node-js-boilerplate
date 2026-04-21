@@ -1,11 +1,7 @@
-import { Mapper } from '@/core/application/use-cases/mappers/mapper'
 import { type NotificationDTO } from '@/modules/notification/application/use-cases/dtos/notification.dto'
 import { NotificationEntity } from '@/modules/notification/domain/entities/notification.entity'
 
-export class NotificationMapper extends Mapper<
-  NotificationDTO,
-  NotificationEntity
-> {
+export class NotificationMapper {
   static toDTO(entity: NotificationEntity): NotificationDTO {
     return {
       id: entity.id.toString(),
