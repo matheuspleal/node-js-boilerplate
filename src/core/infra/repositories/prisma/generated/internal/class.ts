@@ -16,8 +16,8 @@ import type * as Prisma from "./prismaNamespace.js"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.4.2",
-  "engineVersion": "94a226be1cf2967af2541cca5529f0f7ba866919",
+  "clientVersion": "7.7.0",
+  "engineVersion": "75cbdc1eb7150937890ad5465d861175c6624711",
   "activeProvider": "postgresql",
   "inlineSchema": "model Notification {\n  id          String    @id @default(uuid())\n  recipientId String    @map(\"recipient_id\")\n  title       String\n  content     String\n  readAt      DateTime? @map(\"read_at\")\n  createdAt   DateTime  @default(now()) @map(\"created_at\")\n\n  @@map(\"notifications\")\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  name      String\n  birthdate DateTime @db.Date\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  @@map(\"users\")\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/core/infra/repositories/prisma/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
   "runtimeDataModel": {
