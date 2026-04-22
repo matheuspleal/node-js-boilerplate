@@ -11,6 +11,10 @@ export const environment = env<
 export const server = {
   host: env<string>({ key: 'API_HOST', defaultValue: '0.0.0.0' }),
   port: env<number>({ key: 'API_PORT', defaultValue: 3333 }),
+  shutdownTimeoutInMs: env<number>({
+    key: 'SERVER_SHUTDOWN_TIMEOUT_IN_MS',
+    defaultValue: 10_000,
+  }),
 } as const
 
 export const api = {
