@@ -1,7 +1,7 @@
 import {
   type FastifyReply,
   type FastifyRequest,
-  type RouteHandlerMethod,
+  type preHandlerHookHandler,
 } from 'fastify'
 
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
@@ -9,7 +9,7 @@ import { type Middleware } from '@/core/presentation/middlewares/contracts/middl
 
 export function fastifyHandlerAdapter<HttpRequest>(
   middleware: Middleware<HttpRequest>,
-): RouteHandlerMethod {
+): preHandlerHookHandler {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     const payload: HttpRequest = {
       ...(request.headers as any),

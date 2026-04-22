@@ -19,7 +19,7 @@ export function makeFakeValidatorStub({ withValue }: FieldStubProps) {
 
 export function makeFakeCollectionValidatorStub({
   withValue,
-  length,
+  length = 0,
 }: FieldStubProps & CollectionStubProps) {
   return Array.from({ length }).map(() => makeFakeValidatorStub({ withValue }))
 }

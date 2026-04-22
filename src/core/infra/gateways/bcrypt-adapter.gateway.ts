@@ -3,11 +3,11 @@ import bcrypt from 'bcryptjs'
 import {
   type HashCompare,
   type HashCompareGateway,
-} from '@/core/application/gateways/cryptography/hash-compare'
+} from '@/core/application/gateways/cryptography/hash-compare.gateway'
 import {
   type HashGenerator,
   type HashGeneratorGateway,
-} from '@/core/application/gateways/cryptography/hash-generator'
+} from '@/core/application/gateways/cryptography/hash-generator.gateway'
 
 export class BcryptAdapter implements HashGeneratorGateway, HashCompareGateway {
   constructor(private readonly salt: number) {}

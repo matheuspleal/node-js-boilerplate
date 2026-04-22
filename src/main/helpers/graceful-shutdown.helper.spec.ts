@@ -1,15 +1,18 @@
-import { createGracefulShutdown } from '@/main/helpers/graceful-shutdown.helper'
+import {
+  createGracefulShutdown,
+  type GracefulShutdownLogger,
+} from '@/main/helpers/graceful-shutdown.helper'
 
 describe('createGracefulShutdown', () => {
-  let logger: {
-    info: ReturnType<typeof vi.fn>
-    error: ReturnType<typeof vi.fn>
-  }
-  let exit: ReturnType<typeof vi.fn>
+  let logger: GracefulShutdownLogger
+  let exit: (code: number) => void
 
   beforeEach(() => {
-    logger = { info: vi.fn(), error: vi.fn() }
-    exit = vi.fn()
+    logger = {
+      info: vi.fn<(message: string) => void>(),
+      error: vi.fn<(err: unknown) => void>(),
+    }
+    exit = vi.fn<(code: number) => void>()
   })
 
   afterEach(() => {
