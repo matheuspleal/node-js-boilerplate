@@ -152,7 +152,7 @@ This section describes the main **libraries** and **tools** used in the project,
 ### Prerequisites
 In addition to **Node.js**, some other tools are required to run this project:
 
-- [Node.js](https://nodejs.org/) - 24.14.1
+- [Node.js](https://nodejs.org/) - 24.15.0
 - [Docker](https://www.docker.com/) - 28.5.1
 
 ### Optionals

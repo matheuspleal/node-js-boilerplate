@@ -109,7 +109,7 @@
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "engines": {
-    "node": "24.14.1"
+    "node": "24.15.0"
   },
   "packageManager": "pnpm@10.26.1"
 }
