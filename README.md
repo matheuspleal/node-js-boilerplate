@@ -285,6 +285,25 @@ pnpm wizard
 
 And choose option 5!
 
+## In Production
+Once the server is running, both APIs are reachable side-by-side on the same host and port (default `http://localhost:3333`).
+
+### REST API Docs
+The REST surface is documented with **OpenAPI** and rendered through [Scalar](https://github.com/scalar/scalar).
+
+- UI: `GET /api/v1/docs`
+- OpenAPI spec (JSON): `GET /api/v1/docs/openapi.json`
+
+Every versioned REST endpoint is served under the `/api/v1/` prefix (for example `/api/v1/users`, `/api/v1/notifications`).
+
+### GraphQL Playground
+The GraphQL API is served by Apollo Server.
+
+- Endpoint: `POST /api/graphql`
+- Apollo Sandbox (introspection-backed explorer) is available on the same URL when opened from a browser in non-production environments.
+
+The same use cases power both transports, so anything you can do over REST you can also do over GraphQL.
+
 ## Contact
 <div align="center">
   <a href="https://buymeacoffee.com/matheuspleal">
