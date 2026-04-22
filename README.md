@@ -63,13 +63,25 @@ In addition, various other design patterns are applied throughout the project to
 Finally, the use of **Test-Driven Development (TDD)** ensures several benefits for the code, such as better design, quality, greater development agility, and ease of maintenance and refactoring.
 
 ### Context
-The project's goal is to demonstrate how it is possible to develop software in a decoupled manner. Thus, the example used in this boilerplate is extremely simple and can be divided into two main sets of features: **Authentication** and **Persons**.
+The project's goal is to demonstrate how it is possible to develop software in a decoupled manner. The example used in this boilerplate covers two bounded contexts: **Users** and **Notifications**.
 
-The **Authentication** functionality allows **Sign Up** in the system and ensures that the **access token** is generated (**Sign In**) so that **Persons** resources, which are protected, can be accessed.
+The **Users** context handles **Sign Up** and **Sign In** (issuing the JWT access token), plus authenticated endpoints to **Fetch Users** (paginated) and **Get User By Id**.
 
-The **Persons** functionality allows an authenticated user to **Fetch Persons** in a paginated way and **Get Person By Id**.
+The **Notifications** context is triggered reactively: when a user signs up, a `UserCreatedEvent` is dispatched and the `OnUserCreated` subscriber persists a welcome notification. Authenticated endpoints expose **Fetch Notifications By Recipient** and **Read Notification**.
 
 Interaction with the API can be done in two ways, through the **REST API** or the **GraphQL API**.
+
+### Patterns
+Beyond Clean Architecture + DDD, the codebase applies:
+
+- **Either monad** for explicit error handling across domain and application layers (no thrown exceptions from business logic).
+- **Aggregate Root + Domain Events** with a dispatcher (`DomainEvents.dispatchEventsForAggregate`) called by repositories after persistence. Subscribers are fire-and-forget — a subscriber failure never aborts the emitting aggregate.
+- **Specification pattern** for composable domain rules (`.and()`, `.or()`, `.not()`).
+- **WatchedList** to track incremental `added`/`removed` items in aggregate collections.
+- **Value Objects** (`EmailVO`, `PasswordVO`, `BirthdateVO`) with validated `create()` and persistence-only `reconstitute()`.
+- **Manual DI via factories** (no container) — `make<Name>()` functions wire dependencies by hand under `src/main/factories/`.
+- **Fluent validator builder** on controllers: `required()`, `isValidUUID()`, `isValidPassword()`, `isEmail()`, `isValidDate()`.
+- **Graceful shutdown** on `SIGTERM`/`SIGINT`: drains Fastify, disconnects Prisma, force-exits after `SERVER_SHUTDOWN_TIMEOUT_IN_MS` (default 10s).
 
 ## Libraries And Tools
 This section describes the main **libraries** and **tools** used in the project, separated between development and production dependencies.
