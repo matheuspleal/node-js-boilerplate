@@ -56,20 +56,36 @@
 </details>
 
 ## About The Project
-The **Node.js Boilerplate** is a project developed in TypeScript that uses concepts of **Clean Architecture** and **Domain-Driven Design (DDD)** to maintain a decoupled and domain-centered application structure.
+The **Node.js Boilerplate** is a production-grade TypeScript starter for building Node.js services that expose both a **REST API** (Fastify) and a **GraphQL API** (Apollo Server) on top of a PostgreSQL database (Prisma).
 
-In addition, various other design patterns are applied throughout the project to solve common software design problems encountered during the development process.
+Every layer is wired by hand so the architecture stays explicit. **Clean Architecture** and **Domain-Driven Design (DDD)** keep the domain decoupled from frameworks, while **Test-Driven Development (TDD)** with Vitest drives both unit and end-to-end suites.
 
-Finally, the use of **Test-Driven Development (TDD)** ensures several benefits for the code, such as better design, quality, greater development agility, and ease of maintenance and refactoring.
+Out of the box:
+
+- Four-layer layout (domain / application / infrastructure / presentation) per bounded context under `src/modules/`.
+- Authentication with JWT + bcrypt, paginated endpoints, and an authenticated GraphQL schema.
+- Domain Events dispatched by aggregate roots and handled by subscribers (e.g. welcome notification on user sign-up).
+- Dockerized PostgreSQL, Prisma migrations, graceful shutdown on `SIGTERM`/`SIGINT`, and a Scalar-powered OpenAPI reference.
+- Husky, lint-staged, commitlint, and semantic-release already wired for Conventional Commits workflows.
 
 ### Context
-The project's goal is to demonstrate how it is possible to develop software in a decoupled manner. The example used in this boilerplate covers two bounded contexts: **Users** and **Notifications**.
+The sample domain spans two bounded contexts that demonstrate how to split responsibilities and keep them decoupled:
 
-The **Users** context handles **Sign Up** and **Sign In** (issuing the JWT access token), plus authenticated endpoints to **Fetch Users** (paginated) and **Get User By Id**.
+- **Users** — handles **Sign Up** and **Sign In** (issuing a JWT access token), plus authenticated endpoints to **Fetch Users** (paginated) and **Get User By Id**.
+- **Notifications** — reactive context. When a user signs up, the aggregate dispatches a `UserCreatedEvent` and the `OnUserCreated` subscriber persists a welcome notification. Authenticated endpoints expose **Fetch Notifications By Recipient** and **Read Notification**.
 
-The **Notifications** context is triggered reactively: when a user signs up, a `UserCreatedEvent` is dispatched and the `OnUserCreated` subscriber persists a welcome notification. Authenticated endpoints expose **Fetch Notifications By Recipient** and **Read Notification**.
+Every module under `src/modules/<name>/` mirrors the same four-layer structure:
 
-Interaction with the API can be done in two ways, through the **REST API** or the **GraphQL API**.
+| Layer | Responsibility |
+|---|---|
+| **Domain** | Entities, aggregate roots, value objects, domain events, specifications — pure business rules, zero external dependencies. |
+| **Application** | Use cases, repository/gateway contracts, mappers, subscribers. |
+| **Infrastructure** | Prisma repository implementations, gateway adapters (JWT, bcrypt). |
+| **Presentation** | Controllers, presenters, validators. |
+
+Cross-cutting building blocks (`Either`, `AggregateRoot`, `DomainEvents`, `BuilderValidator`, `HttpController`) live in `src/core/` with the same four-layer split. The entry point and dependency wiring live in `src/main/`.
+
+The API is exposed simultaneously through **REST** (Fastify) and **GraphQL** (Apollo Server), so the same use cases can be reached through either transport.
 
 ### Patterns
 Beyond Clean Architecture + DDD, the codebase applies:
