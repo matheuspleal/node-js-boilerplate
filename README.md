@@ -201,47 +201,47 @@ openssl base64 -in public-key.pem -out public-key.txt
 Now, the values obtained in the .txt files are the private and public keys in base64. These are the values that you must set for `JWT_PRIVATE_KEY` and `JWT_PUBLIC_KEY`.
 
 ### Preparing
-Install the dependencies with your favorite package manager (npm, yarn, or pnpm). In the example below, the default package manager for Node.js, npm, will be used:
+Install the dependencies with **pnpm** (the package manager used by this project):
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Run Tests
 To run unit tests (*.spec.ts):
 ```bash
-npm run test
+pnpm test
 ```
 
 To run unit tests (*.spec.ts) in watch mode:
 ```bash
-npm run test:watch
+pnpm test:watch
 ```
 
 To run e2e tests (*.e2e.ts):
 ```bash
-npm run test:e2e
+pnpm test:e2e
 ```
 
 To run e2e tests (*.e2e.ts) in watch mode:
 ```bash
-npm run test:e2e:watch
+pnpm test:e2e:watch
 ```
 
 To run all tests unit and e2e tests (*.spec.ts and *.e2e.ts)
 ```bash
-npm run test:ci
+pnpm test:ci
 ```
 
 ### Start Server
 If database container is running, you can run:
 ```bash
-npm run start:dev
+pnpm start:dev
 ```
 
 Or you can use wizard:
 ```bash
-npm run wizard
+pnpm wizard
 ```
 
 And choose option 5!
