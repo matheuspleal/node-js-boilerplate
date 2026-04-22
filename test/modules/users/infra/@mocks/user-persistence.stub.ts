@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-import { type UserPersistence } from '@/modules/users/application/repositories/persistence/user.persistence'
+import { type UserPersistence } from '@/modules/users/infra/repositories/persistence/user.persistence'
 
-import { type CollectionStubProps } from '#/core/domain/@types/collection-stub-props.contract'
+import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
 import { hashedPasswordStub } from '#/modules/users/application/@mocks/password.stub'
 import { VALID_PROVIDERS } from '#/modules/users/application/@mocks/valid-providers'
 
@@ -16,12 +16,15 @@ export function makeUserPersistenceStub(
   const { userPersistence } = props ?? {}
   return {
     id: userPersistence?.id ?? faker.string.uuid(),
-    personId: userPersistence?.personId ?? faker.string.uuid(),
+    name: userPersistence?.name ?? faker.person.fullName(),
+    birthdate: userPersistence?.birthdate ?? faker.date.birthdate(),
     email:
       userPersistence?.email ??
-      faker.internet.email({
-        provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
-      }),
+      faker.internet
+        .email({
+          provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
+        })
+        .toLowerCase(),
     password: userPersistence?.password ?? hashedPasswordStub,
     createdAt: userPersistence?.createdAt ?? faker.date.recent(),
     updatedAt: userPersistence?.updatedAt ?? faker.date.recent(),

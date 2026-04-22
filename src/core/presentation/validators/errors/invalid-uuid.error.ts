@@ -1,10 +1,10 @@
-import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
-import { buildErrorMessage } from '@/core/presentation/validators/helpers/build-error-message'
+import { ValidationError } from '@/core/presentation/validators/errors/validation.error'
+import { buildErrorMessage } from '@/core/presentation/validators/helpers/build-error-message.helper'
 
-export class InvalidUUIDError extends Error implements ValidationError<string> {
+export class InvalidUUIDError extends ValidationError<string> {
   constructor(
-    readonly field: string,
-    readonly value: string,
+    public readonly field: string,
+    public readonly value: string,
   ) {
     super(
       buildErrorMessage({
@@ -13,6 +13,5 @@ export class InvalidUUIDError extends Error implements ValidationError<string> {
         reason: 'is invalid id!',
       }),
     )
-    this.name = 'InvalidUUIDError'
   }
 }

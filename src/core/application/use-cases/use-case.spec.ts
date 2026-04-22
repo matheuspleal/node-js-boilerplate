@@ -1,5 +1,5 @@
-import { type Either, left, right } from '@/core/application/either'
 import { type UseCase } from '@/core/application/use-cases/use-case'
+import { type Either, left, right } from '@/core/shared/either'
 
 class FakeError extends Error {
   constructor() {

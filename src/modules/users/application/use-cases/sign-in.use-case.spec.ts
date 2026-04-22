@@ -1,6 +1,7 @@
 import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import {
   type HashCompare,
   type HashCompareGateway,
@@ -9,7 +10,6 @@ import {
   type TokenGenerator,
   type TokenGeneratorGateway,
 } from '@/core/application/gateways/token/token-generator.gateway'
-import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized.error'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 import {
   SignInUseCase,
@@ -19,7 +19,7 @@ import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
 
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password.stub'
 import { makeSignInInputStub } from '#/modules/users/application/@mocks/sign-in-input.stub'
-import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user.entity.stub'
+import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity.stub'
 
 describe('SignInUseCase', () => {
   let sut: SignInUseCase
@@ -102,7 +102,7 @@ describe('SignInUseCase', () => {
     expect(hashCompareGatewaySpy).toHaveBeenCalledTimes(1)
     expect(hashCompareGatewaySpy).toHaveBeenCalledWith({
       plaintext: password,
-      digest: userEntityStub.password,
+      digest: userEntityStub.password.toValue(),
     })
     expect(tokenGeneratorGatewaySpy).not.toHaveBeenCalled()
     expect(result.isLeft()).toBe(true)
@@ -122,7 +122,7 @@ describe('SignInUseCase', () => {
     expect(hashCompareGatewaySpy).toHaveBeenCalledTimes(1)
     expect(hashCompareGatewaySpy).toHaveBeenCalledWith({
       plaintext: user.password,
-      digest: userEntityStub.password,
+      digest: userEntityStub.password.toValue(),
     })
     expect(tokenGeneratorGatewaySpy).toHaveBeenCalledTimes(1)
     expect(tokenGeneratorGatewaySpy).toHaveBeenCalledWith({

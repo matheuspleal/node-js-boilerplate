@@ -1,26 +1,40 @@
-import { Entity } from '@/core/domain/entities/entity'
-import { type UniqueEntityIdVO } from '@/core/domain/value-objects/unique-entity-id.vo'
-import { type Optional } from '@/core/shared/types/optional.type'
+import { AggregateRoot } from '@/core/domain/aggregate-root'
+import { DomainError } from '@/core/domain/errors/domain.error'
+import { type UniqueEntityId } from '@/core/domain/unique-entity.id'
+import { Either, left, right } from '@/core/shared/either'
+import { Optional } from '@/core/shared/types/optional.type'
+import { InvalidAgeError } from '@/modules/users/domain/errors/invalid-age.error'
+import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
+import { UserCreatedEvent } from '@/modules/users/domain/events/user-created.event'
+import { UserPasswordChangedEvent } from '@/modules/users/domain/events/user-password-changed.event'
+import { AllowedEmailDomainSpecification } from '@/modules/users/domain/specifications/allowed-email-domain.specification'
+import { MinimumAgeSpecification } from '@/modules/users/domain/specifications/minimum-age.specification'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 import { EmailVO } from '@/modules/users/domain/value-objects/email.vo'
+import { PasswordVO } from '@/modules/users/domain/value-objects/password.vo'
 
 export interface UserProps {
-  personId: UniqueEntityIdVO
+  name: string
+  birthdate: BirthdateVO
   email: EmailVO
-  password: string
+  password: PasswordVO
   createdAt: Date
   updatedAt: Date
 }
 
-export type UserInput = Optional<
-  Omit<UserProps, 'email'>,
-  'createdAt' | 'updatedAt'
-> & {
-  email: string
-}
+export type UserInput = Optional<UserProps, 'createdAt' | 'updatedAt'>
 
-export class UserEntity extends Entity<UserProps> {
-  get personId(): UniqueEntityIdVO {
-    return this.props.personId
+export class UserEntity extends AggregateRoot<UserProps> {
+  get name() {
+    return this.props.name
+  }
+
+  get birthdate() {
+    return this.props.birthdate
+  }
+
+  get age() {
+    return this.props.birthdate.getCurrentAgeInYears()
   }
 
   get email() {
@@ -31,8 +45,14 @@ export class UserEntity extends Entity<UserProps> {
     return this.props.password
   }
 
-  set password(password: string) {
-    this.props.password = password
+  changeName(newName: string): void {
+    this.props.name = newName
+    this.touch()
+  }
+
+  changePassword(newPassword: PasswordVO): void {
+    this.props.password = newPassword
+    this.addDomainEvent(new UserPasswordChangedEvent(this.id))
     this.touch()
   }
 
@@ -48,16 +68,34 @@ export class UserEntity extends Entity<UserProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(props: UserInput, id?: UniqueEntityIdVO): UserEntity {
+  static create(
+    props: UserInput,
+    id?: UniqueEntityId,
+  ): Either<DomainError, UserEntity> {
+    const { email, birthdate, ...rest } = props
+    const allowedEmailDomain = new AllowedEmailDomainSpecification()
+    if (!allowedEmailDomain.isSatisfiedBy(email)) {
+      return left(new InvalidDomainError(email.domain))
+    }
+    const minimumAge = new MinimumAgeSpecification()
+    if (!minimumAge.isSatisfiedBy(birthdate)) {
+      return left(new InvalidAgeError(birthdate.getCurrentAgeInYears()))
+    }
     const user = new UserEntity(
       {
-        ...props,
-        email: new EmailVO({ value: props.email }),
+        ...rest,
+        email,
+        birthdate,
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date(),
       },
       id,
     )
-    return user
+    user.addDomainEvent(new UserCreatedEvent(user.id))
+    return right(user)
+  }
+
+  static reconstitute(props: UserProps, id: UniqueEntityId): UserEntity {
+    return new UserEntity(props, id)
   }
 }

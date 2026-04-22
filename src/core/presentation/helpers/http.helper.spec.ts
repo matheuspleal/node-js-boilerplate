@@ -12,7 +12,9 @@ import {
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
 
-import { type FakeNamespace } from '#/core/presentation/@mocks/fake-namespace.stub'
+interface FakeResponse {
+  fullName: string
+}
 
 describe('HttpHelpers', () => {
   describe('ok [status code = 200]', () => {
@@ -28,14 +30,14 @@ describe('HttpHelpers', () => {
     })
 
     it('should be able to return HttpResponse with status code equals 200 and data equal to the type passed in generic', () => {
-      const expectedResponse: HttpResponse<FakeNamespace.Response> = {
+      const expectedResponse: HttpResponse<FakeResponse> = {
         statusCode: StatusCode.OK,
         data: {
           fullName: 'John Doe',
         },
       }
 
-      const sut = ok<FakeNamespace.Response>({
+      const sut = ok<FakeResponse>({
         fullName: 'John Doe',
       })
 
@@ -56,14 +58,14 @@ describe('HttpHelpers', () => {
     })
 
     it('should be able to return HttpResponse with status code equals 201 and data equal to the type passed in generic', () => {
-      const expectedResponse: HttpResponse<FakeNamespace.Response> = {
+      const expectedResponse: HttpResponse<FakeResponse> = {
         statusCode: StatusCode.CREATED,
         data: {
           fullName: 'John Doe',
         },
       }
 
-      const sut = created<FakeNamespace.Response>({
+      const sut = created<FakeResponse>({
         fullName: 'John Doe',
       })
 

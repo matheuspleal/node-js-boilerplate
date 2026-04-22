@@ -1,1 +1,1 @@
-npm run test:ci
+pnpm test:ci

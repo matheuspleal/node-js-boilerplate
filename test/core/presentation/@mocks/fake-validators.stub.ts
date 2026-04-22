@@ -4,9 +4,9 @@ import { IsValidPasswordRule } from '@/core/presentation/validators/rules/is-val
 import { IsValidUUIDRule } from '@/core/presentation/validators/rules/is-valid-uuid.rule'
 import { RequiredRule } from '@/core/presentation/validators/rules/required.rule'
 
-import { type CollectionStubProps } from '#/@types/collection-stub-props.contract'
+import { type CollectionStubProps } from '#/@types/collection-stub-props.type'
 import { makeFakeFieldStub } from '#/core/presentation/@mocks/fake-field.stub'
-import { type FieldStubProps } from '#/core/presentation/@mocks/field-stub-props'
+import { type FieldStubProps } from '#/core/presentation/@mocks/field-stub-props.type'
 
 export function makeFakeValidatorStub({ withValue }: FieldStubProps) {
   const RandomValidator = faker.helpers.arrayElement([
@@ -19,7 +19,7 @@ export function makeFakeValidatorStub({ withValue }: FieldStubProps) {
 
 export function makeFakeCollectionValidatorStub({
   withValue,
-  length,
+  length = 0,
 }: FieldStubProps & CollectionStubProps) {
   return Array.from({ length }).map(() => makeFakeValidatorStub({ withValue }))
 }

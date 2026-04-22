@@ -1,1 +1,1 @@
-export const VALID_PROVIDERS = ['fake-domain.com', 'fake-domain.org']
+export const VALID_PROVIDERS = ['foo.com', 'bar.com', 'baz.com']

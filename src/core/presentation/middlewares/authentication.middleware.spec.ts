@@ -1,16 +1,16 @@
 import { type MockInstance } from 'vitest'
 import { mock, type MockProxy } from 'vitest-mock-extended'
 
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import {
   type TokenVerifier,
   type TokenVerifierGateway,
-} from '@/core/application/gateways/token/token-verifier'
+} from '@/core/application/gateways/token/token-verifier.gateway'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { AuthenticationMiddleware } from '@/core/presentation/middlewares/authentication.middleware'
-import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
 import { type UserEntity } from '@/modules/users/domain/entities/user.entity'
 
-import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user.entity.stub'
+import { makeUserEntityStub } from '#/modules/users/domain/@mocks/user-entity.stub'
 
 describe('AuthenticationMiddleware', () => {
   let sut: AuthenticationMiddleware
@@ -38,17 +38,25 @@ describe('AuthenticationMiddleware', () => {
   })
 
   it('should be able to return UnauthorizedError when the token does not have the "Bearer" prefix', async () => {
-    tokenVerifierGatewayMock.verify.mockImplementationOnce(() => {
-      throw new UnauthorizedError() as any
-    })
     const fakeToken = 'fake-token'
 
     const response = await sut.handle({
       authorization: fakeToken,
     })
 
-    expect(tokenVerifierGatewaySpy).toHaveBeenCalledTimes(1)
-    expect(tokenVerifierGatewaySpy).toHaveBeenCalledWith({ token: undefined })
+    expect(tokenVerifierGatewaySpy).not.toHaveBeenCalled()
+    expect(response).toEqual({
+      statusCode: StatusCode.UNAUTHORIZED,
+      data: new UnauthorizedError(),
+    })
+  })
+
+  it('should be able to return UnauthorizedError when authorization header is empty', async () => {
+    const response = await sut.handle({
+      authorization: '',
+    })
+
+    expect(tokenVerifierGatewaySpy).not.toHaveBeenCalled()
     expect(response).toEqual({
       statusCode: StatusCode.UNAUTHORIZED,
       data: new UnauthorizedError(),

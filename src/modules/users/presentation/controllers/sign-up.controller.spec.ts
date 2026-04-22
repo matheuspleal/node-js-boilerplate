@@ -1,24 +1,22 @@
 import { type MockInstance } from 'vitest'
 import { type MockProxy, mock } from 'vitest-mock-extended'
 
-import { left, right } from '@/core/application/either'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { InvalidPasswordError } from '@/core/presentation/validators/errors/invalid-password.error'
 import { RequiredError } from '@/core/presentation/validators/errors/required.error'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
-import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
-import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/email-already-exists.error'
-import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
-import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email.error'
-import { type PersonDTO } from '@/modules/persons/application/use-cases/dtos/person.dto'
+import { ValidationError } from '@/core/presentation/validators/errors/validation.error'
+import { left, right } from '@/core/shared/either'
+import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
 import { type UserDTO } from '@/modules/users/application/use-cases/dtos/user.dto'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up.use-case'
+import { InvalidBirthdateError } from '@/modules/users/domain/errors/invalid-birthdate.error'
+import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
 import {
   SignUpController,
   type SignUpControllerRequest,
 } from '@/modules/users/presentation/controllers/sign-up.controller'
 
-import { makePersonDTOStub } from '#/modules/persons/application/@mocks/person-dto.stub'
 import { plaintextPasswordStub } from '#/modules/users/application/@mocks/password.stub'
 import { makeRequiredSignUpInputStub } from '#/modules/users/application/@mocks/sign-up-input.stub'
 import { makeUserDTOStub } from '#/modules/users/application/@mocks/user-dto.stub'
@@ -28,18 +26,15 @@ const listOfFields = ['name', 'email', 'password', 'birthdate']
 describe('SignUpController', () => {
   let sut: SignUpController
   let userDTOStub: UserDTO
-  let personDTOStub: PersonDTO
   let signUpUseCaseMock: MockProxy<SignUpUseCase>
   let signUpUseCaseSpy: MockInstance
 
   beforeAll(() => {
     userDTOStub = makeUserDTOStub()
-    personDTOStub = makePersonDTOStub()
     signUpUseCaseMock = mock<SignUpUseCase>()
     signUpUseCaseMock.execute.mockResolvedValue(
       right({
         user: userDTOStub,
-        person: personDTOStub,
       }),
     )
   })
@@ -104,10 +99,10 @@ describe('SignUpController', () => {
     )
 
     const fakeSignUpInput: SignUpControllerRequest = {
-      name: personDTOStub.name,
+      name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: personDTOStub.birthdate.toISOString(),
+      birthdate: userDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
@@ -121,10 +116,10 @@ describe('SignUpController', () => {
     signUpUseCaseMock.execute.mockResolvedValueOnce(left(fakeInvalidEmailError))
 
     const fakeSignUpInput: SignUpControllerRequest = {
-      name: personDTOStub.name,
+      name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: personDTOStub.birthdate.toISOString(),
+      birthdate: userDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
@@ -135,49 +130,49 @@ describe('SignUpController', () => {
 
   it('should be able to return InvalidBirthdateError when the informed birthdate is invalid', async () => {
     const fakeInvalidBirthdateError = new InvalidBirthdateError(
-      personDTOStub.birthdate,
+      userDTOStub.birthdate,
     )
     signUpUseCaseMock.execute.mockResolvedValueOnce(
       left(fakeInvalidBirthdateError),
     )
 
     const fakeSignUpInput: SignUpControllerRequest = {
-      name: personDTOStub.name,
+      name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: personDTOStub.birthdate.toISOString(),
+      birthdate: userDTOStub.birthdate.toISOString(),
     }
 
     const { statusCode, data } = await sut.handle(fakeSignUpInput)
 
     expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
-    expect(data).toEqual(new InvalidBirthdateError(personDTOStub.birthdate))
+    expect(data).toEqual(new InvalidBirthdateError(userDTOStub.birthdate))
   })
 
   it('should be able to return the created user when the user was created successfully', async () => {
     const fakeSignUpInput: SignUpControllerRequest = {
-      name: personDTOStub.name,
+      name: userDTOStub.name,
       email: userDTOStub.email,
       password: plaintextPasswordStub,
-      birthdate: personDTOStub.birthdate.toISOString(),
+      birthdate: userDTOStub.birthdate.toISOString(),
     }
 
     const response = await sut.handle(fakeSignUpInput)
 
     expect(signUpUseCaseSpy).toHaveBeenCalledTimes(1)
     expect(signUpUseCaseSpy).toHaveBeenCalledWith({
-      name: personDTOStub.name,
+      name: userDTOStub.name,
       password: plaintextPasswordStub,
       email: userDTOStub.email,
-      birthdate: personDTOStub.birthdate,
+      birthdate: userDTOStub.birthdate,
     })
     expect(response).toEqual({
       statusCode: StatusCode.CREATED,
       data: {
         user: {
           id: userDTOStub.id,
-          name: personDTOStub.name,
-          birthdate: personDTOStub.birthdate,
+          name: userDTOStub.name,
+          birthdate: userDTOStub.birthdate,
           email: userDTOStub.email,
           createdAt: userDTOStub.createdAt,
           updatedAt: userDTOStub.updatedAt,

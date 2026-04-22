@@ -16,18 +16,26 @@ import type * as Prisma from "./prismaNamespace.js"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.1.0",
-  "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
+  "clientVersion": "7.7.0",
+  "engineVersion": "75cbdc1eb7150937890ad5465d861175c6624711",
   "activeProvider": "postgresql",
-  "inlineSchema": "model Person {\n  id        String   @id @default(uuid())\n  name      String\n  birthdate DateTime @db.Date\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n  userId    String?\n  User      User?\n\n  @@map(\"persons\")\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  person    Person   @relation(fields: [personId], references: [id])\n  personId  String   @unique @db.VarChar(36)\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  @@map(\"users\")\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/core/infra/repositories/prisma/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
+  "inlineSchema": "model Notification {\n  id          String    @id @default(uuid())\n  recipientId String    @map(\"recipient_id\")\n  title       String\n  content     String\n  readAt      DateTime? @map(\"read_at\")\n  createdAt   DateTime  @default(now()) @map(\"created_at\")\n\n  @@map(\"notifications\")\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  name      String\n  birthdate DateTime @db.Date\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  @@map(\"users\")\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/core/infra/repositories/prisma/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
     "types": {}
+  },
+  "parameterizationSchema": {
+    "strings": [],
+    "graph": ""
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Person\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthdate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PersonToUser\"}],\"dbName\":\"persons\"},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"person\",\"kind\":\"object\",\"type\":\"Person\",\"relationName\":\"PersonToUser\"},{\"name\":\"personId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"}],\"dbName\":\"users\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"recipientId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"recipient_id\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"readAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"read_at\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"}],\"dbName\":\"notifications\"},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthdate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"}],\"dbName\":\"users\"}},\"enums\":{},\"types\":{}}")
+config.parameterizationSchema = {
+  strings: JSON.parse("[\"where\",\"Notification.findUnique\",\"Notification.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"Notification.findFirst\",\"Notification.findFirstOrThrow\",\"Notification.findMany\",\"data\",\"Notification.createOne\",\"Notification.createMany\",\"Notification.createManyAndReturn\",\"Notification.updateOne\",\"Notification.updateMany\",\"Notification.updateManyAndReturn\",\"create\",\"update\",\"Notification.upsertOne\",\"Notification.deleteOne\",\"Notification.deleteMany\",\"having\",\"_count\",\"_min\",\"_max\",\"Notification.groupBy\",\"Notification.aggregate\",\"User.findUnique\",\"User.findUniqueOrThrow\",\"User.findFirst\",\"User.findFirstOrThrow\",\"User.findMany\",\"User.createOne\",\"User.createMany\",\"User.createManyAndReturn\",\"User.updateOne\",\"User.updateMany\",\"User.updateManyAndReturn\",\"User.upsertOne\",\"User.deleteOne\",\"User.deleteMany\",\"User.groupBy\",\"User.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"birthdate\",\"email\",\"password\",\"createdAt\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"recipientId\",\"title\",\"content\",\"readAt\",\"set\"]"),
+  graph: "ThEgCSoAAEMAMCsAAAQAECwAAEMAMC0BAAAAATJAAD0AIT8BADwAIUABADwAIUEBADwAIUJAAEQAIQEAAAABACABAAAAAQAgCSoAAEMAMCsAAAQAECwAAEMAMC0BADwAITJAAD0AIT8BADwAIUABADwAIUEBADwAIUJAAEQAIQFCAABKACADAAAABAAgAwAABQAwBAAAAQAgAwAAAAQAIAMAAAUAMAQAAAEAIAMAAAAEACADAAAFADAEAAABACAGLQEAAAABMkAAAAABPwEAAAABQAEAAAABQQEAAAABQkAAAAABAQgAAAkAIAYtAQAAAAEyQAAAAAE_AQAAAAFAAQAAAAFBAQAAAAFCQAAAAAEBCAAACwAwAQgAAAsAMAYtAQBIACEyQABJACE_AQBIACFAAQBIACFBAQBIACFCQABOACECAAAAAQAgCAAADgAgBi0BAEgAITJAAEkAIT8BAEgAIUABAEgAIUEBAEgAIUJAAE4AIQIAAAAEACAIAAAQACACAAAABAAgCAAAEAAgAwAAAAEAIA8AAAkAIBAAAA4AIAEAAAABACABAAAABAAgBBUAAEsAIBYAAE0AIBcAAEwAIEIAAEoAIAkqAAA-ADArAAAXABAsAAA-ADAtAQA0ACEyQAA1ACE_AQA0ACFAAQA0ACFBAQA0ACFCQAA_ACEDAAAABAAgAwAAFgAwFAAAFwAgAwAAAAQAIAMAAAUAMAQAAAEAIAoqAAA7ADArAAAdABAsAAA7ADAtAQAAAAEuAQA8ACEvQAA9ACEwAQAAAAExAQA8ACEyQAA9ACEzQAA9ACEBAAAAGgAgAQAAABoAIAoqAAA7ADArAAAdABAsAAA7ADAtAQA8ACEuAQA8ACEvQAA9ACEwAQA8ACExAQA8ACEyQAA9ACEzQAA9ACEAAwAAAB0AIAMAAB4AMAQAABoAIAMAAAAdACADAAAeADAEAAAaACADAAAAHQAgAwAAHgAwBAAAGgAgBy0BAAAAAS4BAAAAAS9AAAAAATABAAAAATEBAAAAATJAAAAAATNAAAAAAQEIAAAiACAHLQEAAAABLgEAAAABL0AAAAABMAEAAAABMQEAAAABMkAAAAABM0AAAAABAQgAACQAMAEIAAAkADAHLQEASAAhLgEASAAhL0AASQAhMAEASAAhMQEASAAhMkAASQAhM0AASQAhAgAAABoAIAgAACcAIActAQBIACEuAQBIACEvQABJACEwAQBIACExAQBIACEyQABJACEzQABJACECAAAAHQAgCAAAKQAgAgAAAB0AIAgAACkAIAMAAAAaACAPAAAiACAQAAAnACABAAAAGgAgAQAAAB0AIAMVAABFACAWAABHACAXAABGACAKKgAAMwAwKwAAMAAQLAAAMwAwLQEANAAhLgEANAAhL0AANQAhMAEANAAhMQEANAAhMkAANQAhM0AANQAhAwAAAB0AIAMAAC8AMBQAADAAIAMAAAAdACADAAAeADAEAAAaACAKKgAAMwAwKwAAMAAQLAAAMwAwLQEANAAhLgEANAAhL0AANQAhMAEANAAhMQEANAAhMkAANQAhM0AANQAhDhUAADcAIBYAADoAIBcAADoAIDQBAAAAATUBAAAABDYBAAAABDcBAAAAATgBAAAAATkBAAAAAToBAAAAATsBADkAITwBAAAAAT0BAAAAAT4BAAAAAQsVAAA3ACAWAAA4ACAXAAA4ACA0QAAAAAE1QAAAAAQ2QAAAAAQ3QAAAAAE4QAAAAAE5QAAAAAE6QAAAAAE7QAA2ACELFQAANwAgFgAAOAAgFwAAOAAgNEAAAAABNUAAAAAENkAAAAAEN0AAAAABOEAAAAABOUAAAAABOkAAAAABO0AANgAhCDQCAAAAATUCAAAABDYCAAAABDcCAAAAATgCAAAAATkCAAAAAToCAAAAATsCADcAIQg0QAAAAAE1QAAAAAQ2QAAAAAQ3QAAAAAE4QAAAAAE5QAAAAAE6QAAAAAE7QAA4ACEOFQAANwAgFgAAOgAgFwAAOgAgNAEAAAABNQEAAAAENgEAAAAENwEAAAABOAEAAAABOQEAAAABOgEAAAABOwEAOQAhPAEAAAABPQEAAAABPgEAAAABCzQBAAAAATUBAAAABDYBAAAABDcBAAAAATgBAAAAATkBAAAAAToBAAAAATsBADoAITwBAAAAAT0BAAAAAT4BAAAAAQoqAAA7ADArAAAdABAsAAA7ADAtAQA8ACEuAQA8ACEvQAA9ACEwAQA8ACExAQA8ACEyQAA9ACEzQAA9ACELNAEAAAABNQEAAAAENgEAAAAENwEAAAABOAEAAAABOQEAAAABOgEAAAABOwEAOgAhPAEAAAABPQEAAAABPgEAAAABCDRAAAAAATVAAAAABDZAAAAABDdAAAAAAThAAAAAATlAAAAAATpAAAAAATtAADgAIQkqAAA-ADArAAAXABAsAAA-ADAtAQA0ACEyQAA1ACE_AQA0ACFAAQA0ACFBAQA0ACFCQAA_ACELFQAAQQAgFgAAQgAgFwAAQgAgNEAAAAABNUAAAAAFNkAAAAAFN0AAAAABOEAAAAABOUAAAAABOkAAAAABO0AAQAAhCxUAAEEAIBYAAEIAIBcAAEIAIDRAAAAAATVAAAAABTZAAAAABTdAAAAAAThAAAAAATlAAAAAATpAAAAAATtAAEAAIQg0AgAAAAE1AgAAAAU2AgAAAAU3AgAAAAE4AgAAAAE5AgAAAAE6AgAAAAE7AgBBACEINEAAAAABNUAAAAAFNkAAAAAFN0AAAAABOEAAAAABOUAAAAABOkAAAAABO0AAQgAhCSoAAEMAMCsAAAQAECwAAEMAMC0BADwAITJAAD0AIT8BADwAIUABADwAIUEBADwAIUJAAEQAIQg0QAAAAAE1QAAAAAU2QAAAAAU3QAAAAAE4QAAAAAE5QAAAAAE6QAAAAAE7QABCACEAAAABQwEAAAABAUNAAAAAAQAAAAABQ0AAAAABAAAAAAMVAAYWAAcXAAgAAAADFQAGFgAHFwAIAAAAAxUADhYADxcAEAAAAAMVAA4WAA8XABABAgECAwEFBgEGBwEHCAEJCgEKDAILDQMMDwENEQIOEgQREwESFAETFQIYGAUZGQkaGwobHAocHwodIAoeIQofIwogJQIhJgsiKAojKgIkKwwlLAomLQonLgIoMQ0pMhE"
+}
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -36,12 +44,14 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
-  }
+  },
+
+  importName: "./query_compiler_fast_bg.js"
 }
 
 
@@ -56,9 +66,11 @@ export interface PrismaClientConstructor {
    * Type-safe database client for TypeScript
    * @example
    * ```
-   * const prisma = new PrismaClient()
-   * // Fetch zero or more People
-   * const people = await prisma.person.findMany()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
+   * // Fetch zero or more Notifications
+   * const notifications = await prisma.notification.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -78,9 +90,11 @@ export interface PrismaClientConstructor {
  * Type-safe database client for TypeScript
  * @example
  * ```
- * const prisma = new PrismaClient()
- * // Fetch zero or more People
- * const people = await prisma.person.findMany()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
+ * // Fetch zero or more Notifications
+ * const notifications = await prisma.notification.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -163,7 +177,7 @@ export interface PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
@@ -174,14 +188,14 @@ export interface PrismaClient<
   }>>
 
       /**
-   * `prisma.person`: Exposes CRUD operations for the **Person** model.
+   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more People
-    * const people = await prisma.person.findMany()
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notification.findMany()
     * ```
     */
-  get person(): Prisma.PersonDelegate<ExtArgs, { omit: OmitOpts }>;
+  get notification(): Prisma.NotificationDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.

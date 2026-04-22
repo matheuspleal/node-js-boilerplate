@@ -17,3 +17,6 @@ coverage
 
 # Private and Public keys
 *.pem
+
+# Claude Code
+.claude/settings.local.json

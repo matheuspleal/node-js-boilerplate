@@ -2,17 +2,18 @@ import { faker } from '@faker-js/faker'
 import { type FastifyInstance } from 'fastify'
 import request from 'supertest'
 
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import { BcryptAdapter } from '@/core/infra/gateways/bcrypt-adapter.gateway'
 import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
 import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma-connection-manager'
 import { StatusCode } from '@/core/presentation/helpers/http.helper'
 import { type ValidationComposite } from '@/core/presentation/validators/errors/validation-composite.error'
 import { appSetup } from '@/main/setup/app.setup'
-import { EmailAlreadyExistsError } from '@/modules/persons/application/errors/email-already-exists.error'
-import { InvalidBirthdateError } from '@/modules/persons/application/errors/invalid-birthdate.error'
-import { InvalidEmailError } from '@/modules/persons/application/errors/invalid-email.error'
-import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
-import { BirthdateVO } from '@/modules/persons/domain/value-objects/birthdate.vo'
+import { EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
+import { InvalidBirthdateError } from '@/modules/users/domain/errors/invalid-birthdate.error'
+import { InvalidDomainError } from '@/modules/users/domain/errors/invalid-domain.error'
+import { InvalidEmailError } from '@/modules/users/domain/errors/invalid-email.error'
+import { BirthdateVO } from '@/modules/users/domain/value-objects/birthdate.vo'
 
 import { ISODateRegExp } from '#/core/domain/@helpers/iso-date-regexp'
 import { UUIDRegExp } from '#/core/domain/@helpers/uuid-regexp'
@@ -31,8 +32,8 @@ describe('AuthenticationRouter', () => {
 
   beforeAll(async () => {
     prisma = PrismaConnectionManager.getInstance()
+    await prisma.notification.deleteMany()
     await prisma.user.deleteMany()
-    await prisma.person.deleteMany()
     app = await appSetup()
     await app.ready()
   })
@@ -130,7 +131,7 @@ describe('AuthenticationRouter', () => {
 
     test('sign up with invalid email', async () => {
       const { name, password, birthdate } = makeRequiredSignUpInputStub()
-      const invalidEmail = 'invalid-email@fake-domain.net'
+      const invalidEmail = 'invalid-email'
 
       const { statusCode, body } = await request(app.server)
         .post('/api/v1/sign-up')
@@ -144,6 +145,25 @@ describe('AuthenticationRouter', () => {
       expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
       expect(body).toEqual({
         error: new InvalidEmailError(invalidEmail).message,
+      })
+    })
+
+    test('sign up with invalid email domain', async () => {
+      const { name, password, birthdate } = makeRequiredSignUpInputStub()
+      const invalidDomain = 'invalid-domain'
+      const email = `john.doe@${invalidDomain}.com`
+      const { statusCode, body } = await request(app.server)
+        .post('/api/v1/sign-up')
+        .send({
+          name,
+          email,
+          password,
+          birthdate,
+        })
+
+      expect(statusCode).toEqual(StatusCode.BAD_REQUEST)
+      expect(body).toEqual({
+        error: new InvalidDomainError('invalid-domain').message,
       })
     })
 
@@ -232,9 +252,31 @@ describe('AuthenticationRouter', () => {
         id: expect.stringMatching(UUIDRegExp),
         name,
         email,
-        birthdate: new BirthdateVO({ value: birthdate }).toString(),
+        birthdate: BirthdateVO.reconstitute(birthdate).toString(),
         createdAt: expect.stringMatching(ISODateRegExp),
         updatedAt: expect.stringMatching(ISODateRegExp),
+      })
+    })
+
+    test('sign up persists a welcome notification for the new user', async () => {
+      const { name, email, password, birthdate } = makeRequiredSignUpInputStub()
+
+      const { body } = await request(app.server).post('/api/v1/sign-up').send({
+        name,
+        email,
+        password,
+        birthdate,
+      })
+
+      const notifications = await prisma.notification.findMany({
+        where: { recipientId: body.user.id },
+      })
+      expect(notifications).toHaveLength(1)
+      expect(notifications[0]).toMatchObject({
+        recipientId: body.user.id,
+        title: 'Welcome!',
+        content: 'Thanks for signing up. We are glad to have you with us.',
+        readAt: null,
       })
     })
   })

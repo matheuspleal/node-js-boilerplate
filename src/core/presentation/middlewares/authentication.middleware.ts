@@ -1,4 +1,4 @@
-import { type TokenVerifierGateway } from '@/core/application/gateways/token/token-verifier'
+import { type TokenVerifierGateway } from '@/core/application/gateways/token/token-verifier.gateway'
 import { ok, unauthorized } from '@/core/presentation/helpers/http.helper'
 import { type Middleware } from '@/core/presentation/middlewares/contracts/middleware'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
@@ -20,6 +20,9 @@ export class AuthenticationMiddleware implements Middleware<Authentication.Reque
   async handle({
     authorization,
   }: Authentication.Request): Promise<HttpResponse<Authentication.Response>> {
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+      return unauthorized()
+    }
     try {
       const [, token] = authorization.split(' ')
       const { sub } = this.tokenVerifierGateway.verify({ token })

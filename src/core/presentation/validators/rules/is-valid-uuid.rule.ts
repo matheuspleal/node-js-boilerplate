@@ -1,9 +1,9 @@
 import {
   type ValidatorRule,
   type Validator,
-} from '@/core/presentation/validators/contracts/validator.rule'
+} from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { InvalidUUIDError } from '@/core/presentation/validators/errors/invalid-uuid.error'
-import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
+import { ValidationError } from '@/core/presentation/validators/errors/validation.error'
 
 export class IsValidUUIDRule implements ValidatorRule {
   private readonly UUIDRegExp =
