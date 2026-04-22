@@ -175,7 +175,7 @@ In addition to **Node.js**, some other tools are required to run this project:
 You can also install this toolkit for a better experience:
 
 - [Claude Code](https://claude.com/claude-code) - Anthropic's official CLI for Claude, useful for pair-programming inside this repository.
-- [Insomnia](https://insomnia.rest/) - 11.6.1
+- [Insomnia](https://insomnia.rest/) - 12.5.0
 
 ### Env Variables
 For security reasons, the `.env` file is not versioned, meaning it is not sent to the GitHub repository.
