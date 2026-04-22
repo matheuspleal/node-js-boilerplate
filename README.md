@@ -174,7 +174,7 @@ In addition to **Node.js**, some other tools are required to run this project:
 ### Optionals
 You can also install this toolkit for a better experience:
 
-- [Cursor](https://cursor.com/changelog/1-7) - 1.7
+- [Claude Code](https://claude.com/claude-code) - Anthropic's official CLI for Claude, useful for pair-programming inside this repository.
 - [Insomnia](https://insomnia.rest/) - 11.6.1
 
 ### Env Variables
