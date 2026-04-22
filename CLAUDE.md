@@ -27,22 +27,29 @@ Package manager is **pnpm**. Node.js 24, TypeScript 5.9, ES2022 target, ESM modu
 
 Clean Architecture + DDD with four layers, each module in `src/modules/<name>/` mirrors this structure:
 
-- **Domain** (`domain/`) — Entities, Value Objects, domain errors. Pure logic, no dependencies.
-- **Application** (`application/`) — Use cases, repository/gateway interfaces (contracts), mappers.
+- **Domain** (`domain/`) — Entities, Aggregate Roots, Value Objects, Domain Events, Specifications, domain errors. Pure logic, no dependencies.
+- **Application** (`application/`) — Use cases, repository/gateway interfaces (contracts), mappers, subscribers.
 - **Infrastructure** (`infra/`) — Prisma repository implementations, gateway implementations (JWT, Bcrypt).
 - **Presentation** (`presentation/`) — Controllers (extend `HttpController`), presenters, validators.
 
 Cross-cutting code lives in `src/core/` with the same layer breakdown. Entry point and wiring live in `src/main/`.
+
+Current bounded contexts: `users` (authentication + profile + domain events) and `notification` (welcome notification triggered by `UserCreatedEvent`).
 
 ### Key Patterns
 
 - **Either monad** (`src/core/shared/either/`) — All domain/application operations return `Either<Error, Success>` instead of throwing. Use `left()` for errors, `right()` for success, `combine()` to merge multiple results.
 - **Manual DI via factories** (`src/main/factories/`) — No DI container. Factory functions like `makeSignUpController()` wire dependencies by hand.
 - **Entity/VO creation** — Static `create()` for validated construction (returns Either), static `reconstitute()` for hydration from persistence (no validation).
-- **Mapper pattern** — Each entity has a mapper with `toDomain()`, `toPersistence()`, `toDTO()` methods.
+- **Mapper pattern** — Each entity has a mapper with `toDomain()`, `toPersistence()`, `toDTO()` methods. Mappers are standalone classes (no base class).
+- **Aggregate Root + Domain Events** (`src/core/domain/aggregate-root.ts`, `src/core/domain/events/domain-events.ts`) — Aggregates call `protected addDomainEvent(event)`, which auto-marks the aggregate for dispatch. Repositories call `DomainEvents.dispatchEventsForAggregate(aggregate.id)` after persisting. `dispatch` is async; subscribers run fire-and-forget (subscriber failure does not abort the emitting aggregate).
+- **Subscribers** (`src/modules/<module>/application/subscribers/`) — Implement `DomainEventHandler<Event>` with `handle(event)`. Registered via `setupSubscriptions()` during `appSetup()` → `subscribersSetup()`.
+- **Specifications** (`src/core/domain/specifications/specification.ts`, `src/modules/<module>/domain/specifications/`) — Composable domain rules. Use `.and()`, `.or()`, `.not()` to combine.
+- **WatchedList** (`src/core/domain/watched-list.ts`) — Tracks `added`/`removed` items for incremental collection updates in aggregates.
 - **Prisma singleton** — Repositories extend `BasePrismaRepository` which provides `this.prisma` via `PrismaConnectionManager.getInstance()`.
-- **Controller validation** — Override `buildValidators()` using `BuilderValidator` fluent API, then implement `perform()` for the handler logic.
+- **Controller validation** — Override `buildValidators()` using `BuilderValidator` fluent API (`required()`, `isValidUUID()`, `isValidPassword()`, `isEmail()`, `isValidDate()`), then implement `perform()` for the handler logic.
 - **Adapters** — `fastifyRouterAdapter` for REST routes, `apolloServerResolverAdapter` for GraphQL resolvers.
+- **Graceful shutdown** (`src/main/helpers/graceful-shutdown.helper.ts`) — `SIGTERM`/`SIGINT` drain Fastify and disconnect Prisma before `process.exit`. Timeout via `SERVER_SHUTDOWN_TIMEOUT_IN_MS` (default 10s).
 
 ### Stack
 
