@@ -118,4 +118,37 @@ describe('createGracefulShutdown', () => {
     expect(exit).toHaveBeenCalledTimes(1)
     expect(exit).toHaveBeenCalledWith(0)
   })
+
+  it('should be able to fall back to process.exit when no exit dependency is provided', async () => {
+    const processExitSpy = vi
+      .spyOn(process, 'exit')
+      .mockImplementation(() => undefined as never)
+    const close = vi.fn().mockResolvedValue(undefined)
+    const disconnect = vi.fn().mockResolvedValue(undefined)
+
+    const shutdown = createGracefulShutdown({ logger, close, disconnect })
+
+    await shutdown('SIGTERM')
+
+    expect(processExitSpy).toHaveBeenCalledWith(0)
+    processExitSpy.mockRestore()
+  })
+
+  it('should be able to fall back to a default timeout when none is provided', async () => {
+    vi.useFakeTimers()
+    const close = vi.fn().mockImplementation(
+      () =>
+        new Promise<void>(() => {
+          /* never resolves */
+        }),
+    )
+    const disconnect = vi.fn().mockResolvedValue(undefined)
+
+    const shutdown = createGracefulShutdown({ logger, close, disconnect, exit })
+
+    void shutdown('SIGTERM')
+    await vi.advanceTimersByTimeAsync(10_000)
+
+    expect(exit).toHaveBeenCalledWith(1)
+  })
 })
