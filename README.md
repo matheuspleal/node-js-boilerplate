@@ -199,7 +199,7 @@ openssl genpkey -algorithm RSA -out private-key.pem -pkeyopt rsa_keygen_bits:204
 
 ```bash
 # generate public key
-openssl rsa -pubout -in private-key.pem -out public-test-key.pem
+openssl rsa -pubout -in private-key.pem -out public-key.pem
 ```
 
 Now it is necessary to transform the .pem files into base64. To do this on MacOS, you can follow these steps:
