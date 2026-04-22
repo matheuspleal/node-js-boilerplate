@@ -59,7 +59,7 @@
     "@types/jsonwebtoken": "9.0.10",
     "@types/node": "25.6.0",
     "@types/pg": "8.20.0",
-    "@types/supertest": "6.0.3",
+    "@types/supertest": "7.2.0",
     "@typescript-eslint/parser": "8.59.0",
     "@vitest/coverage-v8": "4.1.5",
     "@vitest/ui": "4.1.5",
