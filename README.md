@@ -223,36 +223,59 @@ Install the dependencies with **pnpm** (the package manager used by this project
 pnpm install
 ```
 
+Start the PostgreSQL container used for local development and tests:
+
+```bash
+make up
+```
+
+Apply the Prisma migrations against your local database:
+
+```bash
+pnpm migrate:dev
+```
+
 ### Run Tests
-To run unit tests (*.spec.ts):
+To run unit tests (`*.spec.ts`):
 ```bash
 pnpm test
 ```
 
-To run unit tests (*.spec.ts) in watch mode:
+To run unit tests in watch mode:
 ```bash
 pnpm test:watch
 ```
 
-To run e2e tests (*.e2e.ts):
+To run end-to-end tests (`*.e2e.ts`) — spins up the Docker database automatically:
 ```bash
 pnpm test:e2e
 ```
 
-To run e2e tests (*.e2e.ts) in watch mode:
+To run end-to-end tests in watch mode:
 ```bash
 pnpm test:e2e:watch
 ```
 
-To run all tests unit and e2e tests (*.spec.ts and *.e2e.ts)
+To run the full unit suite with coverage (the same report used in CI):
 ```bash
 pnpm test:ci
 ```
 
+To open the Vitest UI dashboard:
+```bash
+pnpm test:ui
+```
+
 ### Start Server
-If database container is running, you can run:
+For local development (applies pending migrations, reloads on change, exposes the inspector):
 ```bash
 pnpm start:dev
+```
+
+For a production-like run against the compiled bundle (requires `pnpm build` first and migrates before starting):
+```bash
+pnpm build
+pnpm start
 ```
 
 Or you can use wizard:
