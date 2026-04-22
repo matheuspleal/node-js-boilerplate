@@ -278,13 +278,6 @@ pnpm build
 pnpm start
 ```
 
-Or you can use wizard:
-```bash
-pnpm wizard
-```
-
-And choose option 5!
-
 ## In Production
 Once the server is running, both APIs are reachable side-by-side on the same host and port (default `http://localhost:3333`).
 
