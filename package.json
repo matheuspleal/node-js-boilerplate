@@ -36,7 +36,7 @@
     "prisma:studio": "pnpm exec prisma studio",
     "setup:test": "docker-compose up database -d",
     "start": "pnpm run migrate:prod && node -- dist/main/server.js",
-    "start:dev": "pnpm run migrate:dev && pnpm run node:ts -- --inspect --watch src/main/server.ts",
+    "start:dev": "pnpm run migrate:dev && node --env-file=.env --inspect --watch --import=tsx src/main/server.ts",
     "test": "vitest run --passWithNoTests",
     "test:ci": "vitest run --config ./vitest-ci.config.ts --coverage",
     "test:e2e": "pnpm run setup:test && vitest run --config ./vitest-e2e.config.ts",
