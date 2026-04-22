@@ -27,8 +27,8 @@ importers:
         specifier: 7.7.0
         version: 7.7.0(prisma@7.7.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@6.0.3))(typescript@6.0.3)
       '@scalar/fastify-api-reference':
-        specifier: 1.52.4
-        version: 1.52.4
+        specifier: 1.52.5
+        version: 1.52.5
       '@scalar/themes':
         specifier: 0.15.3
         version: 0.15.3
@@ -1405,8 +1405,8 @@ packages:
     resolution: {integrity: sha512-gX2QIc+lpErO9RWkJmt02sBZoCOjyZ7EiLLEyGj7x9UKkk7E4zj6Wbk1eUPo6i3oIwhtZ+Vybj/xzexCK2bxwA==}
     engines: {node: '>=22'}
 
-  '@scalar/fastify-api-reference@1.52.4':
-    resolution: {integrity: sha512-WM/0kWd5nog6ZSjE1oDctupCwvCkMHSVAJR09VEIPiH+JQnTicCbDZDPQbOOfzUKegQioKkh6oBMZTMc8NtwjA==}
+  '@scalar/fastify-api-reference@1.52.5':
+    resolution: {integrity: sha512-g3E9OebH0c0o5+kCd9+428cWwDqd58PTZ1wnOLVmDrz3ZuEJJV8w3XdV0ysAvPHbmiEDrpAKPaCN6ncPV+8D+Q==}
     engines: {node: '>=22'}
 
   '@scalar/helpers@0.5.1':
@@ -6850,7 +6850,7 @@ snapshots:
     dependencies:
       '@scalar/types': 0.9.1
 
-  '@scalar/fastify-api-reference@1.52.4':
+  '@scalar/fastify-api-reference@1.52.5':
     dependencies:
       '@scalar/client-side-rendering': 0.1.2
       '@scalar/openapi-parser': 0.25.11
@@ -10419,7 +10419,7 @@ snapshots:
       '@types/normalize-package-data': 2.4.4
       normalize-package-data: 8.0.0
       parse-json: 8.3.0
-      type-fest: 5.3.1
+      type-fest: 5.6.0
       unicorn-magic: 0.3.0
 
   read-pkg@5.2.0:

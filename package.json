@@ -96,7 +96,7 @@
     "@fastify/swagger": "9.7.0",
     "@prisma/adapter-pg": "7.7.0",
     "@prisma/client": "7.7.0",
-    "@scalar/fastify-api-reference": "1.52.4",
+    "@scalar/fastify-api-reference": "1.52.5",
     "@scalar/themes": "0.15.3",
     "bcryptjs": "3.0.3",
     "fastify": "5.8.5",
