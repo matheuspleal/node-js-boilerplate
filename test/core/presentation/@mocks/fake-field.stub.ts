@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-import { type Validator } from '@/core/presentation/validators/contracts/validator.rule'
+import { type Validator } from '@/core/presentation/validators/contracts/validator-rule.contract'
 
-import { type FieldStubProps } from '#/core/presentation/@mocks/field-stub-props'
+import { type FieldStubProps } from '#/core/presentation/@mocks/field-stub-props.type'
 
 export function makeFakeFieldStub({
   withValue,

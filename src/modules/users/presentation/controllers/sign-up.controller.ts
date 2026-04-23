@@ -6,7 +6,7 @@ import {
 } from '@/core/presentation/helpers/http.helper'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { BuilderValidator } from '@/core/presentation/validators/builder.validator'
-import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator.rule'
+import { type ValidatorRule } from '@/core/presentation/validators/contracts/validator-rule.contract'
 import { type EmailAlreadyExistsError } from '@/modules/users/application/errors/email-already-exists.error'
 import { type SignUpUseCase } from '@/modules/users/application/use-cases/sign-up.use-case'
 import {
@@ -78,9 +78,9 @@ export class SignUpController extends HttpController<
           : badDomainRequest(result.value)
       return error
     }
-    const { person, user } = result.value
+    const { user } = result.value
     return created<SignUpControllerResponse>({
-      user: SignUpPresenter.toHttp({ person, user }),
+      user: SignUpPresenter.toHttp({ user }),
     })
   }
 }

@@ -1,6 +1,6 @@
 import js from '@eslint/js'
 import prettierConfig from 'eslint-config-prettier'
-import importPlugin from 'eslint-plugin-import'
+import importPlugin from 'eslint-plugin-import-x'
 import prettierPlugin from 'eslint-plugin-prettier'
 import promisePlugin from 'eslint-plugin-promise'
 import vitestGlobals from 'eslint-plugin-vitest-globals'

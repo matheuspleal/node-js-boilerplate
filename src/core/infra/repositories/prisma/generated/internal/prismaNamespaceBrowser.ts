@@ -50,7 +50,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Person: 'Person',
+  Notification: 'Notification',
   User: 'User'
 } as const
 
@@ -60,31 +60,32 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  * Enums
  */
 
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
-} as const
+} as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const PersonScalarFieldEnum = {
+export const NotificationScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  birthdate: 'birthdate',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userId: 'userId'
+  recipientId: 'recipientId',
+  title: 'title',
+  content: 'content',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
 } as const
 
-export type PersonScalarFieldEnum = (typeof PersonScalarFieldEnum)[keyof typeof PersonScalarFieldEnum]
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  personId: 'personId',
+  name: 'name',
+  birthdate: 'birthdate',
   email: 'email',
   password: 'password',
   createdAt: 'createdAt',

@@ -1,5 +1,4 @@
-import { type PrismaClient } from '@generated/prisma-client'
-
+import { type PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
 import { PrismaConnectionManager } from '@/core/infra/repositories/prisma/prisma-connection-manager'
 
 export abstract class BasePrismaRepository {

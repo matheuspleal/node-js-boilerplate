@@ -1,8 +1,8 @@
-import { type Either, left, right } from '@/core/application/either'
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import { type HashCompareGateway } from '@/core/application/gateways/cryptography/hash-compare.gateway'
 import { type TokenGeneratorGateway } from '@/core/application/gateways/token/token-generator.gateway'
 import { type UseCase } from '@/core/application/use-cases/use-case'
-import { UnauthorizedError } from '@/modules/users/application/errors/unauthorized.error'
+import { type Either, left, right } from '@/core/shared/either'
 import { type FindUserByEmailRepository } from '@/modules/users/application/repositories/find-user-by-email.repository'
 
 export interface SignInUseCaseInput {
@@ -17,9 +17,12 @@ export type SignInUseCaseOutput = Either<
   }
 >
 
-export class SignInUseCase
-  implements UseCase<SignInUseCaseInput, SignInUseCaseOutput>
-{
+const TOKEN_EXPIRATION_IN_MS = 60 * 1000 * 5
+
+export class SignInUseCase implements UseCase<
+  SignInUseCaseInput,
+  SignInUseCaseOutput
+> {
   constructor(
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     private readonly hashCompareGateway: HashCompareGateway,
@@ -36,7 +39,7 @@ export class SignInUseCase
     }
     const passwordMatch = await this.hashCompareGateway.compare({
       plaintext: password,
-      digest: foundUser.password,
+      digest: foundUser.password.toValue(),
     })
     if (!passwordMatch) {
       return left(new UnauthorizedError())
@@ -45,7 +48,7 @@ export class SignInUseCase
       payload: {
         sub: foundUser.id.toString(),
       },
-      expiresInMs: 60 * 1000 * 5,
+      expiresInMs: TOKEN_EXPIRATION_IN_MS,
     })
     return right({
       accessToken: token,

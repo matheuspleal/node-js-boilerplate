@@ -6,14 +6,13 @@
     "target": "ES2022",
     /* Modules */
     "module": "ESNext",
-    "moduleResolution": "Node10",
-    "baseUrl": "./src",
+    "moduleResolution": "bundler",
     "paths": {
       "#/*": [
-        "../test/*"
+        "./test/*"
       ],
       "@/*": [
-        "*"
+        "./src/*"
       ]
     },
     "rootDirs": [

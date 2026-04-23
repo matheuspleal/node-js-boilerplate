@@ -4,7 +4,14 @@ import { PrismaClient } from '@/core/infra/repositories/prisma/generated/client'
 import { database } from '@/core/shared/config/env'
 
 export class PrismaConnectionManager {
-  private static client: PrismaClient
+  private static client: PrismaClient | null
+
+  static async disconnect(): Promise<void> {
+    if (PrismaConnectionManager.client) {
+      await PrismaConnectionManager.client.$disconnect()
+      PrismaConnectionManager.client = null
+    }
+  }
 
   static getInstance(): PrismaClient {
     if (!PrismaConnectionManager.client) {
@@ -13,9 +20,9 @@ export class PrismaConnectionManager {
           {
             host: database.host,
             port: database.port,
-            database: database.name,
             user: database.user,
             password: database.password,
+            database: database.name,
             max: database.pool,
             idleTimeoutMillis: database.idleTimeout,
             connectionTimeoutMillis: database.connectionTimeout,

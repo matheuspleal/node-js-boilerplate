@@ -27,7 +27,6 @@ export default defineConfig({
     '@scalar/fastify-api-reference',
     '@scalar/themes',
     'graphql',
-    'zx',
   ],
   dts: false,
   metafile: true,

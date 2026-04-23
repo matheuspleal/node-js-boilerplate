@@ -1,9 +1,9 @@
-import { type UseCaseError } from '@/core/application/use-cases/errors/use-case.error'
+import { type ApplicationError } from '@/core/application/errors/application.error'
+import { UnauthorizedError } from '@/core/application/errors/unauthorized.error'
 import { InternalServerError } from '@/core/presentation/errors/internal-server.error'
 import { type HttpResponse } from '@/core/presentation/protocols/http.protocol'
 import { ValidationCompositeError } from '@/core/presentation/validators/errors/validation-composite.error'
-import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
-import { UnauthorizedError } from '@/modules/persons/application/errors/unauthorized.error'
+import { ValidationError } from '@/core/presentation/validators/errors/validation.error'
 
 export enum StatusCode {
   OK = 200,
@@ -48,15 +48,17 @@ export function badValidatorRequest(
 }
 
 export function badDomainRequest(
-  error: UseCaseError,
-): HttpResponse<UseCaseError> {
+  error: ApplicationError,
+): HttpResponse<ApplicationError> {
   return {
     statusCode: StatusCode.BAD_REQUEST,
     data: error,
   }
 }
 
-export function conflict(error: UseCaseError): HttpResponse<UseCaseError> {
+export function conflict(
+  error: ApplicationError,
+): HttpResponse<ApplicationError> {
   return {
     statusCode: StatusCode.CONFLICT,
     data: error,

@@ -1,10 +1,10 @@
-import { type ValidationError } from '@/core/presentation/validators/errors/validation.error'
-import { buildErrorMessage } from '@/core/presentation/validators/helpers/build-error-message'
+import { ValidationError } from '@/core/presentation/validators/errors/validation.error'
+import { buildErrorMessage } from '@/core/presentation/validators/helpers/build-error-message.helper'
 
-export class RequiredError extends Error implements ValidationError {
+export class RequiredError extends ValidationError {
   constructor(
-    readonly field: string,
-    readonly value: any,
+    public readonly field: string,
+    public readonly value: any,
   ) {
     super(
       buildErrorMessage({
@@ -13,6 +13,5 @@ export class RequiredError extends Error implements ValidationError {
         reason: 'is required!',
       }),
     )
-    this.name = 'RequiredError'
   }
 }

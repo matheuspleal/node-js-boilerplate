@@ -13,15 +13,19 @@ export function makeRequiredSignUpInputStub(
   props?: SignUpDTOStubProps,
 ): SignUpUseCaseInput {
   const { signUpInput } = props ?? {}
+  const normalizedBirthdate = signUpInput?.birthdate ?? faker.date.birthdate()
+  normalizedBirthdate.setUTCHours(0, 0, 0, 0)
   return {
     name: signUpInput?.name ?? faker.person.fullName(),
     email:
       signUpInput?.email ??
-      faker.internet.email({
-        provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
-      }),
+      faker.internet
+        .email({
+          provider: faker.helpers.arrayElement([...VALID_PROVIDERS]),
+        })
+        .toLowerCase(),
     password: signUpInput?.password ?? plaintextPasswordStub,
-    birthdate: signUpInput?.birthdate ?? faker.date.birthdate(),
+    birthdate: normalizedBirthdate,
   }
 }
 
