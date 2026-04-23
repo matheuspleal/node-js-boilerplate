@@ -47,9 +47,6 @@ importers:
       pg:
         specifier: 8.20.0
         version: 8.20.0
-      zx:
-        specifier: 8.8.5
-        version: 8.8.5
     devDependencies:
       '@commitlint/cli':
         specifier: 20.5.0
@@ -135,9 +132,6 @@ importers:
       husky:
         specifier: 9.1.7
         version: 9.1.7
-      kleur:
-        specifier: 4.1.5
-        version: 4.1.5
       lint-staged:
         specifier: 16.4.0
         version: 16.4.0
@@ -3705,10 +3699,6 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  kleur@4.1.5:
-    resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
-    engines: {node: '>=6'}
-
   latest-version@5.1.0:
     resolution: {integrity: sha512-weT+r0kTkRQdCdYCNtkMwWXQTMEswKrFBkm4ckQOMVhhqhIMI1UT2hMj+1iigIhgSZm5gTmrRXBNoGUgaTY1xA==}
     engines: {node: '>=8'}
@@ -5763,11 +5753,6 @@ packages:
 
   zod@4.3.6:
     resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
-
-  zx@8.8.5:
-    resolution: {integrity: sha512-SNgDF5L0gfN7FwVOdEFguY3orU5AkfFZm9B5YSHog/UDHv+lvmd82ZAsOenOkQixigwH2+yyH198AwNdKhj+RA==}
-    engines: {node: '>= 12.17.0'}
-    hasBin: true
 
 snapshots:
 
@@ -9481,8 +9466,6 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  kleur@4.1.5: {}
-
   latest-version@5.1.0:
     dependencies:
       package-json: 6.5.0
@@ -11612,5 +11595,3 @@ snapshots:
       graphmatch: 1.1.1
 
   zod@4.3.6: {}
-
-  zx@8.8.5: {}
