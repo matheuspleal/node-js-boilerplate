@@ -90,7 +90,7 @@
     "zx": "8.8.5"
   },
   "dependencies": {
-    "@apollo/server": "5.5.0",
+    "@apollo/server": "5.5.1",
     "@as-integrations/fastify": "3.1.0",
     "@fastify/cors": "11.2.0",
     "@fastify/swagger": "9.7.0",
