@@ -30,8 +30,8 @@ importers:
         specifier: 1.61.0
         version: 1.61.0
       '@scalar/themes':
-        specifier: 0.15.3
-        version: 0.15.3
+        specifier: 0.16.1
+        version: 0.16.1
       bcryptjs:
         specifier: 3.0.3
         version: 3.0.3
@@ -1430,8 +1430,8 @@ packages:
     resolution: {integrity: sha512-Oacaq7RTLhe3vWOoNc8tZufqthetu1VjWkdrGMMYoVSyMBQpvDI48gwBBQO6+iySeNpk9y8NHaGxqhHeoLbDiQ==}
     engines: {node: '>=22'}
 
-  '@scalar/themes@0.15.3':
-    resolution: {integrity: sha512-KIGMVglWKxVcdPsdjiXDgyAYhCh53w0qoKRG/cmfP+N4OwR0pk0WzFaMzBscu+sKoZ8SMvZqbXyODO5CBtyD3w==}
+  '@scalar/themes@0.16.1':
+    resolution: {integrity: sha512-yTMjqlTAYZrlJsHIuDiCVJjMJZ1UzL33C/60c88JYuvuuwSXm15TAEcLXkRrPa7u8PPz/llKGgWjMEiMhsOAGA==}
     engines: {node: '>=22'}
 
   '@scalar/types@0.15.0':
@@ -6870,7 +6870,7 @@ snapshots:
       '@scalar/helpers': 0.8.2
       '@scalar/validation': 0.6.0
 
-  '@scalar/themes@0.15.3':
+  '@scalar/themes@0.16.1':
     dependencies:
       nanoid: 5.1.9
 
