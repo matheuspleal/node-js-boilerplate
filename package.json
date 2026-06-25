@@ -46,7 +46,7 @@
     "test:watch": "vitest --passWithNoTests"
   },
   "devDependencies": {
-    "@commitlint/cli": "20.5.0",
+    "@commitlint/cli": "21.1.0",
     "@commitlint/config-conventional": "20.5.0",
     "@eslint/js": "10.0.1",
     "@faker-js/faker": "10.5.0",
