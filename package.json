@@ -108,7 +108,7 @@
     "@rollup/rollup-linux-x64-gnu": "4.60.2"
   },
   "engines": {
-    "node": "24.15.0"
+    "node": "24.18.0"
   },
   "packageManager": "pnpm@10.26.1"
 }

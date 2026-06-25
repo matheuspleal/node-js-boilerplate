@@ -1,5 +1,5 @@
 # Base stage
-FROM node:24.15.0-slim AS base
+FROM node:24.18.0-slim AS base
 
 WORKDIR /usr/src/app
 
