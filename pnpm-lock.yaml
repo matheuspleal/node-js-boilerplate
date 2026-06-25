@@ -52,8 +52,8 @@ importers:
         specifier: 21.1.0
         version: 21.1.0(@types/node@26.0.1)(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.4.0)(typescript@6.0.3)
       '@commitlint/config-conventional':
-        specifier: 20.5.0
-        version: 20.5.0
+        specifier: 21.1.0
+        version: 21.1.0
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.5.0(jiti@2.6.1))
@@ -342,10 +342,6 @@ packages:
     engines: {node: '>=22.12.0'}
     hasBin: true
 
-  '@commitlint/config-conventional@20.5.0':
-    resolution: {integrity: sha512-t3Ni88rFw1XMa4nZHgOKJ8fIAT9M2j5TnKyTqJzsxea7FUetlNdYFus9dz+MhIRZmc16P0PPyEfh6X2d/qw8SA==}
-    engines: {node: '>=v18'}
-
   '@commitlint/config-conventional@21.1.0':
     resolution: {integrity: sha512-BIFl8xM+3SLy3jrblUC3wmQLCVbLty+++6o859BDCmybVrQdXmIWO+dlkGIbv/M2bBoC55wGuh0zGiw3TPjL1g==}
     engines: {node: '>=22.12.0'}
@@ -405,10 +401,6 @@ packages:
   '@commitlint/top-level@21.0.2':
     resolution: {integrity: sha512-s9KKM+e+mXgFeIh4n7KmOGAVT3mkJ3Fp1bBYHIK5pjeUwlEMzp/tZfb5u0Poa680AsQTXMEMRxZi1vQ9m2X5ug==}
     engines: {node: '>=22.12.0'}
-
-  '@commitlint/types@20.5.0':
-    resolution: {integrity: sha512-ZJoS8oSq2CAZEpc/YI9SulLrdiIyXeHb/OGqGrkUP6Q7YV+0ouNAa7GjqRdXeQPncHQIDz/jbCTlHScvYvO/gA==}
-    engines: {node: '>=v18'}
 
   '@commitlint/types@21.1.0':
     resolution: {integrity: sha512-YodnnnH1Cp+08nP8HGNJAIuB6L3/vdCTHVRTfF8Ik/wRCLOTsU9zwv3yO1cSPQRDa9CLYtE+UJ2K67r7CwMSFw==}
@@ -6081,11 +6073,6 @@ snapshots:
       - conventional-commits-parser
       - typescript
 
-  '@commitlint/config-conventional@20.5.0':
-    dependencies:
-      '@commitlint/types': 20.5.0
-      conventional-changelog-conventionalcommits: 9.3.1
-
   '@commitlint/config-conventional@21.1.0':
     dependencies:
       '@commitlint/types': 21.1.0
@@ -6173,11 +6160,6 @@ snapshots:
   '@commitlint/top-level@21.0.2':
     dependencies:
       escalade: 3.2.0
-
-  '@commitlint/types@20.5.0':
-    dependencies:
-      conventional-commits-parser: 6.4.0
-      picocolors: 1.1.1
 
   '@commitlint/types@21.1.0':
     dependencies:
