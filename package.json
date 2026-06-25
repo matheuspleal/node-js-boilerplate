@@ -100,7 +100,7 @@
     "@scalar/themes": "0.16.1",
     "bcryptjs": "3.0.3",
     "fastify": "5.8.5",
-    "graphql": "16.13.2",
+    "graphql": "17.0.1",
     "jsonwebtoken": "9.0.3",
     "pg": "8.22.0"
   },
