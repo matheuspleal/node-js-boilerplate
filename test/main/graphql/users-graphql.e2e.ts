@@ -278,7 +278,8 @@ describe('UsersGraphQL', () => {
           code: 'BAD_USER_INPUT',
         },
         locations: expect.any(Array),
-        message: 'Variable "$id" of required type "ID!" was not provided.',
+        message:
+          'Variable "$id" has invalid value: Expected a value of non-null type "ID!" to be provided.',
       })
     })
 
